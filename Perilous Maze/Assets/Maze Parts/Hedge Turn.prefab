@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6270784901513370514}
   m_Layer: 0
-  m_Name: Right Hedge
+  m_Name: Hedge Turn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
