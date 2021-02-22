@@ -3,10 +3,8 @@ using UnityEngine;
 
 public class MapCreator : MonoBehaviour
 {
-    public GameObject straightHedge;
-    public GameObject hedgeTurn;
-    public GameObject hedgeWallCorner;
-    public GameObject straightHedgeWall;
+
+    public List<GameObject> mazePieces;
 
     public int mapSize;
     private List<Vector3Int> route;
@@ -48,7 +46,7 @@ public class MapCreator : MonoBehaviour
     public void CreateStraightHedge(Vector3 position)
     {
         // make a cube for testing purposes
-        Instantiate(this.straightHedge, position, Quaternion.identity);
+        Instantiate(this.mazePieces[0], position, Quaternion.identity);
     }
 
     public void CreateCube(Vector3Int position)
@@ -76,6 +74,8 @@ public class MapCreator : MonoBehaviour
         {
             // we have a 40/40 plane in which to make the path
             // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
+            break;
         }
+        return;
     }
 }

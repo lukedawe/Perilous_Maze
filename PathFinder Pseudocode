@@ -1,0 +1,12 @@
+Pathfinder algorithm pseudocode
+
+while we haven't found the end of the plane
+	decide on the shape of the maze piece
+	if we aren't going to reach the end of the maze with the new piece
+		place the new piece down on the map
+		set the current point to add to to the new end of the path
+	else
+		<< we might need new pieces for these edgecases >>
+		try all the other pieces
+		then make the end where we currently are
+		
