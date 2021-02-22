@@ -83,3 +83,119 @@ Received Import Request.
 Start importing Assets/MapCreator.cs using Guid(21a3e19d01529a9438eb267dd6093190) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9b5ace1a96ad62330bdc2d69b222355f') in 0.003844 seconds
   Import took 0.006518 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 601.704592 seconds.
+  path: Assets/Maze Parts
+  artifactKey: Guid(5de8318dddd35ba858a68744996fda2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts using Guid(5de8318dddd35ba858a68744996fda2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '449cbbae486b5e4528c7b6ac7f1c2197') in 0.001174 seconds
+  Import took 0.003764 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000474 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.819 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.21 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1109 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 51.1 MB.
+System memory in use after: 51.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1561.
+Total: 2.206589 ms (FindLiveObjects: 0.167001 ms CreateObjectMapping: 0.030750 ms MarkObjects: 1.985078 ms  DeleteObjects: 0.021931 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000580 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Refreshing native plugins compatible for Editor in 0.28 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.158 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.29 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1109 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 51.1 MB.
+System memory in use after: 51.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1564.
+Total: 3.301045 ms (FindLiveObjects: 0.314920 ms CreateObjectMapping: 0.120985 ms MarkObjects: 2.833617 ms  DeleteObjects: 0.029533 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000941 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Refreshing native plugins compatible for Editor in 0.29 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.116 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.28 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1109 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 51.1 MB.
+System memory in use after: 51.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1567.
+Total: 3.855571 ms (FindLiveObjects: 0.296983 ms CreateObjectMapping: 0.166127 ms MarkObjects: 3.350413 ms  DeleteObjects: 0.038180 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000482 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Refreshing native plugins compatible for Editor in 0.26 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.795 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.21 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1109 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 51.1 MB.
+System memory in use after: 51.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1570.
+Total: 2.401716 ms (FindLiveObjects: 0.164348 ms CreateObjectMapping: 0.040594 ms MarkObjects: 2.172004 ms  DeleteObjects: 0.023195 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 906.413658 seconds.
+  path: Assets/Maze Parts/Straight Hedge.prefab
+  artifactKey: Guid(6f15b4247c68ce08cafa341b40a8f514) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Straight Hedge.prefab using Guid(6f15b4247c68ce08cafa341b40a8f514) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0395a7b5dfcacd7002ff3eb2180f643a') in 0.095370 seconds
+  Import took 0.097730 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 491.994942 seconds.
+  path: Assets/Maze Parts/Right Hedge.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Right Hedge.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef4c76628da2da1b175c69dafbdbb229') in 0.007856 seconds
+  Import took 0.010770 seconds .
+
