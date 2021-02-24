@@ -4,10 +4,13 @@ using UnityEngine;
 public class MapCreator : MonoBehaviour
 {
 
+    // all the GameObjects here inherit from HedgeInterface.cs
     public List<GameObject> mazePieces;
 
     public int mapSize;
     private List<Vector3Int> route;
+    public GameObject map;
+
     public void AddLine(Vector3Int line)
     {
         route.Add(line);
@@ -23,25 +26,29 @@ public class MapCreator : MonoBehaviour
     {
 
         // make the plane for the map
-        GameObject map = this.CreatePlane(new Vector3Int(this.mapSize, 0, 0));
+        this.map = this.CreatePlane(new Vector3Int(this.mapSize, 0, 0));
         map.transform.localScale = new Vector3Int((this.mapSize / 5), 1, (this.mapSize / 5));
 
         // make a start for the maze and add it to the route
         int startZCoord = Random.Range(-mapSize+1, mapSize-1);
         Vector3 start = new Vector3(1, 0.5f, startZCoord);
         // add a wall to the starting position
-        this.CreateHedge(start, mazePieces[0]);
+        this.CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>());
         
         Vector3 next = new Vector3(2, 0.5f, startZCoord);
         // route.Add(start);
         RouteFinder(next);
-        
     }
 
-    public void CreateHedge(Vector3 position, GameObject hedge)
+    // needs a reference to the position of the hedge, the type of hedge and the same hedge's component
+    private void CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent)
     {
-        // make a cube for testing purposes
-        Instantiate(hedge, position, Quaternion.identity);
+        // we do not want this to be StraightHedge
+        if(!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map)){
+            // make a cube for testing purposes
+            Instantiate(hedge, position, Quaternion.identity);
+            // TODO Think about the changing the rotation
+        }
     }
 
     public GameObject CreatePlane(Vector3Int position)
