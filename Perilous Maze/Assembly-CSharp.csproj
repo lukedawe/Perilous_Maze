@@ -36,9 +36,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\MapCreator.cs" />
-     <Compile Include="Assets\Scripts\IHedge.cs" />
      <Compile Include="Assets\Scripts\StraightHedge.cs" />
+     <Compile Include="Assets\Scripts\IHedge.cs" />
+     <Compile Include="Assets\Scripts\MapCreator.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/home/luke/Unity/Hub/Editor/2020.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

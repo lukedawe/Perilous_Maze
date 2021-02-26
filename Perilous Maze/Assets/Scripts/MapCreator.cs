@@ -6,10 +6,11 @@ public class MapCreator : MonoBehaviour
 
     // all the GameObjects here inherit from HedgeInterface.cs
     public List<GameObject> mazePieces;
+    public List<GameObject> edgePieces;
 
     public int mapSize;
     private List<Vector3Int> route;
-    public GameObject map;
+    private GameObject map;
 
     public void AddLine(Vector3Int line)
     {
@@ -33,7 +34,7 @@ public class MapCreator : MonoBehaviour
         int startZCoord = Random.Range(-mapSize+1, mapSize-1);
         Vector3 start = new Vector3(1, 0.5f, startZCoord);
         // add a wall to the starting position
-        this.CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>());
+        CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>());
         
         Vector3 next = new Vector3(2, 0.5f, startZCoord);
         // route.Add(start);
@@ -45,8 +46,9 @@ public class MapCreator : MonoBehaviour
     {
         // we do not want this to be StraightHedge
         if(!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map)){
+            Vector3 newCoords = position + hedgeComponent.offset;
             // make a cube for testing purposes
-            Instantiate(hedge, position, Quaternion.identity);
+            Instantiate(hedge, newCoords, Quaternion.identity);
             // TODO Think about the changing the rotation
         }
     }
@@ -64,12 +66,15 @@ public class MapCreator : MonoBehaviour
         // we are starting our journey between -19 and 19.
         bool endFound = false;
         int currentAngle = 0;
+        Vector3 currentPos = start;
         // we need to decide which way we are going to send the player.
         while (!endFound)
         {
             // we have a 40/40 plane in which to make the path
             // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
-            break;
+            GameObject selectedPiece = mazePieces[Random.Range(0, mazePieces.Count-1)];
+            CreateHedge(start, selectedPiece, selectedPiece.GetComponent<StraightHedge>());
+            endFound = true;
         }
         return;
     }
