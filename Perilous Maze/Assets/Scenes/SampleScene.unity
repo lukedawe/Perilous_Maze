@@ -331,6 +331,7 @@ MonoBehaviour:
   mazePieces:
   - {fileID: 5116369436228044937, guid: 6f15b4247c68ce08cafa341b40a8f514, type: 3}
   - {fileID: 6270784901513370513, guid: 87b5492dde61746f59dbda16cafee91a, type: 3}
+  edgePieces:
   - {fileID: 2906519754133445373, guid: 2cc438d2febf4eaec9c79073a4ee6532, type: 3}
   - {fileID: 4227932345063399538, guid: beb036af67ff61bac9d17853aed1aec4, type: 3}
   mapSize: 20

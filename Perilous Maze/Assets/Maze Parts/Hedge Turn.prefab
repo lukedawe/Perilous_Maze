@@ -389,7 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6270784901513370514}
-  - component: {fileID: 7946773816804413021}
+  - component: {fileID: 5521978454361219096}
   m_Layer: 0
   m_Name: Hedge Turn
   m_TagString: Untagged
@@ -418,7 +418,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7946773816804413021
+--- !u!114 &5521978454361219096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -427,10 +427,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6270784901513370513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d5c3eb74b0a734748bc27b3b1efafe6, type: 3}
+  m_Script: {fileID: 11500000, guid: fa5992affe5050c199499763edd95614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 6270784901513370513}
+  self: {fileID: 0}
 --- !u!1 &6270784901635954063
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,8 +553,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8542168900874296763}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 4.5, y: 0, z: -2}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalPosition: {x: 4.5, y: 0, z: -2.5}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6270784901513370514}
   m_RootOrder: 6
@@ -648,8 +648,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8589258371897350077}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.5, y: 0, z: -2}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: -2.5}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6270784901513370514}
   m_RootOrder: 2

@@ -9,4 +9,5 @@ interface IHedge
     Vector3[] nextPoints { get; set; }
     Vector3 offset { get; set; }
     bool WillGoOffMap(Vector3 position, GameObject plane);
+    void Constructor(int rotation);
 }
