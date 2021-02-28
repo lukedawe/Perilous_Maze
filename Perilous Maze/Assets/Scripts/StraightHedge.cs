@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using HedgeMethods;
 
 public class StraightHedge : MonoBehaviour, IHedge
 {
@@ -24,22 +24,10 @@ public class StraightHedge : MonoBehaviour, IHedge
         }
     }
 
-    public void Constructor(int rotation){
-        switch (rotation)
-        {
-            case 0:
-                this.offset = new Vector3(2, 0, 0);
-                break;
-            case 90:
-                this.offset = new Vector3(0, 0, -2);
-                break;
-            case 180:
-                break;
-            case 270:
-                break;
-            case -180:
-                this.offset = new Vector3(-2, 0, 0);
-                break;
-        }
+    public void Constructor(int rotation, int xRotation = 0){
+        int x = 2;
+        int z = 0;
+
+        this.offset = Converter.CalculateOffset(rotation,x,z);
     }
 }
