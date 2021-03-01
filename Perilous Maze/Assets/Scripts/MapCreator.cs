@@ -7,10 +7,11 @@ public class MapCreator : MonoBehaviour
     // all the GameObjects here inherit from HedgeInterface.cs
     public List<GameObject> mazePieces;
     public List<GameObject> edgePieces;
-
     public int mapSize;
+
     private List<Vector3Int> route;
     private GameObject map;
+    private List<GameObject> placedHedges;
 
     public void AddLine(Vector3Int line)
     {
@@ -50,7 +51,9 @@ public class MapCreator : MonoBehaviour
             // make a rotate object to set the rotation
             GameObject rotate = new GameObject("rotate");
             rotate.transform.Rotate(new Vector3 (xRotation,yRotation,0));
-            Instantiate(hedge, position, rotate.transform.rotation);
+
+            GameObject newMazePiece = Instantiate(hedge, position, rotate.transform.rotation);
+
             // destroy the rotation object
             Destroy(rotate);
         }
@@ -60,7 +63,6 @@ public class MapCreator : MonoBehaviour
 
     public GameObject CreatePlane(Vector3Int position)
     {
-        // make a cube for testing purposes
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         plane.transform.position = position;
         return plane;

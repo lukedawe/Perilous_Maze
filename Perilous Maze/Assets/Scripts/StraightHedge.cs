@@ -5,9 +5,9 @@ using HedgeMethods;
 
 public class StraightHedge : MonoBehaviour, IHedge
 {
-    public Vector3[] nextPoints { get; set; }
     public Vector3 offset { get; set; }
     public GameObject self;
+    public int collisions{ get; set; }
 
     public bool WillCollide(Vector3 currentPos)
     {
@@ -18,16 +18,15 @@ public class StraightHedge : MonoBehaviour, IHedge
         return false;
     }
 
-    public void OnCollisionEnter(Collision collision){
-        if(collision.gameObject.GetComponent<StraightHedge>() != null){
-            Destroy(self);
-        }
-    }
-
     public void Constructor(int rotation, int xRotation = 0){
         int x = 2;
         int z = 0;
 
         this.offset = Converter.CalculateOffset(rotation,x,z);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Trigger called");
     }
 }
