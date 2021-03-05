@@ -33,11 +33,11 @@ public class MapCreator : MonoBehaviour
         map.transform.localScale = new Vector3Int((this.mapSize / 5), 1, (this.mapSize / 5));
 
         // make a start for the maze and add it to the route
-        int startZCoord = Random.Range(-(mapSize-1), mapSize-1);
+        int startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
         Vector3 start = new Vector3(1, 0.5f, startZCoord);
         // add a wall to the starting position
         CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>(), 0);
-        
+
         Vector3 next = new Vector3(3, 0.5f, startZCoord);
         // route.Add(start);
         RouteFinder(next);
@@ -49,10 +49,11 @@ public class MapCreator : MonoBehaviour
         hedgeComponent.Constructor(yRotation, xRotation);
 
         // we do not want this to be StraightHedge
-        if(!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize)){
+        if (!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        {
             // make a rotate object to set the rotation
             GameObject rotate = new GameObject("rotate");
-            rotate.transform.Rotate(new Vector3 (xRotation,yRotation,0));
+            rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0));
 
             GameObject newMazePiece = Instantiate(hedge, position, rotate.transform.rotation);
 
@@ -80,41 +81,44 @@ public class MapCreator : MonoBehaviour
         int rightCooldown = 0;
         int leftCooldown = 0;
         // we need to decide which way we are going to send the player.
-        while (counter <=this.mapSize)
+        while (counter <= this.mapSize)
         {
             // we have a 40/40 plane in which to make the path
             // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
             int random = Random.Range(0, mazePieces.Count);
             GameObject selectedPiece = mazePieces[random];
-            switch (random){
+            switch (random)
+            {
                 case 0:
                     nextPos = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
-                    rightCooldown -=1;
-                    leftCooldown-=1;
-                    counter ++;
+                    rightCooldown -= 1;
+                    leftCooldown -= 1;
+                    counter++;
                     break;
                 case 1:
                     int randomDirection = Random.Range(0, 2);
-                    
+
                     // if the random direction selected is right
-                    if(randomDirection == 0 && rightCooldown <= 0){
+                    if (randomDirection == 0 && rightCooldown <= 0)
+                    {
                         nextPos = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
-                        currentAngle=(currentAngle+90)%360;
+                        currentAngle = (currentAngle + 90) % 360;
                         rightCooldown = 3;
-                        counter ++;
+                        counter++;
                     }
                     // otherwise, head left
-                    else if(leftCooldown <= 0){
+                    else if (leftCooldown <= 0)
+                    {
                         nextPos = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
-                        currentAngle=(currentAngle-90)%360;
+                        currentAngle = (currentAngle - 90) % 360;
                         leftCooldown = 3;
-                        counter ++;
+                        counter++;
                     }
                     break;
             }
-            
+
             endFound = true;
-            
+
         }
         return;
     }

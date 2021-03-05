@@ -1496,3 +1496,19 @@ System memory in use after: 51.9 MB.
 Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1748.
 Total: 3.534608 ms (FindLiveObjects: 0.234231 ms CreateObjectMapping: 0.103856 ms MarkObjects: 3.152958 ms  DeleteObjects: 0.040129 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 12727.149746 seconds.
+  path: Assets/Scripts/MapCreator.cs
+  artifactKey: Guid(21a3e19d01529a9438eb267dd6093190) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/MapCreator.cs using Guid(21a3e19d01529a9438eb267dd6093190) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c26f474e330dfcaf8a1f32846cba21e') in 0.005586 seconds
+  Import took 0.009201 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002949 seconds.
+  path: Assets/Scripts/MapCreator.cs
+  artifactKey: Guid(21a3e19d01529a9438eb267dd6093190) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/MapCreator.cs using Guid(21a3e19d01529a9438eb267dd6093190) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c26f474e330dfcaf8a1f32846cba21e') in 0.001257 seconds
+  Import took 0.004517 seconds .
+
