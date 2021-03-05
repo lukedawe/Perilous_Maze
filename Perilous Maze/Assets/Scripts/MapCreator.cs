@@ -44,11 +44,11 @@ public class MapCreator : MonoBehaviour
     }
 
     // needs a reference to the position of the hedge, the type of hedge and the same hedge's component
-    private Vector3 CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent, int yRotation, int xRotation = 0)
+    private (Vector3, bool) CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent, int yRotation, int xRotation = 0)
     {
-        hedgeComponent.Constructor(yRotation, xRotation);
+        hedgeComponent.Constructor(yRotation, position, xRotation);
+        bool hedgeCreated = false;
 
-        // we do not want this to be StraightHedge
         if (!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
             // make a rotate object to set the rotation
@@ -59,9 +59,10 @@ public class MapCreator : MonoBehaviour
 
             // destroy the rotation object
             Destroy(rotate);
+            hedgeCreated = true;
         }
         Vector3 newCoords = position + hedgeComponent.offset;
-        return newCoords;
+        return (newCoords, hedgeCreated);
     }
 
     public GameObject CreatePlane(Vector3Int position)
@@ -80,9 +81,11 @@ public class MapCreator : MonoBehaviour
         Vector3 nextPos = start;
         int rightCooldown = 0;
         int leftCooldown = 0;
+        bool hedgeCreated = false;
         // we need to decide which way we are going to send the player.
         while (counter <= this.mapSize)
         {
+            Vector3 previous = nextPos;
             // we have a 40/40 plane in which to make the path
             // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
             int random = Random.Range(0, mazePieces.Count);
@@ -90,10 +93,18 @@ public class MapCreator : MonoBehaviour
             switch (random)
             {
                 case 0:
-                    nextPos = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
-                    rightCooldown -= 1;
-                    leftCooldown -= 1;
-                    counter++;
+                    (nextPos, hedgeCreated) = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
+                    if (hedgeCreated == true)
+                    {
+                        rightCooldown -= 1;
+                        leftCooldown -= 1;
+                        counter++;
+                    }
+                    else
+                    {
+                        nextPos = previous;
+                    }
+
                     break;
                 case 1:
                     int randomDirection = Random.Range(0, 2);
@@ -101,18 +112,32 @@ public class MapCreator : MonoBehaviour
                     // if the random direction selected is right
                     if (randomDirection == 0 && rightCooldown <= 0)
                     {
-                        nextPos = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
-                        currentAngle = (currentAngle + 90) % 360;
-                        rightCooldown = 3;
-                        counter++;
+                        (nextPos, hedgeCreated) = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
+                        if (hedgeCreated == true)
+                        {
+                            currentAngle = (currentAngle + 90) % 360;
+                            rightCooldown = 3;
+                            counter++;
+                        }
+                        else
+                        {
+                            nextPos = previous;
+                        }
                     }
                     // otherwise, head left
                     else if (leftCooldown <= 0)
                     {
-                        nextPos = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
-                        currentAngle = (currentAngle - 90) % 360;
-                        leftCooldown = 3;
-                        counter++;
+                        (nextPos, hedgeCreated) = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
+                        if (hedgeCreated == true)
+                        {
+                            currentAngle = (currentAngle - 90) % 360;
+                            leftCooldown = 3;
+                            counter++;
+                        }
+                        else
+                        {
+                            nextPos = previous;
+                        }
                     }
                     break;
             }

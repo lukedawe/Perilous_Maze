@@ -8,7 +8,8 @@ public class StraightHedge : MonoBehaviour, IHedge
 {
     public Vector3 offset { get; set; }
     public GameObject self;
-    public int collisions{ get; set; }
+    public int collisions { get; set; }
+    public List<Vector3> Lines { get; set; }
 
     public bool WillCollide(Vector3 currentPos)
     {
@@ -21,10 +22,14 @@ public class StraightHedge : MonoBehaviour, IHedge
         return !VectorMaths.IsPointInsideRange(position, mapSize);
     }
 
-    public void Constructor(int rotation, int xRotation = 0){
+    public void Constructor(int rotation, Vector3 position, int xRotation = 0)
+    {
         int x = 2;
         int z = 0;
 
-        this.offset = VectorMaths.CalculateOffset(rotation,x,z);
+        this.offset = VectorMaths.CalculateOffset(rotation, x, z);
+
+        Vector3[] points = { position, position + this.offset };
+        this.GetComponent<LineRenderer>().SetPositions(points);
     }
 }

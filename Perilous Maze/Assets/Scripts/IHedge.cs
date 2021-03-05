@@ -9,7 +9,8 @@ interface IHedge
     bool WillCollide(Vector3 currentPos);
     Vector3 offset { get; set; }
     bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize);
-    void Constructor(int rotation, int xRotation);
+    void Constructor(int rotation, Vector3 position, int xRotation);
     int collisions { get; set; }
     List <Vector3> Lines{get; set;}
+    
 }
