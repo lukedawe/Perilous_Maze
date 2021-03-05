@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HedgeMethods;
+using System;
 
 public class TurnHedge : MonoBehaviour, IHedge
 {
@@ -13,9 +14,10 @@ public class TurnHedge : MonoBehaviour, IHedge
     {
         return false;
     }
-    public bool WillGoOffMap(Vector3 position, GameObject plane)
+    public bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize)
     {
-        return false;
+        Debug.Log("position = " + position + "inside range? = " + VectorMaths.IsPointInsideRange(position, mapSize));
+        return !VectorMaths.IsPointInsideRange(position, mapSize);
     }
 
     public void Constructor(int rotation, int xRotation=0)
@@ -29,11 +31,6 @@ public class TurnHedge : MonoBehaviour, IHedge
             z = -5;
         }
 
-        this.offset = Converter.CalculateOffset(rotation,x,z);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Trigger called");
+        this.offset = VectorMaths.CalculateOffset(rotation,x,z);
     }
 }

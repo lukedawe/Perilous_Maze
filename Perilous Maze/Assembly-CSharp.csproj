@@ -38,9 +38,9 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\StraightHedge.cs" />
      <Compile Include="Assets\Scripts\TurnHedge.cs" />
+     <Compile Include="Assets\Scripts\HegdeMethods.cs" />
      <Compile Include="Assets\Scripts\IHedge.cs" />
      <Compile Include="Assets\Scripts\MapCreator.cs" />
-     <Compile Include="Assets\Scripts\HegdeMethods.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/home/luke/Unity/Hub/Editor/2020.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -614,6 +614,9 @@
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Sysroot.Linux_x86_64">
+        <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/Unity.Sysroot.Linux_x86_64.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -623,6 +626,9 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Toolchain.Linux-x86_64">
+        <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/Unity.Toolchain.Linux-x86_64.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -631,6 +637,9 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.SysrootPackage.Editor">
+        <HintPath>/home/luke/Perious_Maze/Perilous Maze/Library/ScriptAssemblies/Unity.SysrootPackage.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

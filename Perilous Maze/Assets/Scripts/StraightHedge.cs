@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HedgeMethods;
+using System;
 
 public class StraightHedge : MonoBehaviour, IHedge
 {
@@ -13,20 +14,17 @@ public class StraightHedge : MonoBehaviour, IHedge
     {
         return false;
     }
-    public bool WillGoOffMap(Vector3 position, GameObject plane)
+
+    // returns whether a point will fall off the map
+    public bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize)
     {
-        return false;
+        return !VectorMaths.IsPointInsideRange(position, mapSize);
     }
 
     public void Constructor(int rotation, int xRotation = 0){
         int x = 2;
         int z = 0;
 
-        this.offset = Converter.CalculateOffset(rotation,x,z);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Trigger called");
+        this.offset = VectorMaths.CalculateOffset(rotation,x,z);
     }
 }
