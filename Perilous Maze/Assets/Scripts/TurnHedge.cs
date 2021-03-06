@@ -17,7 +17,6 @@ public class TurnHedge : MonoBehaviour, IHedge
     }
     public bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize)
     {
-        Debug.Log("position = " + position + "inside range? = " + VectorMaths.IsPointInsideRange(position, mapSize));
         return !VectorMaths.IsPointInsideRange(position, mapSize);
     }
 

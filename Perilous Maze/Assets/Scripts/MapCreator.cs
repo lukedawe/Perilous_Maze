@@ -7,12 +7,11 @@ public class MapCreator : MonoBehaviour
     // all the GameObjects here inherit from HedgeInterface.cs
     public List<GameObject> mazePieces;
     public List<GameObject> edgePieces;
-    public int mapSize;
-
+    public List<GameObject> environmentAssets;
     private List<Vector3Int> route;
     private GameObject map;
     private List<GameObject> placedHedges;
-
+    public int mapSize;
     public void AddLine(Vector3Int line)
     {
         route.Add(line);
@@ -21,10 +20,10 @@ public class MapCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.mapStart();
+        this.MapStart();
     }
 
-    public void mapStart()
+    public void MapStart()
     {
 
         // make the plane for the map
@@ -44,7 +43,9 @@ public class MapCreator : MonoBehaviour
     }
 
     // needs a reference to the position of the hedge, the type of hedge and the same hedge's component
-    private (Vector3, bool) CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent, int yRotation, int xRotation = 0)
+    // returns the position the next hedge should be placed, whether the hedge has been placed and whether
+    // the end has been reached
+    private (Vector3, bool, bool) CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent, int yRotation, int xRotation = 0)
     {
         hedgeComponent.Constructor(yRotation, position, xRotation);
         bool hedgeCreated = false;
@@ -61,8 +62,13 @@ public class MapCreator : MonoBehaviour
             Destroy(rotate);
             hedgeCreated = true;
         }
+        // if the end of the map has been found
+        else if (hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        {
+            return (position, false, true);
+        }
         Vector3 newCoords = position + hedgeComponent.offset;
-        return (newCoords, hedgeCreated);
+        return (newCoords, hedgeCreated, false);
     }
 
     public GameObject CreatePlane(Vector3Int position)
@@ -78,14 +84,16 @@ public class MapCreator : MonoBehaviour
         bool endFound = false;
         int currentAngle = 0;
         int counter = 0;
-        Vector3 nextPos = start;
+        // current position to add the maze piece to
+        Vector3 currentPos = start;
         int rightCooldown = 0;
         int leftCooldown = 0;
         bool hedgeCreated = false;
+        // next position to add the maze piece to
+        Vector3 nextPos;
         // we need to decide which way we are going to send the player.
-        while (counter <= this.mapSize)
+        while (!endFound)
         {
-            Vector3 previous = nextPos;
             // we have a 40/40 plane in which to make the path
             // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
             int random = Random.Range(0, mazePieces.Count);
@@ -93,18 +101,13 @@ public class MapCreator : MonoBehaviour
             switch (random)
             {
                 case 0:
-                    (nextPos, hedgeCreated) = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
-                    if (hedgeCreated == true)
+                    (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
+                    if (hedgeCreated)
                     {
                         rightCooldown -= 1;
                         leftCooldown -= 1;
-                        counter++;
+                        currentPos = nextPos;
                     }
-                    else
-                    {
-                        nextPos = previous;
-                    }
-
                     break;
                 case 1:
                     int randomDirection = Random.Range(0, 2);
@@ -112,39 +115,41 @@ public class MapCreator : MonoBehaviour
                     // if the random direction selected is right
                     if (randomDirection == 0 && rightCooldown <= 0)
                     {
-                        (nextPos, hedgeCreated) = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
-                        if (hedgeCreated == true)
+                        (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
+                        if (hedgeCreated)
                         {
                             currentAngle = (currentAngle + 90) % 360;
                             rightCooldown = 3;
-                            counter++;
-                        }
-                        else
-                        {
-                            nextPos = previous;
+                            leftCooldown -= 1;
+                            currentPos = nextPos;
                         }
                     }
                     // otherwise, head left
                     else if (leftCooldown <= 0)
                     {
-                        (nextPos, hedgeCreated) = CreateHedge(nextPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
-                        if (hedgeCreated == true)
+                        (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
+                        if (hedgeCreated)
                         {
                             currentAngle = (currentAngle - 90) % 360;
                             leftCooldown = 3;
-                            counter++;
-                        }
-                        else
-                        {
-                            nextPos = previous;
+                            rightCooldown -= 1;
+                            currentPos = nextPos;
                         }
                     }
                     break;
+
             }
-
-            endFound = true;
-
+            counter++;
         }
+        CreateEnvironmentPrefab(environmentAssets[0], currentPos, currentAngle);
         return;
+    }
+
+    public void CreateEnvironmentPrefab(GameObject prefab, Vector3 position, int rotation)
+    {
+        // make a rotate object to set the rotation
+        GameObject rotate = new GameObject("rotate");
+        rotate.transform.Rotate(new Vector3(0, rotation, 0));
+        GameObject newMazePiece = Instantiate(prefab, position, rotate.transform.rotation);
     }
 }
