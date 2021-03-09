@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class MapCreator : MonoBehaviour
 {
@@ -8,8 +9,10 @@ public class MapCreator : MonoBehaviour
     public List<GameObject> mazePieces;
     public List<GameObject> edgePieces;
     public List<GameObject> environmentAssets;
+    // stores the route to the finish
     private List<Vector3Int> route;
     private GameObject map;
+    // stores all the placed hedges
     private List<GameObject> placedHedges;
     public int mapSize;
     public void AddLine(Vector3Int line)
@@ -39,7 +42,11 @@ public class MapCreator : MonoBehaviour
 
         Vector3 next = new Vector3(3, 0.5f, startZCoord);
         // route.Add(start);
-        RouteFinder(next);
+        while (!RouteFinder(next))
+        {
+            resetMap();
+            continue;
+        }
     }
 
     // needs a reference to the position of the hedge, the type of hedge and the same hedge's component
@@ -47,18 +54,17 @@ public class MapCreator : MonoBehaviour
     // the end has been reached
     private (Vector3, bool, bool) CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent, int yRotation, int xRotation = 0)
     {
-        hedgeComponent.Constructor(yRotation, position, xRotation);
         bool hedgeCreated = false;
+        hedgeComponent.Constructor(yRotation, position, xRotation);
 
         if (!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
             // make a rotate object to set the rotation
             GameObject rotate = new GameObject("rotate");
             rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0));
-
-            GameObject newMazePiece = Instantiate(hedge, position, rotate.transform.rotation);
-
-            // destroy the rotation object
+            GameObject newMazePiece = PrefabUtility.InstantiatePrefab(hedge) as GameObject;
+            newMazePiece.transform.Rotate(new Vector3(xRotation, yRotation, 0));
+            placedHedges.Add(newMazePiece);
             Destroy(rotate);
             hedgeCreated = true;
         }
@@ -66,6 +72,11 @@ public class MapCreator : MonoBehaviour
         else if (hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
             return (position, false, true);
+        }
+        else if (hedgeComponent.WillCollide(position))
+        {
+            // the position stays the same, the hedge has not been placed and the end has not been reached
+            return (position, false, false);
         }
         Vector3 newCoords = position + hedgeComponent.offset;
         return (newCoords, hedgeCreated, false);
@@ -78,7 +89,7 @@ public class MapCreator : MonoBehaviour
         return plane;
     }
 
-    public void RouteFinder(Vector3 start)
+    public bool RouteFinder(Vector3 start)
     {
         // we are starting our journey between -19 and 19.
         bool endFound = false;
@@ -140,16 +151,40 @@ public class MapCreator : MonoBehaviour
 
             }
             counter++;
+            if (hedgeCreated == false && endFound == false)
+            {
+                return false;
+            }
         }
-        CreateEnvironmentPrefab(environmentAssets[0], currentPos, currentAngle);
-        return;
+        Debug.Log(counter);
+        if (counter >= mapSize)
+        {
+            CreatePrefab(environmentAssets[0], currentPos, currentAngle);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
-    public void CreateEnvironmentPrefab(GameObject prefab, Vector3 position, int rotation)
+    public GameObject CreatePrefab(GameObject prefab, Vector3 position, int yRotation, int xRotation = 0)
     {
         // make a rotate object to set the rotation
         GameObject rotate = new GameObject("rotate");
-        rotate.transform.Rotate(new Vector3(0, rotation, 0));
-        GameObject newMazePiece = Instantiate(prefab, position, rotate.transform.rotation);
+        rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0));
+        GameObject newMazePiece = Instantiate(prefab, position, rotate.transform.rotation) as GameObject;
+        Destroy(rotate);
+        return newMazePiece;
+    }
+
+    public void resetMap()
+    {
+        foreach (GameObject g in placedHedges)
+        {
+            Destroy(g);
+        }
+        placedHedges.Clear();
     }
 }
