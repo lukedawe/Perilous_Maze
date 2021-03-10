@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.SceneManagement; 
+using HedgeMethods;
 
 public class MapCreator : MonoBehaviour
 {
@@ -10,14 +12,15 @@ public class MapCreator : MonoBehaviour
     public List<GameObject> edgePieces;
     public List<GameObject> environmentAssets;
     // stores the route to the finish
-    private List<Vector3Int> route;
+    public List<(Vector3,Vector3)> route {get; private set;}
     private GameObject map;
     // stores all the placed hedges
     private List<GameObject> placedHedges;
     public int mapSize;
-    public void AddLine(Vector3Int line)
+
+    public void AddLine(Vector3 point1, Vector3 point2)
     {
-        route.Add(line);
+        route.Add((point1, point2));
     }
 
     // Start is called before the first frame update
@@ -28,6 +31,8 @@ public class MapCreator : MonoBehaviour
 
     public void MapStart()
     {
+        placedHedges = new List<GameObject>();
+        route = new List<(Vector3, Vector3)>();
 
         // make the plane for the map
         this.map = this.CreatePlane(new Vector3Int(this.mapSize, 0, 0));
@@ -59,13 +64,7 @@ public class MapCreator : MonoBehaviour
 
         if (!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
-            // make a rotate object to set the rotation
-            GameObject rotate = new GameObject("rotate");
-            rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0));
-            GameObject newMazePiece = PrefabUtility.InstantiatePrefab(hedge) as GameObject;
-            newMazePiece.transform.Rotate(new Vector3(xRotation, yRotation, 0));
-            placedHedges.Add(newMazePiece);
-            Destroy(rotate);
+            CreatePrefab(hedge, position, yRotation, xRotation);
             hedgeCreated = true;
         }
         // if the end of the map has been found
@@ -73,12 +72,10 @@ public class MapCreator : MonoBehaviour
         {
             return (position, false, true);
         }
-        else if (hedgeComponent.WillCollide(position))
-        {
-            // the position stays the same, the hedge has not been placed and the end has not been reached
-            return (position, false, false);
-        }
         Vector3 newCoords = position + hedgeComponent.offset;
+        if (hedgeCreated){
+            AddLine(position, newCoords);
+        }
         return (newCoords, hedgeCreated, false);
     }
 
@@ -156,7 +153,6 @@ public class MapCreator : MonoBehaviour
                 return false;
             }
         }
-        Debug.Log(counter);
         if (counter >= mapSize)
         {
             CreatePrefab(environmentAssets[0], currentPos, currentAngle);
@@ -175,12 +171,14 @@ public class MapCreator : MonoBehaviour
         GameObject rotate = new GameObject("rotate");
         rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0));
         GameObject newMazePiece = Instantiate(prefab, position, rotate.transform.rotation) as GameObject;
+        placedHedges.Add(newMazePiece);
         Destroy(rotate);
         return newMazePiece;
     }
 
     public void resetMap()
     {
+        Debug.Log("Restarting generation");
         foreach (GameObject g in placedHedges)
         {
             Destroy(g);
