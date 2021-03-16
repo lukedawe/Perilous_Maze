@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 using HedgeMethods;
 
 public class MapCreator : MonoBehaviour
@@ -12,7 +12,7 @@ public class MapCreator : MonoBehaviour
     public List<GameObject> edgePieces;
     public List<GameObject> environmentAssets;
     // stores the route to the finish
-    public List<(Vector3,Vector3)> route {get; private set;}
+    public List<(Vector3, Vector3)> route { get; private set; }
     private GameObject map;
     // stores all the placed hedges
     private List<GameObject> placedHedges;
@@ -42,16 +42,26 @@ public class MapCreator : MonoBehaviour
         // make a start for the maze and add it to the route
         int startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
         Vector3 start = new Vector3(1, 0.5f, startZCoord);
-        // add a wall to the starting position
-        CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>(), 0);
 
-        Vector3 next = new Vector3(3, 0.5f, startZCoord);
         // route.Add(start);
-        while (!RouteFinder(next))
+        while (!RouteFinder(start))
         {
+
             resetMap();
             continue;
         }
+    }
+
+    private bool WillCollide(Vector3 collisionHedgePosition)
+    {
+        foreach (GameObject currentHedge in placedHedges)
+        {
+            if (Vector3.Distance(collisionHedgePosition, currentHedge.transform.position)<2)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // needs a reference to the position of the hedge, the type of hedge and the same hedge's component
@@ -61,8 +71,8 @@ public class MapCreator : MonoBehaviour
     {
         bool hedgeCreated = false;
         hedgeComponent.Constructor(yRotation, position, xRotation);
-
-        if (!hedgeComponent.WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        Vector3 newCoords = position + hedgeComponent.offset;
+        if (!WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
             CreatePrefab(hedge, position, yRotation, xRotation);
             hedgeCreated = true;
@@ -72,8 +82,9 @@ public class MapCreator : MonoBehaviour
         {
             return (position, false, true);
         }
-        Vector3 newCoords = position + hedgeComponent.offset;
-        if (hedgeCreated){
+
+        if (hedgeCreated)
+        {
             AddLine(position, newCoords);
         }
         return (newCoords, hedgeCreated, false);
@@ -88,12 +99,16 @@ public class MapCreator : MonoBehaviour
 
     public bool RouteFinder(Vector3 start)
     {
+        // add a wall to the starting position
+        CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>(), 0);
+        Vector3 next = new Vector3(3, 0.5f, start.z);
+
         // we are starting our journey between -19 and 19.
         bool endFound = false;
         int currentAngle = 0;
         int counter = 0;
         // current position to add the maze piece to
-        Vector3 currentPos = start;
+        Vector3 currentPos = next;
         int rightCooldown = 0;
         int leftCooldown = 0;
         bool hedgeCreated = false;

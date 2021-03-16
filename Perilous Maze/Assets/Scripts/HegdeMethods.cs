@@ -62,5 +62,26 @@ namespace HedgeMethods
 
             return (m, c);
         }
+
+        // from: https://stackoverflow.com/questions/59449628/check-when-two-vector3-lines-intersect-unity3d#59449849
+        public static bool LineLineIntersection(Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2)
+        {
+
+            Vector3 lineVec3 = linePoint2 - linePoint1;
+            Vector3 crossVec1and2 = Vector3.Cross(lineVec1, lineVec2);
+            Vector3 crossVec3and2 = Vector3.Cross(lineVec3, lineVec2);
+
+            float planarFactor = Vector3.Dot(lineVec3, crossVec1and2);
+
+            //is coplanar, and not parallel
+            if (Mathf.Abs(planarFactor) < 0.0001f && crossVec1and2.sqrMagnitude > 0.0001f)
+            {
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ public class TurnHedge : MonoBehaviour, IHedge
     {
         int x = 3;
         int z;
+        
         if (xRotation == 180)
         {
             z = 5;
