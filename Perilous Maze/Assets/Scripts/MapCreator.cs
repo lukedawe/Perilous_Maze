@@ -18,11 +18,6 @@ public class MapCreator : MonoBehaviour
     private List<GameObject> placedHedges;
     public int mapSize;
 
-    public void AddLine(Vector3 point1, Vector3 point2)
-    {
-        route.Add((point1, point2));
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -52,15 +47,27 @@ public class MapCreator : MonoBehaviour
         }
     }
 
-    private bool WillCollide(Vector3 collisionHedgePosition)
+    private bool WillCollide(IHedge hedgeComponent)
     {
-        foreach (GameObject currentHedge in placedHedges)
+        int collisions = 0;
+        foreach (Vector3 point in hedgeComponent.points)
         {
-            if (Vector3.Distance(collisionHedgePosition, currentHedge.transform.position)<2)
+            foreach ((Vector3, Vector3) line in this.route)
             {
-                return true;
+                (Vector3 point1, Vector3 point2) = line;
+                if (point == point1 || point == point2)
+                {
+                    collisions++;
+                }
             }
         }
+
+        // if the point has been used more than once (once because it needs to be connected to the last piece)
+        if (collisions > 1)
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -72,7 +79,7 @@ public class MapCreator : MonoBehaviour
         bool hedgeCreated = false;
         hedgeComponent.Constructor(yRotation, position, xRotation);
         Vector3 newCoords = position + hedgeComponent.offset;
-        if (!WillCollide(position) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
             CreatePrefab(hedge, position, yRotation, xRotation);
             hedgeCreated = true;
@@ -83,9 +90,10 @@ public class MapCreator : MonoBehaviour
             return (position, false, true);
         }
 
+        // this doesn't entirely work for things that have more than 2 points
         if (hedgeCreated)
         {
-            AddLine(position, newCoords);
+            this.route.Add((position, newCoords));
         }
         return (newCoords, hedgeCreated, false);
     }
@@ -193,11 +201,12 @@ public class MapCreator : MonoBehaviour
 
     public void resetMap()
     {
-        Debug.Log("Restarting generation");
+        Debug.Log("<color='red'>Restarting generation</color>");
         foreach (GameObject g in placedHedges)
         {
             Destroy(g);
         }
         placedHedges.Clear();
+        route.Clear();
     }
 }

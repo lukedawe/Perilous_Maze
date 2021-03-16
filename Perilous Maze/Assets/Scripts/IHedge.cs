@@ -11,6 +11,6 @@ interface IHedge
     bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize);
     void Constructor(int rotation, Vector3 position, int xRotation);
     int collisions { get; set; }
-    List <Vector3> Lines{get; set;}
+    Vector3[] points{get; set;}
     
 }

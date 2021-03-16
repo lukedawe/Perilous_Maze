@@ -9,7 +9,7 @@ public class TurnHedge : MonoBehaviour, IHedge
     public Vector3 offset { get; set; }
     public GameObject self;
     public int collisions { get; set; }
-    public List<Vector3> Lines { get; set; }
+    public Vector3[] points { get; set; }
 
     public bool WillCollide(Vector3 currentPos)
     {
@@ -22,9 +22,11 @@ public class TurnHedge : MonoBehaviour, IHedge
 
     public void Constructor(int rotation, Vector3 initialPosition, int xRotation = 0)
     {
-        int x = 3;
+        this.points = new Vector3[3];
+
+        int x = 4;
         int z;
-        
+
         if (xRotation == 180)
         {
             z = 5;
@@ -38,8 +40,12 @@ public class TurnHedge : MonoBehaviour, IHedge
         this.offset = VectorMaths.CalculateOffset(rotation, x, z);
 
         // This is for the line that appears
-        Vector3 intermediatePoint = initialPosition + VectorMaths.CalculateOffset(rotation, 3, 0);
-        Vector3[] points = { initialPosition, intermediatePoint, initialPosition + this.offset };
+        Vector3 intermediatePoint = initialPosition + VectorMaths.CalculateOffset(rotation, 4, 0);
+
+        this.points[0] = initialPosition;
+        this.points[1] = intermediatePoint; 
+        this.points[2] = initialPosition + this.offset;
+
         this.GetComponent<LineRenderer>().SetPositions(points);
     }
 }
