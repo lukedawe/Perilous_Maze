@@ -241,7 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5992affe5050c199499763edd95614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 6270784901513370513}
 --- !u!65 &4403273899995842462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -325,9 +324,9 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 131, y: 0.5, z: 96}
-  - {x: 128, y: 0.5, z: 96}
-  - {x: 127, y: 0.5, z: 100}
+  - {x: 106, y: 0.5, z: 88}
+  - {x: 110, y: 0.5, z: 88}
+  - {x: 110, y: 0.5, z: 93}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

@@ -40,6 +40,8 @@
      <Compile Include="Assets\Scripts\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\HegdeMethods.cs" />
      <Compile Include="Assets\Scripts\IHedge.cs" />
+     <Compile Include="Assets\Scripts\ICrossRoads.cs" />
+     <Compile Include="Assets\Scripts\FourWayHedge.cs" />
      <Compile Include="Assets\Scripts\MapCreator.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/home/luke/Unity/Hub/Editor/2020.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

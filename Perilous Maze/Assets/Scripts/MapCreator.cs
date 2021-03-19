@@ -73,15 +73,17 @@ public class MapCreator : MonoBehaviour
 
     // needs a reference to the position of the hedge, the type of hedge and the same hedge's component
     // returns the position the next hedge should be placed, whether the hedge has been placed and whether
-    // the end has been reached
+    // the end has been reached 
     private (Vector3, bool, bool) CreateHedge(Vector3 position, GameObject hedge, IHedge hedgeComponent, int yRotation, int xRotation = 0)
     {
         bool hedgeCreated = false;
         hedgeComponent.Constructor(yRotation, position, xRotation);
         Vector3 newCoords = position + hedgeComponent.offset;
+        GameObject newHedge = null;
+
         if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
         {
-            CreatePrefab(hedge, position, yRotation, xRotation);
+            newHedge = CreatePrefab(hedge, position, yRotation, xRotation);
             hedgeCreated = true;
         }
         // if the end of the map has been found
@@ -96,6 +98,35 @@ public class MapCreator : MonoBehaviour
             this.route.Add((position, newCoords));
         }
         return (newCoords, hedgeCreated, false);
+    }
+
+    // returns the new point to add the next piece to, whether the hedge was placed and whether the end has been found 
+    private (Vector3, bool, bool) CreateCrossroads(Vector3 position, GameObject hedge, ICrossRoads hedgeComponent, int newAngle, int yRotation, int xRotation = 0)
+    {
+        bool hedgeCreated = false;
+        hedgeComponent.CrossRoadConstructor(position, yRotation, newAngle);
+        Vector3 newCoords = position + hedgeComponent.offset;
+        GameObject newHedge = null;
+
+        if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        {
+            newHedge = CreatePrefab(hedge, position, yRotation, xRotation);
+            hedgeCreated = true;
+        }
+        // if the end of the map has been found
+        else if (hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        {
+            // this isn't right
+            return (position, false, true);
+        }
+
+        // this doesn't entirely work for things that have more than 2 points
+        if (hedgeCreated)
+        {
+            this.route.Add((position, newCoords));
+        }
+        // this isn't right (for testing)
+        return (newCoords, true, false);
     }
 
     public GameObject CreatePlane(Vector3Int position)
@@ -119,6 +150,7 @@ public class MapCreator : MonoBehaviour
         Vector3 currentPos = next;
         int rightCooldown = 0;
         int leftCooldown = 0;
+        int crossroadsCooldown = 0;
         bool hedgeCreated = false;
         // next position to add the maze piece to
         Vector3 nextPos;
@@ -168,9 +200,59 @@ public class MapCreator : MonoBehaviour
                         }
                     }
                     break;
+                case 2:
+
+                    if (crossroadsCooldown <= 0)
+                    {
+                        int randomDirection2 = Random.Range(0, 3);
+                        switch (randomDirection2)
+                        {
+                            case 0:
+                                // to go right
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle, 90);
+                                if (hedgeCreated)
+                                {
+                                    currentAngle = (currentAngle + 90) % 360;
+                                    currentPos = nextPos;
+                                }
+                                break;
+                            case 1:
+                                // otherwise, head left
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle, -90);
+                                if (hedgeCreated)
+                                {
+                                    currentAngle = (currentAngle - 90) % 360;
+                                    currentPos = nextPos;
+                                }
+                                break;
+                            case 2:
+                                // or go straight on
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle, 0);
+                                if (hedgeCreated)
+                                {
+                                    currentPos = nextPos;
+                                }
+                                break;
+                        }
+                        crossroadsCooldown = 5;
+                    }
+
+                    // if (leftCooldown <= 0 && rightCooldown <= 0)
+                    // {
+                    //     GameObject newHedge;
+                    //     (nextPos, hedgeCreated, endFound, newHedge) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle);
+                    //     if (hedgeCreated)
+                    //     {
+                    //         Debug.Log("New angle: " + newHedge.GetComponent<FourWayHedge>().NewRotation);
+                    //         currentAngle = newHedge.GetComponent<FourWayHedge>().NewRotation;
+                    //         currentPos = nextPos;
+                    //     }
+                    // }
+                    break;
 
             }
             counter++;
+            crossroadsCooldown--;
             if (hedgeCreated == false && endFound == false)
             {
                 return false;
@@ -201,7 +283,7 @@ public class MapCreator : MonoBehaviour
 
     public void resetMap()
     {
-        Debug.Log("<color='red'>Restarting generation</color>");
+        Debug.ClearDeveloperConsole();
         foreach (GameObject g in placedHedges)
         {
             Destroy(g);
