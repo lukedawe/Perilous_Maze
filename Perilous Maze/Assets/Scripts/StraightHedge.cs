@@ -10,7 +10,7 @@ public class StraightHedge : MonoBehaviour, IHedge
     public Vector3[] points { get; set; }
 
     // returns whether a point will fall off the map
-    public bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize)
+    public bool WillGoOffMap(Vector3 position, int mapSize)
     {
         return !VectorMaths.IsPointInsideRange(position, mapSize);
     }

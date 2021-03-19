@@ -9,7 +9,7 @@ public class TurnHedge : MonoBehaviour, IHedge
     public Vector3 offset { get; set; }
     public Vector3[] points { get; set; }
 
-    public bool WillGoOffMap(Vector3 position, GameObject plane, int mapSize)
+    public bool WillGoOffMap(Vector3 position, int mapSize)
     {
         return !VectorMaths.IsPointInsideRange(position, mapSize);
     }

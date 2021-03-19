@@ -7,10 +7,11 @@ namespace HedgeMethods
 {
     public class VectorMaths
     {
-        public const int BUFFER = 4;
 
-        public static Vector3 CalculateOffset(int rotation, int x, int z)
+        public static Vector3 CalculateOffset(int rotation, float x, float z)
         {
+            rotation %= 360;
+
             // calculate the rotation in radians
             double radianRotation = -1 * ((Math.PI / 180) * rotation);
 

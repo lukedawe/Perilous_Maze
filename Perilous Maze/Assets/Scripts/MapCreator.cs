@@ -38,12 +38,17 @@ public class MapCreator : MonoBehaviour
         int startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
         Vector3 start = new Vector3(1, 0.5f, startZCoord);
 
-        // route.Add(start);
-        while (!RouteFinder(start))
+        int counter = 0;
+        while (!RouteFinder(start) && counter < 100)
         {
-
             resetMap();
-            continue;
+            counter++;
+            startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
+            start = new Vector3(1, 0.5f, startZCoord);
+            if (counter == 100)
+            {
+                Debug.Log("<color='orange'> counter reached 100 </color>");
+            }
         }
     }
 
@@ -81,13 +86,13 @@ public class MapCreator : MonoBehaviour
         Vector3 newCoords = position + hedgeComponent.offset;
         GameObject newHedge = null;
 
-        if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
         {
             newHedge = CreatePrefab(hedge, position, yRotation, xRotation);
             hedgeCreated = true;
         }
         // if the end of the map has been found
-        else if (hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        else if (hedgeComponent.WillGoOffMap(position, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
         {
             return (position, false, true);
         }
@@ -105,16 +110,19 @@ public class MapCreator : MonoBehaviour
     {
         bool hedgeCreated = false;
         hedgeComponent.CrossRoadConstructor(position, yRotation, newAngle);
+
         Vector3 newCoords = position + hedgeComponent.offset;
         GameObject newHedge = null;
 
-        if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        // WillCollide does not work for hedges with lots of points yet (this might be because this.placedHedges does not account for all points)
+        if (!WillCollide(hedgeComponent) && !hedgeComponent.WillGoOffMap(position, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
         {
-            newHedge = CreatePrefab(hedge, position, yRotation, xRotation);
+            // the angle does not matter for this prefab
+            newHedge = CreatePrefab(hedge, position + hedgeComponent.TransformCorrection, yRotation, xRotation);
             hedgeCreated = true;
         }
         // if the end of the map has been found
-        else if (hedgeComponent.WillGoOffMap(position, this.map, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.map, this.mapSize))
+        else if (hedgeComponent.WillGoOffMap(position, this.mapSize) || hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
         {
             // this isn't right
             return (position, false, true);
@@ -126,7 +134,7 @@ public class MapCreator : MonoBehaviour
             this.route.Add((position, newCoords));
         }
         // this isn't right (for testing)
-        return (newCoords, true, false);
+        return (newCoords, hedgeCreated, false);
     }
 
     public GameObject CreatePlane(Vector3Int position)
@@ -164,11 +172,13 @@ public class MapCreator : MonoBehaviour
             switch (random)
             {
                 case 0:
+                    
                     (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
                     if (hedgeCreated)
                     {
-                        rightCooldown -= 1;
-                        leftCooldown -= 1;
+                        Debug.Log("Going straight: " + currentAngle);
+                        rightCooldown--;
+                        leftCooldown--;
                         currentPos = nextPos;
                     }
                     break;
@@ -178,24 +188,28 @@ public class MapCreator : MonoBehaviour
                     // if the random direction selected is right
                     if (randomDirection == 0 && rightCooldown <= 0)
                     {
+                        
                         (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
                         if (hedgeCreated)
                         {
+                            Debug.Log("Going right: " + currentAngle);
                             currentAngle = (currentAngle + 90) % 360;
                             rightCooldown = 3;
-                            leftCooldown -= 1;
+                            leftCooldown--;
                             currentPos = nextPos;
                         }
                     }
                     // otherwise, head left
                     else if (leftCooldown <= 0)
                     {
+                        
                         (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
                         if (hedgeCreated)
                         {
+                            Debug.Log("Going left: " + currentAngle);
                             currentAngle = (currentAngle - 90) % 360;
                             leftCooldown = 3;
-                            rightCooldown -= 1;
+                            rightCooldown--;
                             currentPos = nextPos;
                         }
                     }
@@ -204,50 +218,44 @@ public class MapCreator : MonoBehaviour
 
                     if (crossroadsCooldown <= 0)
                     {
-                        int randomDirection2 = Random.Range(0, 3);
-                        switch (randomDirection2)
+                        int randomCrossRoadsDirection = Random.Range(0, 3);
+                        switch (randomCrossRoadsDirection)
                         {
                             case 0:
                                 // to go right
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle, 90);
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 90, currentAngle);
                                 if (hedgeCreated)
                                 {
+                                    Debug.Log("Going right: " + currentAngle);
                                     currentAngle = (currentAngle + 90) % 360;
                                     currentPos = nextPos;
                                 }
                                 break;
                             case 1:
                                 // otherwise, head left
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle, -90);
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), -90, currentAngle);
                                 if (hedgeCreated)
                                 {
+                                    Debug.Log("Going left: " + currentAngle);
                                     currentAngle = (currentAngle - 90) % 360;
                                     currentPos = nextPos;
                                 }
                                 break;
                             case 2:
                                 // or go straight on
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle, 0);
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 0, currentAngle);
                                 if (hedgeCreated)
                                 {
+                                    Debug.Log("Going straight: " + currentAngle);
                                     currentPos = nextPos;
                                 }
                                 break;
                         }
                         crossroadsCooldown = 5;
+                        rightCooldown--;
+                        leftCooldown--;
                     }
 
-                    // if (leftCooldown <= 0 && rightCooldown <= 0)
-                    // {
-                    //     GameObject newHedge;
-                    //     (nextPos, hedgeCreated, endFound, newHedge) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), currentAngle);
-                    //     if (hedgeCreated)
-                    //     {
-                    //         Debug.Log("New angle: " + newHedge.GetComponent<FourWayHedge>().NewRotation);
-                    //         currentAngle = newHedge.GetComponent<FourWayHedge>().NewRotation;
-                    //         currentPos = nextPos;
-                    //     }
-                    // }
                     break;
 
             }
@@ -274,7 +282,7 @@ public class MapCreator : MonoBehaviour
     {
         // make a rotate object to set the rotation
         GameObject rotate = new GameObject("rotate");
-        rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0));
+        rotate.transform.Rotate(new Vector3(xRotation, yRotation, 0), Space.World);
         GameObject newMazePiece = Instantiate(prefab, position, rotate.transform.rotation) as GameObject;
         placedHedges.Add(newMazePiece);
         Destroy(rotate);
