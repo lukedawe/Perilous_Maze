@@ -23,11 +23,11 @@ public class TurnHedge : MonoBehaviour, IHedge
 
         if (xRotation == 180)
         {
-            z = 5;
+            z = 4;
         }
         else
         {
-            z = -5;
+            z = -4;
         }
 
 

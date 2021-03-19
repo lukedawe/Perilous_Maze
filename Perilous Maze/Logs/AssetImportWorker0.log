@@ -300,3 +300,121 @@ Received Import Request.
 Start importing Assets/Maze Parts/4-Way Junction.prefab using Guid(acc4bd7f4804d7ef88da7e0776f44ec4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '294448ff79b2bfc1521fae38766fee16') in 0.079278 seconds
   Import took 0.082759 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 233.281818 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25db495e06d01caa1fef390bfa85e8a8') in 0.008275 seconds
+  Import took 0.011080 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 20.815996 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd49e330dc918e8d64cb570524de8029d') in 0.010496 seconds
+  Import took 0.014035 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.964403 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '69f1840dafbe72b26820a721659dbd5a') in 0.008626 seconds
+  Import took 0.012653 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.820533 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c7b2d924faac3485954f3c9d5345641a') in 0.008056 seconds
+  Import took 0.012244 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.053473 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4f28e247d07f4809991952d0bde89769') in 0.008011 seconds
+  Import took 0.011294 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.444470 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f285c36d148cf6aadc557d1065ef4274') in 0.008348 seconds
+  Import took 0.011142 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.049156 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '04f4b91561c08afff3149d937086d598') in 0.008180 seconds
+  Import took 0.011042 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 38.422867 seconds.
+  path: Assets/Maze Parts/Hedge Turn.prefab
+  artifactKey: Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Hedge Turn.prefab using Guid(87b5492dde61746f59dbda16cafee91a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c0cc796b6ab390af7587185b64beacd') in 0.007782 seconds
+  Import took 0.011057 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 20.923615 seconds.
+  path: Assets/Maze Parts/Straight Hedge.prefab
+  artifactKey: Guid(6f15b4247c68ce08cafa341b40a8f514) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Maze Parts/Straight Hedge.prefab using Guid(6f15b4247c68ce08cafa341b40a8f514) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f33190c65d3e4d9aa33d5fe6cc2d591b') in 0.008564 seconds
+  Import took 0.012234 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000715 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.806 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.25 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1123 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 53.0 MB.
+System memory in use after: 53.1 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1607.
+Total: 2.450581 ms (FindLiveObjects: 0.221343 ms CreateObjectMapping: 0.052683 ms MarkObjects: 2.137492 ms  DeleteObjects: 0.036266 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000783 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.012 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1123 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 53.0 MB.
+System memory in use after: 53.1 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1610.
+Total: 3.313283 ms (FindLiveObjects: 0.339814 ms CreateObjectMapping: 0.121771 ms MarkObjects: 2.818211 ms  DeleteObjects: 0.031050 ms)
+
