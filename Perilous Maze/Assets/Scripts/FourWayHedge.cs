@@ -6,10 +6,11 @@ using HedgeMethods;
 public class FourWayHedge : MonoBehaviour, ICrossRoads
 {
     public Vector3 offset { get; set; }
-    public Vector3[] points { get; set; }
-    public Vector3[] OtherPoints { get; set; }
+    public Vector3[] connectorPoints { get; set; }
+    public Vector3[] collisionPoints { get; set; }
     public string word { get; set; }
     public Vector3 TransformCorrection { get; set; }
+    public Vector3[] ExtraConnectionPoints { get; set; }
 
     // returns whether a point will fall off the map
     public bool WillGoOffMap(Vector3 position, int mapSize)
@@ -29,24 +30,20 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
 
         int x = 2;
         int z = 4;
-        Vector3 intermediatePoint;
-        this.points = new Vector3[4];
+
+        this.connectorPoints = new Vector3[4];
+        this.collisionPoints = new Vector3[16];
+
         switch (newRotation)
         {
-            // to the right
+            // to the left
             case -90:
-                // this.points[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, z);
-                // this.points[4] = initialPosition + VectorMaths.CalculateOffset(currentRotation + 90, x, z);
 
                 this.offset = VectorMaths.CalculateOffset(currentRotation, x, z);
-
-                // This is for the line that appears
-                intermediatePoint = initialPosition + VectorMaths.CalculateOffset(currentRotation, 4, 0);
-
-                this.points[0] = initialPosition;
-                this.points[1] = initialPosition + this.offset;
-                this.points[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
-                this.points[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
+                this.connectorPoints[0] = initialPosition;
+                this.connectorPoints[1] = initialPosition + this.offset;
+                this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
+                this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
 
                 break;
             // straight on
@@ -54,40 +51,48 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
 
                 x = 6;
                 z = 0;
-
                 this.offset = VectorMaths.CalculateOffset(currentRotation, x, z);
-
-                this.points[0] = initialPosition;
-                this.points[1] = initialPosition + this.offset;
-                this.points[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, -(4));
-                this.points[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 4);
-
+                this.connectorPoints[0] = initialPosition;
+                this.connectorPoints[1] = initialPosition + this.offset;
+                this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, -(4));
+                this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 4);
 
                 break;
-            // to the left
+            // to the right
             case 90:
+
                 z = -(z);
-
                 this.offset = VectorMaths.CalculateOffset(currentRotation, x, z);
-
-                // This is for the line that appears
-                intermediatePoint = initialPosition + VectorMaths.CalculateOffset(currentRotation, 4, 0);
-
-                this.points[0] = initialPosition;
-                this.points[1] = initialPosition + this.offset;
-                this.points[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
-                this.points[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
+                this.connectorPoints[0] = initialPosition;
+                this.connectorPoints[1] = initialPosition + this.offset;
+                this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
+                this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
 
                 break;
             // this should never happen
             default:
-                this.points[0] = initialPosition;
+                this.connectorPoints[0] = initialPosition;
 
                 Debug.Log("Exception: " + newRotation);
                 break;
 
-
         }
-        this.GetComponent<LineRenderer>().SetPositions(this.points);
+        this.GetComponent<LineRenderer>().SetPositions(this.connectorPoints);
+
+        this.collisionPoints[4] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 1, 0);
+        this.collisionPoints[5] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 0);
+        this.collisionPoints[6] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 3, 0);
+        this.collisionPoints[7] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 4, 0);
+        this.collisionPoints[8] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 5, 0);
+        this.collisionPoints[9] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, -3);
+        this.collisionPoints[10] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, -2);
+        this.collisionPoints[11] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, -1);
+        this.collisionPoints[12] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 1);
+        this.collisionPoints[13] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 2);
+        this.collisionPoints[14] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 3);
+        this.collisionPoints[15] = initialPosition + VectorMaths.CalculateOffset(currentRotation, -1, 0);
+
+        collisionPoints = VectorMaths.SetArraysEqual(this.connectorPoints, collisionPoints);
+
     }
 }

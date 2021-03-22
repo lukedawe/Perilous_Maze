@@ -17,6 +17,9 @@ public class MapCreator : MonoBehaviour
     // stores all the placed hedges
     private List<GameObject> placedHedges;
     public int mapSize;
+    private List<Vector3> collisionPoints;
+    Visualiser visualiser;
+    GameObject PreviousPiece;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +31,7 @@ public class MapCreator : MonoBehaviour
     {
         placedHedges = new List<GameObject>();
         route = new List<(Vector3, Vector3)>();
+        collisionPoints = new List<Vector3>();
 
         // make the plane for the map
         this.map = this.CreatePlane(new Vector3Int(this.mapSize, 0, 0));
@@ -37,40 +41,45 @@ public class MapCreator : MonoBehaviour
         // make a start for the maze and add it to the route
         int startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
         Vector3 start = new Vector3(1, 0.5f, startZCoord);
-
         int counter = 0;
-        while (!RouteFinder(start) && counter < 100)
+        bool routeFound;
+        visualiser = new Visualiser();
+
+        do
         {
             resetMap();
+            routeFound = RouteFinder(start);
             counter++;
             startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
             start = new Vector3(1, 0.5f, startZCoord);
+            visualiser.VisualisePoints(this.collisionPoints.ToArray());
             if (counter == 100)
             {
-                Debug.Log("<color='orange'> counter reached 100 </color>");
+                Debug.Log("<color='red'> counter reached 100 </color>");
             }
         }
+        while (!routeFound && counter < 100);
     }
 
     private bool WillCollide(IHedge hedgeComponent)
     {
         int collisions = 0;
-        foreach (Vector3 point in hedgeComponent.points)
+        foreach (Vector3 point in hedgeComponent.collisionPoints)
         {
-            foreach ((Vector3, Vector3) line in this.route)
+            collisions = 0;
+            foreach (Vector3 collisionPoint in this.collisionPoints)
             {
-                (Vector3 point1, Vector3 point2) = line;
-                if (point == point1 || point == point2)
+                if (point == collisionPoint)
                 {
                     collisions++;
                 }
             }
-        }
-
-        // if the point has been used more than once (once because it needs to be connected to the last piece)
-        if (collisions > 1)
-        {
-            return true;
+            // if the point has been used more than once (once because it needs to be connected to the last piece)
+            if (collisions > 1)
+            {
+                Debug.Log("<color='orange'> Collisions: " + collisions + " on point: " + point + "</color>");
+                return true;
+            }
         }
 
         return false;
@@ -97,10 +106,11 @@ public class MapCreator : MonoBehaviour
             return (position, false, true);
         }
 
-        // this doesn't entirely work for things that have more than 2 points
         if (hedgeCreated)
         {
             this.route.Add((position, newCoords));
+            this.collisionPoints.AddRange(hedgeComponent.collisionPoints);
+            PreviousPiece = newHedge;
         }
         return (newCoords, hedgeCreated, false);
     }
@@ -132,6 +142,12 @@ public class MapCreator : MonoBehaviour
         if (hedgeCreated)
         {
             this.route.Add((position, newCoords));
+            this.collisionPoints.AddRange(hedgeComponent.collisionPoints);
+            Debug.Log("Adding points: " + newAngle);
+            foreach (Vector3 temp in hedgeComponent.collisionPoints)
+            {
+                Debug.Log(temp);
+            }
         }
         // this isn't right (for testing)
         return (newCoords, hedgeCreated, false);
@@ -172,11 +188,10 @@ public class MapCreator : MonoBehaviour
             switch (random)
             {
                 case 0:
-                    
+
                     (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
                     if (hedgeCreated)
                     {
-                        Debug.Log("Going straight: " + currentAngle);
                         rightCooldown--;
                         leftCooldown--;
                         currentPos = nextPos;
@@ -188,11 +203,10 @@ public class MapCreator : MonoBehaviour
                     // if the random direction selected is right
                     if (randomDirection == 0 && rightCooldown <= 0)
                     {
-                        
+
                         (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
                         if (hedgeCreated)
                         {
-                            Debug.Log("Going right: " + currentAngle);
                             currentAngle = (currentAngle + 90) % 360;
                             rightCooldown = 3;
                             leftCooldown--;
@@ -202,11 +216,10 @@ public class MapCreator : MonoBehaviour
                     // otherwise, head left
                     else if (leftCooldown <= 0)
                     {
-                        
+
                         (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
                         if (hedgeCreated)
                         {
-                            Debug.Log("Going left: " + currentAngle);
                             currentAngle = (currentAngle - 90) % 360;
                             leftCooldown = 3;
                             rightCooldown--;
@@ -226,7 +239,6 @@ public class MapCreator : MonoBehaviour
                                 (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 90, currentAngle);
                                 if (hedgeCreated)
                                 {
-                                    Debug.Log("Going right: " + currentAngle);
                                     currentAngle = (currentAngle + 90) % 360;
                                     currentPos = nextPos;
                                 }
@@ -236,7 +248,6 @@ public class MapCreator : MonoBehaviour
                                 (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), -90, currentAngle);
                                 if (hedgeCreated)
                                 {
-                                    Debug.Log("Going left: " + currentAngle);
                                     currentAngle = (currentAngle - 90) % 360;
                                     currentPos = nextPos;
                                 }
@@ -246,7 +257,6 @@ public class MapCreator : MonoBehaviour
                                 (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 0, currentAngle);
                                 if (hedgeCreated)
                                 {
-                                    Debug.Log("Going straight: " + currentAngle);
                                     currentPos = nextPos;
                                 }
                                 break;
@@ -296,7 +306,9 @@ public class MapCreator : MonoBehaviour
         {
             Destroy(g);
         }
-        placedHedges.Clear();
-        route.Clear();
+        this.placedHedges.Clear();
+        this.route.Clear();
+        this.collisionPoints.Clear();
+        this.visualiser.DeleteAllSpheres();
     }
 }

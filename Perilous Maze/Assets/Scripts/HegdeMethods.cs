@@ -84,5 +84,50 @@ namespace HedgeMethods
                 return false;
             }
         }
+
+        public static Vector3[] SetArraysEqual(Vector3[] array1, Vector3[] array2)
+        {
+            for (int i = 0; i < array1.Length; i++)
+            {
+                {
+                    array2[i] = array1[i];
+                }
+            }
+            return array2;
+        }
+    }
+
+    public class Visualiser : MonoBehaviour
+    {
+        private List<GameObject> spheres;
+
+        public void VisualisePoints(Vector3[] points)
+        {
+            spheres = new List<GameObject>();
+            foreach (Vector3 point in points)
+            {
+                CreateSphere(point);
+            }
+        }
+
+        public void CreateSphere(Vector3 position)
+        {
+            GameObject newSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            newSphere.transform.position = position;
+            newSphere.transform.localScale = new Vector3((float)0.3, (float)0.3, (float)0.3);
+            spheres.Add(newSphere);
+        }
+
+        public void DeleteAllSpheres()
+        {
+            if (this.spheres != null)
+            {
+                foreach (GameObject sphere in this.spheres)
+                {
+                    Destroy(sphere);
+                }
+            }
+
+        }
     }
 }

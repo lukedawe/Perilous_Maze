@@ -9,6 +9,7 @@ interface IHedge
     Vector3 offset { get; set; }
     bool WillGoOffMap(Vector3 position, int mapSize);
     void Constructor(int rotation, Vector3 position, int xRotation);
-    Vector3[] points{get; set;}
-    
+    Vector3[] connectorPoints { get; set; }
+    Vector3[] collisionPoints { get; set; }
+
 }
