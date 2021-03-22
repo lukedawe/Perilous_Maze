@@ -44,6 +44,7 @@ public class MapCreator : MonoBehaviour
         int counter = 0;
         bool routeFound;
         visualiser = new Visualiser();
+        visualiser.Constructor();
 
         do
         {
@@ -66,21 +67,30 @@ public class MapCreator : MonoBehaviour
         int collisions = 0;
         foreach (Vector3 point in hedgeComponent.collisionPoints)
         {
-            collisions = 0;
             foreach (Vector3 collisionPoint in this.collisionPoints)
             {
                 if (point == collisionPoint)
                 {
                     collisions++;
+                    visualiser.CreateBigSphere(point);
+                }
+                if (collisions > 2)
+                {
+                    Debug.Log("<color='orange'> more than 1 collision " + point + "</color>");
+                    Debug.Log("=============================================");
+                    visualiser.CreateBigBlackSphere(point);
                 }
             }
-            // if the point has been used more than once (once because it needs to be connected to the last piece)
-            if (collisions > 1)
-            {
-                Debug.Log("<color='orange'> Collisions: " + collisions + " on point: " + point + "</color>");
-                return true;
-            }
+
         }
+
+        // if the point has been used more than once (once because it needs to be connected to the last piece)
+        if (collisions > 2)
+        {
+            // this is for testing purposes
+            return true;
+        }
+
 
         return false;
     }

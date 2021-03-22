@@ -29,9 +29,10 @@ public class StraightHedge : MonoBehaviour, IHedge
         this.connectorPoints[0] = position;
         this.connectorPoints[1] = position + this.offset;
 
-        this.collisionPoints[0] = position;
-        this.collisionPoints[1] = position + (this.offset / 2);
-        this.collisionPoints[2] = position - (this.offset / 2);
+        this.collisionPoints[0] = position - (this.offset / 2);
+        this.collisionPoints[1] = position;
+        this.collisionPoints[2] = position + (this.offset / 2);
+        
 
         this.GetComponent<LineRenderer>().SetPositions(connectorPoints);
         
