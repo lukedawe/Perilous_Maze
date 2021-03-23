@@ -38,7 +38,7 @@ public class TurnHedge : MonoBehaviour, IHedge
         this.connectorPoints[2] = initialPosition + this.offset;
 
         this.GetComponent<LineRenderer>().SetPositions(connectorPoints);
-        VectorMaths.SetArraysEqual(this.connectorPoints, this.collisionPoints);
+        this.collisionPoints = VectorMaths.SetArraysEqual(this.connectorPoints, this.collisionPoints);
 
         this.collisionPoints[3] = initialPosition + VectorMaths.CalculateOffset(rotation, 1, 0);
         this.collisionPoints[4] = initialPosition + VectorMaths.CalculateOffset(rotation, 2, 0);

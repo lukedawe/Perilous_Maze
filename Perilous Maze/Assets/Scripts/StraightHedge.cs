@@ -19,7 +19,7 @@ public class StraightHedge : MonoBehaviour, IHedge
     public void Constructor(int rotation, Vector3 position, int xRotation = 0)
     {
         this.connectorPoints = new Vector3[2];
-        this.collisionPoints = new Vector3[3];
+        this.collisionPoints = new Vector3[4];
 
         int x = 2;
         int z = 0;
@@ -32,8 +32,8 @@ public class StraightHedge : MonoBehaviour, IHedge
         this.collisionPoints[0] = position - (this.offset / 2);
         this.collisionPoints[1] = position;
         this.collisionPoints[2] = position + (this.offset / 2);
+        this.collisionPoints[3] = position + this.offset;
         
-
         this.GetComponent<LineRenderer>().SetPositions(connectorPoints);
         
     }
