@@ -46,7 +46,7 @@ public class MapCreator : MonoBehaviour
             int startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
             Vector3 start = new Vector3(1, 0.5f, startZCoord);
             resetMap();
-            routeFound = RouteFinder(start);
+            routeFound = RouteFinder(start, 0, true);
             counter++;
             visualiser.VisualisePoints(this.collisionPoints.ToArray());
             if (counter == 100)
@@ -58,7 +58,9 @@ public class MapCreator : MonoBehaviour
 
         foreach ((Vector3, int) branch in this.Branches)
         {
-            BranchOut(branch);
+            (Vector3 position, int angle) = branch;
+            Debug.Log(position + "  " + angle);
+            RouteFinder(position, angle, false);
         }
     }
 
@@ -116,11 +118,12 @@ public class MapCreator : MonoBehaviour
         {
             UpdateLists(position, newCoords, hedgeComponent, newHedge);
         }
+        // if the hedge won't go off the map, return
         return (newCoords, hedgeCreated, false);
     }
 
     // returns the new point to add the next piece to, whether the hedge was placed and whether the end has been found 
-    private (Vector3, bool, bool) CreateCrossroads(Vector3 position, GameObject hedge, ICrossRoads hedgeComponent, int newAngle, int yRotation, int xRotation = 0)
+    private (Vector3, bool, bool) CreateCrossroads(Vector3 position, GameObject hedge, ICrossRoads hedgeComponent, int newAngle, int yRotation, bool addCrossroadsToList = true, int xRotation = 0)
     {
         bool hedgeCreated = false;
         hedgeComponent.CrossRoadConstructor(position, yRotation, newAngle);
@@ -146,7 +149,10 @@ public class MapCreator : MonoBehaviour
         if (hedgeCreated)
         {
             UpdateLists(position, newCoords, hedgeComponent, newHedge);
-            this.Branches.AddRange(newHedge.GetComponent<ICrossRoads>().Branches);
+            if (addCrossroadsToList)
+            {
+                this.Branches.AddRange(hedgeComponent.Branches);
+            }
         }
         // this isn't right (for testing)
         return (newCoords, hedgeCreated, false);
@@ -166,15 +172,19 @@ public class MapCreator : MonoBehaviour
         return plane;
     }
 
-    public bool RouteFinder(Vector3 start)
+    public bool RouteFinder(Vector3 start, int angle, bool initialRoute)
     {
-        // add a wall to the starting position
-        CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>(), 0);
-        Vector3 next = new Vector3(3, 0.5f, start.z);
+        Vector3 next = start;
+        if (initialRoute)
+        {
+            // add a wall to the starting position
+            CreateHedge(start, mazePieces[0], mazePieces[0].GetComponent<StraightHedge>(), 0);
+            next = new Vector3(3, 0.5f, start.z);
+        }
 
         // we are starting our journey between -19 and 19.
         bool endFound = false;
-        int currentAngle = 0;
+        int currentAngle = angle;
         int counter = 0;
         // current position to add the maze piece to
         Vector3 currentPos = next;
@@ -245,7 +255,7 @@ public class MapCreator : MonoBehaviour
                         {
                             case 0:
                                 // to go right
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 90, currentAngle);
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 90, currentAngle, initialRoute);
                                 if (hedgeCreated)
                                 {
                                     currentAngle = (currentAngle + 90) % 360;
@@ -254,7 +264,7 @@ public class MapCreator : MonoBehaviour
                                 break;
                             case 1:
                                 // otherwise, head left
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), -90, currentAngle);
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), -90, currentAngle, initialRoute);
                                 if (hedgeCreated)
                                 {
                                     currentAngle = (currentAngle - 90) % 360;
@@ -263,7 +273,7 @@ public class MapCreator : MonoBehaviour
                                 break;
                             case 2:
                                 // or go straight on
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 0, currentAngle);
+                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 0, currentAngle, initialRoute);
                                 if (hedgeCreated)
                                 {
                                     currentPos = nextPos;
@@ -283,7 +293,7 @@ public class MapCreator : MonoBehaviour
                 return false;
             }
         }
-        if (counter >= mapSize)
+        if (counter >= mapSize && initialRoute)
         {
             CreatePrefab(environmentAssets[0], currentPos, currentAngle);
             return true;
@@ -316,117 +326,7 @@ public class MapCreator : MonoBehaviour
         this.route.Clear();
         this.collisionPoints.Clear();
         this.collisionPointArrayList.Clear();
+        this.Branches.Clear();
         GetComponent<Visualiser>().DeleteAllSpheres();
-    }
-
-    public void BranchOut((Vector3, int) branch)
-    {
-        (Vector3 position, int currentAngle) = branch;
-        // we are starting our journey between -19 and 19.
-        bool endFound = false;
-        // current position to add the maze piece to
-        Vector3 currentPos = position;
-        int rightCooldown = 0;
-        int leftCooldown = 0;
-        int crossroadsCooldown = 0;
-        bool hedgeCreated = false;
-        // next position to add the maze piece to
-        Vector3 nextPos;
-        // we need to decide which way we are going to send the player.
-
-        while (!endFound)
-        {
-            // we have a 40/40 plane in which to make the path
-            // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
-            int random = Random.Range(0, mazePieces.Count);
-            GameObject selectedPiece = mazePieces[random];
-            switch (random)
-            {
-                case 0:
-
-                    (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<StraightHedge>(), currentAngle);
-                    if (hedgeCreated)
-                    {
-                        rightCooldown--;
-                        leftCooldown--;
-                        crossroadsCooldown--;
-                        currentPos = nextPos;
-                    }
-                    break;
-                case 1:
-                    int randomDirection = Random.Range(0, 2);
-
-                    // if the random direction selected is right
-                    if (randomDirection == 0 && rightCooldown <= 0)
-                    {
-
-                        (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle);
-                        if (hedgeCreated)
-                        {
-                            currentAngle = (currentAngle + 90) % 360;
-                            rightCooldown = this.Cooldown;
-                            leftCooldown--;
-                            crossroadsCooldown--;
-                            currentPos = nextPos;
-                        }
-                    }
-                    // otherwise, head left
-                    else if (leftCooldown <= 0)
-                    {
-
-                        (nextPos, hedgeCreated, endFound) = CreateHedge(currentPos, selectedPiece, selectedPiece.GetComponent<TurnHedge>(), currentAngle, 180);
-                        if (hedgeCreated)
-                        {
-                            currentAngle = (currentAngle - 90) % 360;
-                            leftCooldown = this.Cooldown;
-                            rightCooldown--;
-                            crossroadsCooldown--;
-                            currentPos = nextPos;
-                        }
-                    }
-                    break;
-                case 2:
-
-                    if (crossroadsCooldown <= 0)
-                    {
-                        int randomCrossRoadsDirection = Random.Range(0, 3);
-                        switch (randomCrossRoadsDirection)
-                        {
-                            case 0:
-                                // to go right
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 90, currentAngle);
-                                if (hedgeCreated)
-                                {
-                                    currentAngle = (currentAngle + 90) % 360;
-                                    currentPos = nextPos;
-                                }
-                                break;
-                            case 1:
-                                // otherwise, head left
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), -90, currentAngle);
-                                if (hedgeCreated)
-                                {
-                                    currentAngle = (currentAngle - 90) % 360;
-                                    currentPos = nextPos;
-                                }
-                                break;
-                            case 2:
-                                // or go straight on
-                                (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, selectedPiece, selectedPiece.GetComponent<FourWayHedge>(), 0, currentAngle);
-                                if (hedgeCreated)
-                                {
-                                    currentPos = nextPos;
-                                }
-                                break;
-                        }
-                        crossroadsCooldown = this.CrossRoadsCooldown;
-                        rightCooldown--;
-                        leftCooldown--;
-                    }
-
-                    break;
-            }
-
-        }
     }
 }
