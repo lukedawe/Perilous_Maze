@@ -13,7 +13,12 @@ public class StraightHedge : MonoBehaviour, IHedge
     // returns whether a point will fall off the map
     public bool WillGoOffMap(Vector3 position, int mapSize)
     {
-        return !VectorMaths.IsPointInsideRange(position, mapSize);
+        foreach(Vector3 point in this.collisionPoints){
+            if(!VectorMaths.IsPointInsideRange(position, mapSize)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Constructor(int rotation, Vector3 position, int xRotation = 0)

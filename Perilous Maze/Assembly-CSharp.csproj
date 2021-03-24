@@ -44,6 +44,12 @@
      <Compile Include="Assets\Scripts\FourWayHedge.cs" />
      <Compile Include="Assets\Visualiser.cs" />
      <Compile Include="Assets\Scripts\MapCreator.cs" />
+     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\DemoFree.cs" />
+     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\FreeCameraLogic.cs" />
+     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleSampleCharacterControl.cs" />
+     <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\Legacy\CelShader.shader" />
+     <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShader.shader" />
+     <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShaderLighting.cginc" />
     <Reference Include="UnityEngine">
         <HintPath>/home/luke/Unity/Hub/Editor/2020.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

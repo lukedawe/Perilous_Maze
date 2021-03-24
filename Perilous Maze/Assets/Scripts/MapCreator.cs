@@ -24,6 +24,9 @@ public class MapCreator : MonoBehaviour
     private List<(ICrossRoads, Vector3, int)> Branches = new List<(ICrossRoads, Vector3, int)>();
     private ICrossRoads currentBranch;
     private bool routeFound;
+    public Material Material;
+    public GameObject MainCharacter;
+    private Vector3 SpawnPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -39,15 +42,17 @@ public class MapCreator : MonoBehaviour
         this.map = this.CreatePlane(new Vector3Int(this.mapSize, 0, 0));
         // This means that we have squares that are mapSize/5
         map.transform.localScale = new Vector3Int((this.mapSize / 5), 1, (this.mapSize / 5));
+        map.GetComponent<MeshRenderer>().material = this.Material;
+
         int counter = 0;
         visualiser.Constructor();
 
         do
         {
             int startZCoord = Random.Range(-(mapSize - 1), mapSize - 1);
-            Vector3 start = new Vector3(1, 0.5f, startZCoord);
+            SpawnPoint = new Vector3(1, 0.5f, startZCoord);
             ResetMap();
-            routeFound = RouteFinder(start, 0, false);
+            routeFound = RouteFinder(SpawnPoint, 0, false);
             counter++;
 
             if (counter == 100)
@@ -70,6 +75,10 @@ public class MapCreator : MonoBehaviour
         // {
         //     visualiser.VisualisePoints(hedge.GetComponent<IHedge>().collisionPoints);
         // }
+
+        MakeEdgeHedges();
+
+        CreatePrefab(MainCharacter, SpawnPoint, 90);
     }
 
     private bool WillCollide(IHedge hedgeComponent, IHedge allowedCollisionPiece)
@@ -367,8 +376,17 @@ public class MapCreator : MonoBehaviour
         // GetComponent<Visualiser>().DeleteAllSpheres();
     }
 
-    public void MakeEdgeHedge()
+    public void MakeEdgeHedges()
     {
-        return;
+        for (int z = -mapSize; z <= mapSize; z += 2)
+        {
+            CreatePrefab(edgePieces[0], new Vector3(0, (float)0.5, z), 90);
+            CreatePrefab(edgePieces[0], new Vector3(mapSize * 2, (float)0.5, z), 90);
+        }
+        for (int x = 0; x <= mapSize * 2; x += 2)
+        {
+            CreatePrefab(edgePieces[0], new Vector3(x, (float)0.5, -mapSize), 0);
+            CreatePrefab(edgePieces[0], new Vector3(x, (float)0.5, mapSize), 0);
+        }
     }
 }
