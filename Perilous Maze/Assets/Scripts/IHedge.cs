@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HedgeMethods;
 
-interface IHedge
+public interface IHedge
 {
     // to work out if the hedge will collide with anything if it is placed at a certain point
     Vector3 offset { get; set; }

@@ -10,7 +10,7 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
     public Vector3[] collisionPoints { get; set; }
     public string word { get; set; }
     public Vector3 TransformCorrection { get; set; }
-    public (Vector3, int)[] Branches { get; set; } = new (Vector3, int)[2];
+    public (ICrossRoads, Vector3, int)[] Branches { get; set; } = new (ICrossRoads, Vector3, int)[2];
 
     // returns whether a point will fall off the map
     public bool WillGoOffMap(Vector3 position, int mapSize)
@@ -44,8 +44,8 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
                 this.connectorPoints[1] = initialPosition + this.offset;
                 this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
                 this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
-                this.Branches[0] = (initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0), currentRotation);
-                this.Branches[1] = (initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z)), currentRotation+90);
+                this.Branches[0] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0), currentRotation);
+                this.Branches[1] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z)), currentRotation + 90);
 
                 break;
             // straight on
@@ -56,8 +56,8 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
                 this.connectorPoints[1] = initialPosition + this.offset;
                 this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
                 this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, z);
-                this.Branches[0] = (initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z)), currentRotation+90);
-                this.Branches[1] = (initialPosition + VectorMaths.CalculateOffset(currentRotation, x, z), currentRotation-90);
+                this.Branches[0] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z)), currentRotation + 90);
+                this.Branches[1] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, x, z), currentRotation - 90);
 
                 break;
             // to the right
@@ -69,8 +69,8 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
                 this.connectorPoints[1] = initialPosition + this.offset;
                 this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
                 this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
-                this.Branches[0] = (initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0), currentRotation);
-                this.Branches[1] = (initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z)), currentRotation-90);
+                this.Branches[0] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0), currentRotation);
+                this.Branches[1] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z)), currentRotation - 90);
 
 
                 break;

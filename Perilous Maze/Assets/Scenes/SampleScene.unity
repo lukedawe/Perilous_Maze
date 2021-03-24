@@ -340,7 +340,7 @@ MonoBehaviour:
   - {fileID: 1121113006719782, guid: 386f40ad68cdd3c4fbcb471ef2d93772, type: 3}
   mapSize: 100
   Cooldown: 7
-  CrossRoadsCooldown: 6
+  CrossRoadsCooldown: 13
 --- !u!4 &1691068176
 Transform:
   m_ObjectHideFlags: 0
