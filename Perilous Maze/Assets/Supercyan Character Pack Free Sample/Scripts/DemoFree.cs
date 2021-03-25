@@ -5,7 +5,7 @@ public class DemoFree : MonoBehaviour
 
     private readonly string[] m_animations = { "Pickup", "Wave" };
     private Animator[] m_animators = null;
-    [SerializeField] private FreeCameraLogic m_cameraLogic = null;
+    [SerializeField] private CameraBehaviour m_cameraLogic = null;
 
     private void Start()
     {

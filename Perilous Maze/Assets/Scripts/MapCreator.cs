@@ -78,7 +78,9 @@ public class MapCreator : MonoBehaviour
 
         MakeEdgeHedges();
 
-        CreatePrefab(MainCharacter, SpawnPoint, 90);
+        GameObject newMainCharacter = CreatePrefab(MainCharacter, SpawnPoint, 90);
+        GameObject cameraReference = GameObject.Find("Main Camera");
+        cameraReference.GetComponent<CameraBehaviour>().CameraStart(MainCharacter);
     }
 
     private bool WillCollide(IHedge hedgeComponent, IHedge allowedCollisionPiece)
@@ -131,6 +133,11 @@ public class MapCreator : MonoBehaviour
         {
             edgeFound = true;
         }
+        // else if (WillCollide(hedgeComponent, allowedCollisionPiece) && routeFound)
+        // {
+        //     GameObject endHedge = CreatePrefab(this.mazePieces[mazePieces.Count - 1], position, yRotation);
+        //     CreateHedge(position, endHedge, endHedge.GetComponent<EndOfRouteHedge>(), yRotation, allowedCollisionPiece);
+        // }
 
         if (hedgeCreated)
         {
@@ -164,6 +171,11 @@ public class MapCreator : MonoBehaviour
         {
             edgeFound = true;
         }
+        // else if (WillCollide(hedgeComponent, allowedCollisionPiece) && routeFound)
+        // {
+        //     GameObject endHedge = CreatePrefab(this.mazePieces[mazePieces.Count - 1], position, yRotation);
+        //     CreateHedge(position, endHedge, endHedge.GetComponent<EndOfRouteHedge>(), yRotation, allowedCollisionPiece);
+        // }
 
         // this doesn't entirely work for things that have more than 2 points
         if (hedgeCreated)
@@ -227,7 +239,7 @@ public class MapCreator : MonoBehaviour
 
             // we have a 40/40 plane in which to make the path
             // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
-            int random = Random.Range(0, mazePieces.Count);
+            int random = Random.Range(0, mazePieces.Count - 1);
             GameObject selectedPiece = mazePieces[random];
             GameObject newHedge;
             IHedge allowedCollisionHedge;
