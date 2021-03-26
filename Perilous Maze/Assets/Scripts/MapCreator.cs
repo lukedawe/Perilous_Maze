@@ -123,8 +123,9 @@ public class MapCreator : MonoBehaviour
         hedgeComponent.Constructor(yRotation, position, xRotation);
         Vector3 newCoords = position + hedgeComponent.offset;
         bool edgeFound = false;
+        bool willCollide = WillCollide(hedgeComponent, allowedCollisionPiece);
 
-        if (!WillCollide(hedgeComponent, allowedCollisionPiece) && !hedgeComponent.WillGoOffMap(position, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
+        if (!willCollide && !hedgeComponent.WillGoOffMap(position, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
         {
             hedgeCreated = true;
         }
@@ -133,11 +134,6 @@ public class MapCreator : MonoBehaviour
         {
             edgeFound = true;
         }
-        // else if (WillCollide(hedgeComponent, allowedCollisionPiece) && routeFound)
-        // {
-        //     GameObject endHedge = CreatePrefab(this.mazePieces[mazePieces.Count - 1], position, yRotation);
-        //     CreateHedge(position, endHedge, endHedge.GetComponent<EndOfRouteHedge>(), yRotation, allowedCollisionPiece);
-        // }
 
         if (hedgeCreated)
         {
@@ -146,6 +142,12 @@ public class MapCreator : MonoBehaviour
         else
         {
             Destroy(hedge);
+            if (willCollide && routeFound)
+            {
+                GameObject endHedge = CreatePrefab(this.mazePieces[mazePieces.Count - 1], position, yRotation);
+                endHedge.GetComponent<EndOfRouteHedge>().Constructor(yRotation, position);
+                endHedge.transform.position = position + endHedge.GetComponent<EndOfRouteHedge>().transformCorrection;
+            }
         }
         // if the hedge won't go off the map, return
         return (newCoords, hedgeCreated, edgeFound);
@@ -159,9 +161,10 @@ public class MapCreator : MonoBehaviour
         hedge.transform.position += hedgeComponent.TransformCorrection;
         bool edgeFound = false;
         Vector3 newCoords = position + hedgeComponent.offset;
+        bool willCollide = WillCollide(hedgeComponent, allowedCollisionPiece);
 
         // WillCollide does not work for hedges with lots of points yet (this might be because this.PlacedHedges does not account for all points)
-        if (!WillCollide(hedgeComponent, allowedCollisionPiece) && !hedgeComponent.WillGoOffMap(position, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
+        if (!willCollide && !hedgeComponent.WillGoOffMap(position, this.mapSize) && !hedgeComponent.WillGoOffMap((position + hedgeComponent.offset), this.mapSize))
         {
             // the angle does not matter for these prefabs
             hedgeCreated = true;
@@ -171,11 +174,6 @@ public class MapCreator : MonoBehaviour
         {
             edgeFound = true;
         }
-        // else if (WillCollide(hedgeComponent, allowedCollisionPiece) && routeFound)
-        // {
-        //     GameObject endHedge = CreatePrefab(this.mazePieces[mazePieces.Count - 1], position, yRotation);
-        //     CreateHedge(position, endHedge, endHedge.GetComponent<EndOfRouteHedge>(), yRotation, allowedCollisionPiece);
-        // }
 
         // this doesn't entirely work for things that have more than 2 points
         if (hedgeCreated)
@@ -189,6 +187,12 @@ public class MapCreator : MonoBehaviour
         else
         {
             Destroy(hedge);
+            if (willCollide && routeFound)
+            {
+                GameObject endHedge = CreatePrefab(this.mazePieces[mazePieces.Count - 1], position, yRotation);
+                endHedge.GetComponent<EndOfRouteHedge>().Constructor(yRotation, position);
+                endHedge.transform.position = position + endHedge.GetComponent<EndOfRouteHedge>().transformCorrection;
+            }
         }
         // this isn't right (for testing)
         return (newCoords, hedgeCreated, edgeFound);

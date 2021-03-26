@@ -41,7 +41,6 @@ public class CameraBehaviour : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Log("running late");
         if (m_currentTarget == null) { return; }
 
         float targetHeight = m_currentTarget.position.y + m_height;

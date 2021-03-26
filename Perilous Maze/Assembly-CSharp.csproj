@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\EndOfRouteHedge.cs" />
      <Compile Include="Assets\Scripts\StraightHedge.cs" />
      <Compile Include="Assets\Scripts\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\HegdeMethods.cs" />
@@ -47,7 +48,6 @@
      <Compile Include="Assets\Scripts\Visualiser.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\MapCreator.cs" />
-     <Compile Include="Assets\Scripts\EndOfRouteHedge.cs" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\Legacy\CelShader.shader" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShader.shader" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShaderLighting.cginc" />
