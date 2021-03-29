@@ -8,6 +8,9 @@ public class CameraBehaviour : MonoBehaviour
     public float m_distance;
     public float m_height;
     public float m_lookAtAroundAngle;
+    public float m_lookAtAroundXAngle;
+    public float m_lookAtAroundZAngle;
+
     public List<Transform> m_targets = null;
     private int m_currentIndex = 0;
 
@@ -43,14 +46,16 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (m_currentTarget == null) { return; }
 
+        Debug.Log(m_currentTarget.position);
+
         float targetHeight = m_currentTarget.position.y + m_height;
         float currentRotationAngle = m_lookAtAroundAngle;
 
-        Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+        Quaternion currentRotation = Quaternion.Euler(m_lookAtAroundXAngle, currentRotationAngle, m_lookAtAroundZAngle);
 
         Vector3 position = m_currentTarget.position;
         position -= currentRotation * Vector3.forward * m_distance;
-        position.y = targetHeight;
+        position.y = /*targetHeight*/20;
 
         transform.position = position;
         transform.LookAt(m_currentTarget.position + new Vector3(0, m_height, 0));

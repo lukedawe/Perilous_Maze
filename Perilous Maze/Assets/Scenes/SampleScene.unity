@@ -312,9 +312,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b4faf40b73715d4a839d1c7d0575267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_distance: 10
-  m_height: 20
-  m_lookAtAroundAngle: 50
+  m_distance: 30
+  m_height: 1
+  m_lookAtAroundAngle: 45
+  m_lookAtAroundXAngle: 45
+  m_lookAtAroundZAngle: 0
   m_targets: []
 --- !u!1 &1691068174
 GameObject:
