@@ -45,6 +45,7 @@
      <Compile Include="Assets\Scripts\Map Maker\ICrossRoads.cs" />
      <Compile Include="Assets\Scripts\Enemy\Patrol.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\DemoFree.cs" />
+     <Compile Include="Assets\Scripts\Map Maker\MapMaintainer.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleSampleCharacterControl.cs" />
      <Compile Include="Assets\Scripts\Enemy\StatePicker.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerWorldInteraction.cs" />
@@ -52,7 +53,6 @@
      <Compile Include="Assets\Scripts\Map Maker\Visualiser.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
-     <Compile Include="Assets\Scripts\Map Maker\MapMaintainer.cs" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\Legacy\CelShader.shader" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShader.shader" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShaderLighting.cginc" />

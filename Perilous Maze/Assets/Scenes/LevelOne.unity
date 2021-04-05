@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 1691068176}
   - component: {fileID: 1691068175}
   - component: {fileID: 1691068177}
+  - component: {fileID: 1691068178}
   m_Layer: 0
   m_Name: Map Modifier
   m_TagString: Untagged
@@ -392,3 +393,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf80d9295a39fba98cbe9b70be2a1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1691068178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691068174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d77393020882740fdbdffa73ac5d0cc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointsGrid: []
+  Player: {fileID: 0}
+  PointClosestToPlayer: {x: 0, y: 0, z: 0}
