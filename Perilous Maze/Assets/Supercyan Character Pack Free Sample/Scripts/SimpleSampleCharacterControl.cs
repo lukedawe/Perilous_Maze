@@ -176,6 +176,10 @@ public class SimpleSampleCharacterControl : MonoBehaviour
             h *= m_walkScale;
         }
 
+        if(Input.GetKey(KeyCode.E)){
+            m_animator.SetTrigger("Pickup");
+        }
+
         m_currentV = Mathf.Lerp(m_currentV, v, Time.deltaTime * m_interpolation);
         m_currentH = Mathf.Lerp(m_currentH, h, Time.deltaTime * m_interpolation);
 

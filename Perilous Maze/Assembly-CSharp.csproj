@@ -37,13 +37,17 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Map Maker\EndOfRouteHedge.cs" />
+     <Compile Include="Assets\Scripts\Enemy\PathFinder.cs" />
      <Compile Include="Assets\Scripts\Map Maker\StraightHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\HegdeMethods.cs" />
      <Compile Include="Assets\Scripts\Map Maker\IHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\ICrossRoads.cs" />
+     <Compile Include="Assets\Scripts\Enemy\Patrol.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\DemoFree.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleSampleCharacterControl.cs" />
+     <Compile Include="Assets\Scripts\Enemy\StatePicker.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerWorldInteraction.cs" />
      <Compile Include="Assets\Scripts\Map Maker\FourWayHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\Visualiser.cs" />
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />

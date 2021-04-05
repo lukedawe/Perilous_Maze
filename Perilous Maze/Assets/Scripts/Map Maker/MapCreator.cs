@@ -27,6 +27,11 @@ public class MapCreator : MonoBehaviour
     public Material Material;
     public GameObject MainCharacter;
     private Vector3 SpawnPoint;
+    public List<GameObject> Monsters = new List<GameObject>();
+    private List<GameObject> PlacedMonsters = new List<GameObject>();
+    public int SpawnChance;
+    private List<Vector3> AllPoints = new List<Vector3>();
+    private GameObject Player;
 
     // Start is called before the first frame update
     void Start()
@@ -70,18 +75,27 @@ public class MapCreator : MonoBehaviour
             RouteFinder(position, angle, true);
         }
 
-        // foreach (GameObject hedge in this.PlacedHedges)
-        // {
-        //     visualiser.VisualisePoints(hedge.GetComponent<IHedge>().collisionPoints);
-        // }
-
         MakeEdgeHedges();
 
-        GameObject newMainCharacter = CreatePrefab(MainCharacter, SpawnPoint, 90);
-        Debug.Log(newMainCharacter.transform.position);
-        Debug.Log(newMainCharacter.transform.rotation);
+        Player = CreatePrefab(MainCharacter, SpawnPoint, 90);
         GameObject cameraReference = GameObject.Find("Main Camera");
-        cameraReference.GetComponent<CameraBehaviour>().CameraStart(newMainCharacter);
+        cameraReference.GetComponent<CameraBehaviour>().CameraStart(Player);
+
+        CreateMonsters();
+    }
+
+    private void CreateMonsters()
+    {
+        foreach ((Vector3 point1, Vector3 point2) in Route)
+        {
+            int random = Random.Range(1, 11);
+            if (random <= SpawnChance)
+            {
+                GameObject newMonster = CreatePrefab(Monsters[0], point1, 0);
+                newMonster.GetComponent<PathFinder>().Constructor(AllPoints, Player);
+                PlacedMonsters.Add(newMonster);
+            }
+        }
     }
 
     private bool WillCollide(IHedge hedgeComponent, IHedge allowedCollisionPiece)
@@ -204,6 +218,7 @@ public class MapCreator : MonoBehaviour
         this.Route.Add((position, newCoords));
         this.PlacedHedges.Add(newHedge);
         this.IHedgeList.Add(hedgeComponent);
+        AllPoints.AddRange(hedgeComponent.collisionPoints);
     }
 
     public GameObject CreatePlane(Vector3Int position)

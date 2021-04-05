@@ -4,60 +4,60 @@ using UnityEngine;
 public class CameraBehaviour : MonoBehaviour
 {
 
-    private Transform m_currentTarget = null;
-    public float m_distance;
-    public float m_height;
-    public float m_lookAtAroundAngle;
-    public float m_lookAtAroundXAngle;
-    public float m_lookAtAroundZAngle;
+    private Transform currentTarget = null;
+    public float cameraDistance;
+    public float cameraHeight;
+    public float lookAroundAngle;
+    public float lookAtAroundXAngle;
+    public float lookAtAroundZAngle;
 
-    public List<Transform> m_targets = null;
-    private int m_currentIndex = 0;
+    public List<Transform> cameraTargets = null;
+    private int currentIndex = 0;
 
     public void CameraStart(GameObject mainCharacter)
     {
-        this.m_targets.Add(mainCharacter.transform);
+        this.cameraTargets.Add(mainCharacter.transform);
 
-        if (m_targets.Count > 0)
+        if (cameraTargets.Count > 0)
         {
-            m_currentIndex = 0;
-            m_currentTarget = m_targets[m_currentIndex];
+            currentIndex = 0;
+            currentTarget = cameraTargets[currentIndex];
         }
     }
 
-    private void SwitchTarget(int step)
+    private void ChangeCameraTarget(int step)
     {
-        if (m_targets.Count == 0) { return; }
-        m_currentIndex += step;
-        if (m_currentIndex > m_targets.Count - 1) { m_currentIndex = 0; }
-        if (m_currentIndex < 0) { m_currentIndex = m_targets.Count - 1; }
-        m_currentTarget = m_targets[m_currentIndex];
+        if (cameraTargets.Count == 0) { return; }
+        currentIndex += step;
+        if (currentIndex > cameraTargets.Count - 1) { currentIndex = 0; }
+        if (currentIndex < 0) { currentIndex = cameraTargets.Count - 1; }
+        currentTarget = cameraTargets[currentIndex];
     }
 
-    public void NextTarget() { SwitchTarget(1); }
-    public void PreviousTarget() { SwitchTarget(-1); }
+    public void NextTarget() { ChangeCameraTarget(1); }
+    public void PreviousTarget() { ChangeCameraTarget(-1); }
 
     private void Update()
     {
-        if (m_targets.Count == 0) { return; }
+        if (cameraTargets.Count == 0) { return; }
     }
 
     private void LateUpdate()
     {
-        if (m_currentTarget == null) { return; }
+        if (currentTarget == null) { return; }
 
-        Debug.Log(m_currentTarget.position);
+        Debug.Log(currentTarget.position);
 
-        float targetHeight = m_currentTarget.position.y + m_height;
-        float currentRotationAngle = m_lookAtAroundAngle;
+        float targetHeight = currentTarget.position.y + cameraHeight;
+        float currentRotationAngle = lookAroundAngle;
 
-        Quaternion currentRotation = Quaternion.Euler(m_lookAtAroundXAngle, currentRotationAngle, m_lookAtAroundZAngle);
+        Quaternion currentRotation = Quaternion.Euler(lookAtAroundXAngle, currentRotationAngle, lookAtAroundZAngle);
 
-        Vector3 position = m_currentTarget.position;
-        position -= currentRotation * Vector3.forward * m_distance;
+        Vector3 position = currentTarget.position;
+        position -= currentRotation * Vector3.forward * cameraDistance;
         position.y = /*targetHeight*/20;
 
         transform.position = position;
-        transform.LookAt(m_currentTarget.position + new Vector3(0, m_height, 0));
+        transform.LookAt(currentTarget.position + new Vector3(0, cameraHeight, 0));
     }
 }
