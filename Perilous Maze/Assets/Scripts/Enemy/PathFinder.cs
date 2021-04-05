@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HedgeMethods;
 
 public class PathFinder : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class PathFinder : MonoBehaviour
     private GameObject Player;
     public List<List<Vector3>> RoutesToPlayer;
     private List<Vector3> VisitedPoints;
+    public MapMaintainer MapMaintainer;
 
-    void FixedUpdate()
+    void Update()
     {
         RoutesToPlayer = new List<List<Vector3>>();
         VisitedPoints = new List<Vector3>();
@@ -22,29 +24,15 @@ public class PathFinder : MonoBehaviour
     {
         this.PointsGrid = points;
         this.Player = player;
-    }
-
-    private Vector3 FindPointClosestToEntity(Transform t)
-    {
-        Vector3 closestPoint = new Vector3();
-        float min = (this.PointsGrid[0] - t.position).magnitude;
-        foreach (Vector3 point in this.PointsGrid)
-        {
-            float distance = (point - t.position).magnitude;
-            if (distance < min)
-            {
-                closestPoint = point;
-                min = distance;
-            }
-        }
-
-        return closestPoint;
+        MapMaintainer = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>();
     }
 
     public List<Vector3> FindFastestPath()
     {
-        ClosestPointToSelf = FindPointClosestToEntity(transform);
-        ClosestPointToPlayer = FindPointClosestToEntity(Player.transform);
+        ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, PointsGrid);
+        ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
+
+        Debug.Log(ClosestPointToPlayer + " " + ClosestPointToSelf);
 
         if (ClosestPointToPlayer == ClosestPointToSelf)
         {
@@ -59,7 +47,10 @@ public class PathFinder : MonoBehaviour
         FindAPath(ClosestPointToSelf, temp);
 
         List<Vector3> fastestRoute = new List<Vector3>();
-        int min = RoutesToPlayer[0].Count;
+        int min = 0;
+        if(RoutesToPlayer.Count > 0){
+            min = RoutesToPlayer[0].Count;
+        }
         foreach (List<Vector3> route in RoutesToPlayer)
         {
             if (route.Count < min)
@@ -74,41 +65,27 @@ public class PathFinder : MonoBehaviour
 
     public void FindAPath(Vector3 currentPoint, List<Vector3> routeToPlayer)
     {
-        Vector3 direction1 = new Vector3(0, 0, 1);
-        Vector3 direction2 = new Vector3(0, 0, -1);
-        Vector3 direction3 = new Vector3(1, 0, 0);
-        Vector3 direction4 = new Vector3(-1, 0, 0);
 
-        Debug.Log(VisitedPoints);
+        Vector3[] directions = { new Vector3(0, 0, 1), new Vector3(0, 0, -1), new Vector3(1, 0, 0), new Vector3(-1, 0, 0), };
 
-        if (currentPoint != ClosestPointToPlayer && !VisitedPoints.Contains(currentPoint))
+        if (currentPoint != ClosestPointToPlayer)
         {
             VisitedPoints.Add(currentPoint);
 
-            if (PointsGrid.Contains(currentPoint - direction1))
+            foreach (Vector3 direction in directions)
             {
-                List<Vector3> newRouteToPlayer = routeToPlayer;
-                newRouteToPlayer.Add(currentPoint - direction1);
-                FindAPath(currentPoint - direction1, newRouteToPlayer);
-            }
-            if (PointsGrid.Contains(currentPoint - direction2))
-            {
-                List<Vector3> newRouteToPlayer = routeToPlayer;
-                newRouteToPlayer.Add(currentPoint - direction2);
-                FindAPath(currentPoint - direction2, newRouteToPlayer);
-            }
-            if (PointsGrid.Contains(currentPoint - direction3))
-            {
-                List<Vector3> newRouteToPlayer = routeToPlayer;
-                newRouteToPlayer.Add(currentPoint - direction3);
-                FindAPath(currentPoint - direction3, newRouteToPlayer);
-            }
-            if (PointsGrid.Contains(currentPoint - direction4))
-            {
-                List<Vector3> newRouteToPlayer = routeToPlayer;
-                newRouteToPlayer.Add(currentPoint - direction4);
-                FindAPath(currentPoint - direction4, newRouteToPlayer);
+                if (PointsGrid.Contains(currentPoint - direction) && !VisitedPoints.Contains(currentPoint - direction))
+                {
+                    List<Vector3> newRouteToPlayer = routeToPlayer;
+                    newRouteToPlayer.Add(currentPoint - direction);
 
+                    // foreach (Vector3 vector in newRouteToPlayer)
+                    // {
+                    //     Debug.Log(vector);
+                    // }
+
+                    // FindAPath(currentPoint - direction, newRouteToPlayer);
+                }
             }
         }
         else if (currentPoint == ClosestPointToPlayer)

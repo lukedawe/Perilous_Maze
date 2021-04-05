@@ -46,8 +46,6 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (currentTarget == null) { return; }
 
-        Debug.Log(currentTarget.position);
-
         float targetHeight = currentTarget.position.y + cameraHeight;
         float currentRotationAngle = lookAroundAngle;
 

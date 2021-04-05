@@ -81,6 +81,9 @@ public class MapCreator : MonoBehaviour
         GameObject cameraReference = GameObject.Find("Main Camera");
         cameraReference.GetComponent<CameraBehaviour>().CameraStart(Player);
 
+        GetComponent<MapMaintainer>().PointsGrid = AllPoints;
+        GetComponent<MapMaintainer>().Player = Player;
+
         CreateMonsters();
     }
 
