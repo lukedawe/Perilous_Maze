@@ -89,14 +89,17 @@ public class MapCreator : MonoBehaviour
 
     private void CreateMonsters()
     {
+        // so that I can concentrate on what one monster does
+        // int counter = 0;
         foreach ((Vector3 point1, Vector3 point2) in Route)
         {
             int random = Random.Range(1, 11);
-            if (random <= SpawnChance)
+            if (random <= SpawnChance /*&& counter == 0*/)
             {
                 GameObject newMonster = CreatePrefab(Monsters[0], point1, 0);
                 newMonster.GetComponent<PathFinder>().Constructor(AllPoints, Player);
                 PlacedMonsters.Add(newMonster);
+                // counter++;
             }
         }
     }

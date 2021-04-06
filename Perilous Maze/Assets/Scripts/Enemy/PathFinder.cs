@@ -10,7 +10,6 @@ public class PathFinder : MonoBehaviour
     private Vector3 ClosestPointToPlayer;
     private GameObject Player;
     public List<List<Vector3>> RoutesToPlayer;
-    private List<Vector3> VisitedPoints;
     public MapMaintainer MapMaintainer;
     private float TimeSinceLastRun;
     [SerializeField] private int speed;
@@ -30,8 +29,9 @@ public class PathFinder : MonoBehaviour
             ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
             TimeSinceLastRun = 0;
             RoutesToPlayer = new List<List<Vector3>>();
-            VisitedPoints = new List<Vector3>();
+            FastestPath = new List<Vector3>();
             FastestPath = FindFastestPath();
+            GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
             target = FastestPath[TargetIndex];
         }
 
@@ -40,15 +40,9 @@ public class PathFinder : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target, step);
 
         // Check if the position of the cube and sphere are approximately equal.
-        if (Vector3.Distance(transform.position, target) < 0.001f)
+        if (Vector3.Distance(transform.position, target) < 0.05f)
         {
             // Swap the position of the cylinder.
-            target *= -1.0f;
-        }
-
-        // if the enemy has reached the target, change the target to the next one
-        if (transform.position == target)
-        {
             TargetIndex++;
             if (FastestPath.Count > TargetIndex)
             {
@@ -80,18 +74,24 @@ public class PathFinder : MonoBehaviour
         FindAPath(ClosestPointToSelf, temp);
 
         List<Vector3> fastestRoute = new List<Vector3>();
+        fastestRoute.AddRange(RoutesToPlayer[0]);
 
         int min = 100;
+        
         if (RoutesToPlayer.Count > 0) min = RoutesToPlayer[0].Count;
 
         foreach (List<Vector3> route in RoutesToPlayer)
         {
             if (route.Count < min)
             {
+                Debug.Log("New min: " + min);
                 min = route.Count;
-                fastestRoute = route;
+                fastestRoute.Clear();
+                fastestRoute.AddRange(route);
             }
         }
+
+        Debug.Log("RoutesToPlayer: " + RoutesToPlayer.Count + " fastest route: " + fastestRoute.Count);
 
         return fastestRoute;
     }
@@ -103,35 +103,38 @@ public class PathFinder : MonoBehaviour
 
         if (currentPoint != ClosestPointToPlayer)
         {
-            VisitedPoints.Add(currentPoint);
 
             foreach (Vector3 direction in directions)
             {
-                if (PointsGrid.Contains(currentPoint - direction) && !VisitedPoints.Contains(currentPoint - direction))
+                Vector3 newPoint = currentPoint + direction;
+                if (PointsGrid.Contains(newPoint) && !routeToPlayer.Contains(newPoint))
                 {
-                    List<Vector3> newRouteToPlayer = routeToPlayer;
-                    newRouteToPlayer.Add(currentPoint - direction);
-                    FindAPath(currentPoint - direction, newRouteToPlayer);
+                    List<Vector3> newRoute = new List<Vector3>();
+                    newRoute.AddRange(routeToPlayer);
+                    newRoute.Add(newPoint);
+                    FindAPath(newPoint, newRoute);
                 }
             }
         }
-        else if (currentPoint == ClosestPointToPlayer)
+        else
         {
             if (routeToPlayer.Count > 0)
             {
-                RoutesToPlayer.Add(routeToPlayer);
+                List<Vector3> temp = new List<Vector3>();
+                temp.AddRange(routeToPlayer);
+                RoutesToPlayer.Add(temp);
                 Debug.Log("Successfully adding route to list of routes" + RoutesToPlayer.Count);
-                Debug.Log("===========================================");
-                foreach (List<Vector3> list in RoutesToPlayer)
-                {
-                    Debug.Log("------------------------------------------");
-                    foreach (Vector3 v in list)
-                    {
-                        Debug.Log(v);
-                    }
-                    Debug.Log("------------------------------------------");
-                }
-                Debug.Log("===========================================");
+                // Debug.Log("===========================================");
+                // foreach (List<Vector3> list in RoutesToPlayer)
+                // {
+                //     Debug.Log("------------------------------------------");
+                //     foreach (Vector3 v in list)
+                //     {
+                //         Debug.Log(v);
+                //     }
+                //     Debug.Log("------------------------------------------");
+                // }
+                // Debug.Log("===========================================");
             }
         }
     }
