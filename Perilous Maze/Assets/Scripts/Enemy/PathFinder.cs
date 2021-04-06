@@ -12,7 +12,7 @@ public class PathFinder : MonoBehaviour
     public List<List<Vector3>> RoutesToPlayer;
     public MapMaintainer MapMaintainer;
     private float TimeSinceLastRun;
-    [SerializeField] private int speed;
+    [SerializeField] private float speed;
     Vector3 target;
     List<Vector3> FastestPath;
     int TargetIndex;
@@ -31,13 +31,14 @@ public class PathFinder : MonoBehaviour
             RoutesToPlayer = new List<List<Vector3>>();
             FastestPath = new List<Vector3>();
             FastestPath = FindFastestPath();
-            GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
+            // GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
             target = FastestPath[TargetIndex];
         }
 
         // Move our position a step closer to the target.
         float step = speed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, target, step);
+        transform.LookAt(target);
 
         // Check if the position of the cube and sphere are approximately equal.
         if (Vector3.Distance(transform.position, target) < 0.05f)
@@ -124,17 +125,6 @@ public class PathFinder : MonoBehaviour
                 temp.AddRange(routeToPlayer);
                 RoutesToPlayer.Add(temp);
                 Debug.Log("Successfully adding route to list of routes" + RoutesToPlayer.Count);
-                // Debug.Log("===========================================");
-                // foreach (List<Vector3> list in RoutesToPlayer)
-                // {
-                //     Debug.Log("------------------------------------------");
-                //     foreach (Vector3 v in list)
-                //     {
-                //         Debug.Log(v);
-                //     }
-                //     Debug.Log("------------------------------------------");
-                // }
-                // Debug.Log("===========================================");
             }
         }
     }
