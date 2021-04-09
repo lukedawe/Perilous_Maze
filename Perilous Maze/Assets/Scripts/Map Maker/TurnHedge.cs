@@ -4,16 +4,21 @@ using UnityEngine;
 using HedgeMethods;
 using System;
 
-public class TurnHedge : MonoBehaviour, IHedge
+public class TurnHedge : MonoBehaviour, ITurnHedge
 {
     public Vector3 offset { get; set; }
     public Vector3[] connectorPoints { get; set; }
     public Vector3[] collisionPoints { get; set; }
+    public Vector3 TurningPoint { get; set; }
+    public GameObject[] NextPieces { get; set; }
+
 
     public bool WillGoOffMap(Vector3 position, int mapSize)
     {
-        foreach(Vector3 point in this.collisionPoints){
-            if(!VectorMaths.IsPointInsideRange(position, mapSize)){
+        foreach (Vector3 point in this.collisionPoints)
+        {
+            if (!VectorMaths.IsPointInsideRange(position, mapSize))
+            {
                 return true;
             }
         }
@@ -47,12 +52,42 @@ public class TurnHedge : MonoBehaviour, IHedge
 
         this.collisionPoints[3] = initialPosition + VectorMaths.CalculateOffset(rotation, 1, 0);
         this.collisionPoints[4] = initialPosition + VectorMaths.CalculateOffset(rotation, 2, 0);
-        this.collisionPoints[5] = initialPosition + VectorMaths.CalculateOffset(rotation, 3, 0);
+
+        this.collisionPoints[5] = this.TurningPoint = initialPosition + VectorMaths.CalculateOffset(rotation, 3, 0);
 
         // if z is negative, z/4=-1, if z is positive, z/4=1
         this.collisionPoints[6] = initialPosition + VectorMaths.CalculateOffset(rotation, 4, (z / 4) * 1);
         this.collisionPoints[7] = initialPosition + VectorMaths.CalculateOffset(rotation, 4, (z / 4) * 2);
         this.collisionPoints[8] = initialPosition + VectorMaths.CalculateOffset(rotation, 4, (z / 4) * 3);
 
+    }
+
+    public void SetNextPiece(GameObject next)
+    {
+        if (this.NextPieces == null)
+        {
+            this.NextPieces = new GameObject[2];
+        }
+
+        for (int i = 0; i < this.NextPieces.Length; i++)
+        {
+            if (this.NextPieces[i] == null)
+            {
+                this.NextPieces[i] = next;
+            }
+        }
+    }
+
+    public GameObject[] GetConnections(GameObject current)
+    {
+        GameObject[] connection = new GameObject[1];
+        foreach (GameObject piece in this.NextPieces)
+        {
+            if (piece != current)
+            {
+                connection[0] = piece;
+            }
+        }
+        return connection;
     }
 }

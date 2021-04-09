@@ -8,7 +8,7 @@ public class EndOfRouteHedge : MonoBehaviour, IHedge
     public Vector3 offset { get; set; }
     public Vector3[] connectorPoints { get; set; }
     public Vector3[] collisionPoints { get; set; }
-    public Vector3 transformCorrection {get; set;}
+    public Vector3 transformCorrection { get; set; }
 
     // returns whether a point will fall off the map
     public bool WillGoOffMap(Vector3 position, int mapSize)

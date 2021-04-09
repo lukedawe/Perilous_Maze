@@ -18,8 +18,8 @@ public class MapCreator : MonoBehaviour
     private List<GameObject> PlacedHedges = new List<GameObject>();
     // stores all the data about the hedges
     private List<IHedge> IHedgeList = new List<IHedge>();
-    public int mapSize;
-    public int Cooldown;
+    [SerializeField] int mapSize;
+    [SerializeField] int Cooldown;
     public int CrossRoadsCooldown;
     private List<(ICrossRoads, Vector3, int)> Branches = new List<(ICrossRoads, Vector3, int)>();
     private ICrossRoads currentBranch;
@@ -29,9 +29,13 @@ public class MapCreator : MonoBehaviour
     private Vector3 SpawnPoint;
     public List<GameObject> Monsters = new List<GameObject>();
     private List<GameObject> PlacedMonsters = new List<GameObject>();
-    public int SpawnChance;
+    [SerializeField] int SpawnChance;
     private List<Vector3> AllPoints = new List<Vector3>();
     private GameObject Player;
+    // for the enemy to know when to turn
+    TurnHedge PreviousTurnHedge;
+    TurnHedge CurrentTurnHedge;
+    List<TurnHedge> TurnHedges = new List<TurnHedge>();
 
     // Start is called before the first frame update
     void Start()
@@ -66,8 +70,8 @@ public class MapCreator : MonoBehaviour
             }
         }
         while (!routeFound && counter < 100);
-        routeFound = true;
 
+        routeFound = true;
         foreach ((ICrossRoads, Vector3, int) branch in this.Branches)
         {
             (ICrossRoads branchHedge, Vector3 position, int angle) = branch;
@@ -83,6 +87,7 @@ public class MapCreator : MonoBehaviour
 
         GetComponent<MapMaintainer>().PointsGrid = AllPoints;
         GetComponent<MapMaintainer>().Player = Player;
+        GetComponent<MapDecorator>().Constructor(mapSize);
 
         CreateMonsters();
     }
@@ -90,16 +95,16 @@ public class MapCreator : MonoBehaviour
     private void CreateMonsters()
     {
         // so that I can concentrate on what one monster does
-        // int counter = 0;
+        int counter = 0;
         foreach ((Vector3 point1, Vector3 point2) in Route)
         {
             int random = Random.Range(1, 11);
-            if (random <= SpawnChance /*&& counter == 0*/)
+            if (random <= SpawnChance && counter < mapSize / 10)
             {
                 GameObject newMonster = CreatePrefab(Monsters[0], point1, 0);
                 newMonster.GetComponent<PathFinder>().Constructor(AllPoints, Player);
                 PlacedMonsters.Add(newMonster);
-                // counter++;
+                counter++;
             }
         }
     }
@@ -259,12 +264,8 @@ public class MapCreator : MonoBehaviour
         // next position to add the maze piece to
         Vector3 nextPos = new Vector3();
 
-        // we need to decide which way we are going to send the player.
         while (!endFound)
         {
-
-            // we have a 40/40 plane in which to make the path
-            // we have a hedge that goes 2 blocks forward OR one that goes 6 forward and 5 right.
             int random = Random.Range(0, mazePieces.Count - 1);
             GameObject selectedPiece = mazePieces[random];
             GameObject newHedge;
@@ -306,6 +307,9 @@ public class MapCreator : MonoBehaviour
                             rightCooldown = this.Cooldown;
                             leftCooldown--;
                             crossroadsCooldown--;
+                            this.TurnHedges.Add(newHedge.GetComponent<TurnHedge>());
+                            this.PreviousTurnHedge = CurrentTurnHedge;
+                            this.CurrentTurnHedge = newHedge.GetComponent<TurnHedge>();
                         }
                     }
                     // otherwise, head left
@@ -319,6 +323,9 @@ public class MapCreator : MonoBehaviour
                             leftCooldown = this.Cooldown;
                             rightCooldown--;
                             crossroadsCooldown--;
+                            this.TurnHedges.Add(newHedge.GetComponent<TurnHedge>());
+                            this.PreviousTurnHedge = CurrentTurnHedge;
+                            this.CurrentTurnHedge = newHedge.GetComponent<TurnHedge>();
                         }
                     }
                     break;
@@ -336,6 +343,9 @@ public class MapCreator : MonoBehaviour
                                 if (hedgeCreated)
                                 {
                                     currentAngle = (currentAngle + 90) % 360;
+                                    this.TurnHedges.Add(newHedge.GetComponent<TurnHedge>());
+                                    this.PreviousTurnHedge = CurrentTurnHedge;
+                                    this.CurrentTurnHedge = newHedge.GetComponent<TurnHedge>();
                                 }
                                 break;
                             case 1:
@@ -344,11 +354,20 @@ public class MapCreator : MonoBehaviour
                                 if (hedgeCreated)
                                 {
                                     currentAngle = (currentAngle - 90) % 360;
+                                    this.TurnHedges.Add(newHedge.GetComponent<TurnHedge>());
+                                    this.PreviousTurnHedge = CurrentTurnHedge;
+                                    this.CurrentTurnHedge = newHedge.GetComponent<TurnHedge>();
                                 }
                                 break;
                             case 2:
                                 // or go straight on
                                 (nextPos, hedgeCreated, endFound) = CreateCrossroads(currentPos, newHedge, newHedge.GetComponent<FourWayHedge>(), 0, currentAngle, allowedCollisionHedge, !routeFound);
+                                if (hedgeCreated)
+                                {
+                                    this.TurnHedges.Add(newHedge.GetComponent<TurnHedge>());
+                                    this.PreviousTurnHedge = CurrentTurnHedge;
+                                    this.CurrentTurnHedge = newHedge.GetComponent<TurnHedge>();
+                                }
                                 break;
                         }
                         crossroadsCooldown = this.CrossRoadsCooldown;

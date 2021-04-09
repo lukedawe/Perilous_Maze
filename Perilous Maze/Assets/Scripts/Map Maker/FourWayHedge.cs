@@ -11,17 +11,24 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
     public string word { get; set; }
     public Vector3 TransformCorrection { get; set; }
     public (ICrossRoads, Vector3, int)[] Branches { get; set; } = new (ICrossRoads, Vector3, int)[2];
+    public Vector3 TurningPoint { get; set; }
+    public GameObject[] NextPieces { get; set; }
+
 
     // returns whether a point will fall off the map
     public bool WillGoOffMap(Vector3 position, int mapSize)
     {
-        foreach(Vector3 point in this.collisionPoints){
-            if(!VectorMaths.IsPointInsideRange(position, mapSize)){
+        foreach (Vector3 point in this.collisionPoints)
+        {
+            if (!VectorMaths.IsPointInsideRange(position, mapSize))
+            {
                 return true;
             }
         }
-        foreach(Vector3 point in this.connectorPoints){
-            if(!VectorMaths.IsPointInsideRange(position, mapSize)){
+        foreach (Vector3 point in this.connectorPoints)
+        {
+            if (!VectorMaths.IsPointInsideRange(position, mapSize))
+            {
                 return true;
             }
         }
@@ -51,7 +58,6 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
 
                 this.offset = VectorMaths.CalculateOffset(currentRotation, x, z);
                 this.connectorPoints[0] = initialPosition;
-                this.connectorPoints[1] = initialPosition + this.offset;
                 this.connectorPoints[2] = initialPosition + VectorMaths.CalculateOffset(currentRotation, x, -(z));
                 this.connectorPoints[3] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0);
                 this.Branches[0] = (this, initialPosition + VectorMaths.CalculateOffset(currentRotation, 6, 0), currentRotation);
@@ -95,7 +101,7 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
         this.GetComponent<LineRenderer>().SetPositions(this.connectorPoints);
 
         this.collisionPoints[4] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 1, 0);
-        this.collisionPoints[5] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 0);
+        this.collisionPoints[5] = this.TurningPoint = initialPosition + VectorMaths.CalculateOffset(currentRotation, 2, 0);
         this.collisionPoints[6] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 3, 0);
         this.collisionPoints[7] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 4, 0);
         this.collisionPoints[8] = initialPosition + VectorMaths.CalculateOffset(currentRotation, 5, 0);
@@ -109,5 +115,38 @@ public class FourWayHedge : MonoBehaviour, ICrossRoads
 
         collisionPoints = VectorMaths.SetArraysEqual(this.connectorPoints, collisionPoints);
 
+    }
+
+    // returns the connections that is not the one that was entered
+    public GameObject[] GetConnections(GameObject current)
+    {
+        GameObject[] connection = new GameObject[3];
+        int counter = 0;
+
+        foreach (GameObject piece in this.NextPieces)
+        {
+            if (piece != current)
+            {
+                connection[counter] = piece;
+                counter++;
+            }
+        }
+        return connection;
+    }
+
+    public void SetNextPiece(GameObject next)
+    {
+        if (this.NextPieces == null)
+        {
+            this.NextPieces = new GameObject[4];
+        }
+
+        for (int i = 0; i < this.NextPieces.Length; i++)
+        {
+            if (this.NextPieces[i] == null)
+            {
+                this.NextPieces[i] = next;
+            }
+        }
     }
 }

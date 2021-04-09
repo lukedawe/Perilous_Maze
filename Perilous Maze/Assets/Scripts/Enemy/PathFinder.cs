@@ -9,48 +9,56 @@ public class PathFinder : MonoBehaviour
     private Vector3 ClosestPointToSelf;
     private Vector3 ClosestPointToPlayer;
     private GameObject Player;
-    public List<List<Vector3>> RoutesToPlayer;
+    public List<List<Vector3>> RoutesToPlayer = new List<List<Vector3>>();
     public MapMaintainer MapMaintainer;
     private float TimeSinceLastRun;
     [SerializeField] private float speed;
     Vector3 target;
-    List<Vector3> FastestPath;
+    List<Vector3> FastestPath = new List<Vector3>();
     int TargetIndex;
 
-    void Update()
+    void FixedUpdate()
     {
         TimeSinceLastRun += Time.deltaTime;
+        ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, PointsGrid);
+        ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
 
-        if (TimeSinceLastRun >= 1)
+        if (ClosestPointToSelf != ClosestPointToPlayer)
         {
-            // keep track of the index of the target that the enemy needs to travel towards
-            TargetIndex = 0;
-            ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, PointsGrid);
-            ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
-            TimeSinceLastRun = 0;
-            RoutesToPlayer = new List<List<Vector3>>();
-            FastestPath = new List<Vector3>();
-            FastestPath = FindFastestPath();
-            // GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
-            target = FastestPath[TargetIndex];
-        }
-
-        // Move our position a step closer to the target.
-        float step = speed * Time.deltaTime; // calculate distance to move
-        transform.position = Vector3.MoveTowards(transform.position, target, step);
-        transform.LookAt(target);
-
-        // Check if the position of the cube and sphere are approximately equal.
-        if (Vector3.Distance(transform.position, target) < 0.05f)
-        {
-            // Swap the position of the cylinder.
-            TargetIndex++;
-            if (FastestPath.Count > TargetIndex)
+            if (TimeSinceLastRun >= 1)
             {
-                target = FastestPath[TargetIndex];
+                // keep track of the index of the target that the enemy needs to travel towards
+                TargetIndex = 0;
+                TimeSinceLastRun = 0;
+                RoutesToPlayer.Clear();
+                FastestPath.Clear();
+                FastestPath = FindFastestPath();
+                // GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
+                if (FastestPath.Count > 0) target = FastestPath[TargetIndex];
+            }
+
+            if (target != null && FastestPath.Count > 0)
+            {
+                target.y = 0;
+                // Move our position a step closer to the target.
+                float step = speed * Time.deltaTime; // calculate distance to move
+                transform.position = Vector3.MoveTowards(transform.position, target, step);
+                transform.LookAt(target);
+
+                // Check if the position of the cube and sphere are approximately equal.
+                if (Vector3.Distance(transform.position, target) < 0.001f)
+                {
+                    TargetIndex++;
+                    if (FastestPath.Count > TargetIndex)
+                    {
+                        target = FastestPath[TargetIndex];
+                    }
+                }
             }
         }
     }
+
+
 
     public void Constructor(List<Vector3> points, GameObject player)
     {
@@ -75,20 +83,21 @@ public class PathFinder : MonoBehaviour
         FindAPath(ClosestPointToSelf, temp);
 
         List<Vector3> fastestRoute = new List<Vector3>();
-        fastestRoute.AddRange(RoutesToPlayer[0]);
-
         int min = 100;
-        
-        if (RoutesToPlayer.Count > 0) min = RoutesToPlayer[0].Count;
 
-        foreach (List<Vector3> route in RoutesToPlayer)
+        if (RoutesToPlayer.Count > 0)
         {
-            if (route.Count < min)
+            fastestRoute.AddRange(RoutesToPlayer[0]);
+            min = RoutesToPlayer[0].Count;
+            foreach (List<Vector3> route in RoutesToPlayer)
             {
-                Debug.Log("New min: " + min);
-                min = route.Count;
-                fastestRoute.Clear();
-                fastestRoute.AddRange(route);
+                if (route.Count < min)
+                {
+                    Debug.Log("New min: " + min);
+                    min = route.Count;
+                    fastestRoute.Clear();
+                    fastestRoute.AddRange(route);
+                }
             }
         }
 
@@ -99,12 +108,14 @@ public class PathFinder : MonoBehaviour
 
     public void FindAPath(Vector3 currentPoint, List<Vector3> routeToPlayer)
     {
-
+        if (routeToPlayer.Count > 30)
+        {
+            return;
+        }
         Vector3[] directions = { new Vector3(0, 0, 1), new Vector3(0, 0, -1), new Vector3(1, 0, 0), new Vector3(-1, 0, 0) };
 
         if (currentPoint != ClosestPointToPlayer)
         {
-
             foreach (Vector3 direction in directions)
             {
                 Vector3 newPoint = currentPoint + direction;
@@ -113,6 +124,8 @@ public class PathFinder : MonoBehaviour
                     List<Vector3> newRoute = new List<Vector3>();
                     newRoute.AddRange(routeToPlayer);
                     newRoute.Add(newPoint);
+                    // this line causes a stack overflow?
+                    // routeToPlayer.Clear();
                     FindAPath(newPoint, newRoute);
                 }
             }
