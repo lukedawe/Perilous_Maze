@@ -99,10 +99,11 @@ public class MapCreator : MonoBehaviour
         foreach ((Vector3 point1, Vector3 point2) in Route)
         {
             int random = Random.Range(1, 11);
+            int monster = Random.Range(0, Monsters.Count);
             if (random <= SpawnChance && counter < mapSize / 10)
             {
-                GameObject newMonster = CreatePrefab(Monsters[0], point1, 0);
-                newMonster.GetComponent<PathFinder>().Constructor(AllPoints, Player);
+                GameObject newMonster = CreatePrefab(Monsters[monster], point1, 0);
+                newMonster.GetComponent<RouteToPlayer>().Constructor(AllPoints, Player);
                 PlacedMonsters.Add(newMonster);
                 counter++;
             }
@@ -429,6 +430,7 @@ public class MapCreator : MonoBehaviour
         this.IHedgeList.Clear();
         this.Route.Clear();
         this.Branches.Clear();
+        this.AllPoints.Clear();
         // GetComponent<Visualiser>().DeleteAllSpheres();
     }
 
