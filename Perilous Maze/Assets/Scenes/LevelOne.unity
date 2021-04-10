@@ -367,6 +367,7 @@ MonoBehaviour:
   MainCharacter: {fileID: 1824340380413090, guid: 0e74cf81e6fd82546b4797f71ceffb81, type: 3}
   Monsters:
   - {fileID: 171952, guid: fdc7c645919f60047929b2f994266803, type: 3}
+  - {fileID: 2732684518155842968, guid: c73ae6621f8832748a78dfb8aec6dd12, type: 3}
   SpawnChance: 1
 --- !u!4 &1691068176
 Transform:
