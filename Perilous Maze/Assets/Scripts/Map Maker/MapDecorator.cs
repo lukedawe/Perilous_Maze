@@ -11,7 +11,7 @@ public class MapDecorator : MonoBehaviour
         for (int i = 0; i < mapSize * 5; i++)
         {
             int random = Random.Range(0, DecorationPrefabs.Count);
-            Vector3 position = new Vector3(Random.Range(0, mapSize * 2), 0, Random.Range(-mapSize, mapSize));
+            Vector3 position = new Vector3(Random.Range(0, mapSize), 0, Random.Range(0, mapSize));
             Instantiate(DecorationPrefabs[random], position, Quaternion.identity);
         }
     }

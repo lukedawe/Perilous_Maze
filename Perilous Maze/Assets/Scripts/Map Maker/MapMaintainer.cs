@@ -15,8 +15,5 @@ public class MapMaintainer : MonoBehaviour
     {
         PointClosestToPlayer = VectorMaths.FindPointClosestToEntity(Player.transform, PointsGrid);
         Vector3[] playerToPoint = { Player.transform.position, PointClosestToPlayer };
-        // Player.GetComponent<LineRenderer>().SetPositions(playerToPoint);
     }
-
-    
 }

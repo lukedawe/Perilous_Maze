@@ -327,10 +327,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1691068176}
-  - component: {fileID: 1691068175}
-  - component: {fileID: 1691068177}
   - component: {fileID: 1691068178}
   - component: {fileID: 1691068179}
+  - component: {fileID: 1691068180}
   m_Layer: 0
   m_Name: Map Modifier
   m_TagString: Untagged
@@ -338,37 +337,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1691068175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691068174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a3e19d01529a9438eb267dd6093190, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mazePieces:
-  - {fileID: 5116369436228044937, guid: 6f15b4247c68ce08cafa341b40a8f514, type: 3}
-  - {fileID: 6270784901513370513, guid: 87b5492dde61746f59dbda16cafee91a, type: 3}
-  - {fileID: 5293951010151262777, guid: acc4bd7f4804d7ef88da7e0776f44ec4, type: 3}
-  - {fileID: 626601583732541753, guid: f7a86a26c461b3d29b61a453c0757b42, type: 3}
-  edgePieces:
-  - {fileID: 2906519754133445373, guid: 2cc438d2febf4eaec9c79073a4ee6532, type: 3}
-  - {fileID: 4227932345063399538, guid: beb036af67ff61bac9d17853aed1aec4, type: 3}
-  environmentAssets:
-  - {fileID: 1121113006719782, guid: 386f40ad68cdd3c4fbcb471ef2d93772, type: 3}
-  mapSize: 30
-  Cooldown: 7
-  CrossRoadsCooldown: 13
-  Material: {fileID: 2100000, guid: 516e6f11e8de6624eb6be4bac8c14555, type: 2}
-  MainCharacter: {fileID: 1824340380413090, guid: 0e74cf81e6fd82546b4797f71ceffb81, type: 3}
-  Monsters:
-  - {fileID: 171952, guid: fdc7c645919f60047929b2f994266803, type: 3}
-  - {fileID: 2732684518155842968, guid: c73ae6621f8832748a78dfb8aec6dd12, type: 3}
-  SpawnChance: 1
 --- !u!4 &1691068176
 Transform:
   m_ObjectHideFlags: 0
@@ -383,18 +351,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1691068177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691068174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbf80d9295a39fba98cbe9b70be2a1d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1691068178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,3 +386,22 @@ MonoBehaviour:
   - {fileID: 1143931805411576, guid: f71e980e020ab924ebed9a227a648ec8, type: 3}
   - {fileID: 1435283653269720, guid: 00e2e59cbc04eab4a982218df54ce70b, type: 3}
   - {fileID: 1733909988577898, guid: e88b7bb02ae149940a5a0cddf34fe370, type: 3}
+--- !u!114 &1691068180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691068174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154a7cec07339b0859a69010c13d3c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnChance: 1
+  Monsters:
+  - {fileID: 2732684518155842968, guid: c73ae6621f8832748a78dfb8aec6dd12, type: 3}
+  - {fileID: 171952, guid: fdc7c645919f60047929b2f994266803, type: 3}
+  PlayerPrefab: {fileID: 1824340380413090, guid: 0e74cf81e6fd82546b4797f71ceffb81, type: 3}
+  MapSize: 50
+  BranchingChance: 3

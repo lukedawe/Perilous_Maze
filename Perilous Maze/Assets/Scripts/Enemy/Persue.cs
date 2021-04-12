@@ -12,7 +12,6 @@ public class Persue : MonoBehaviour, IState
         this.speed = GetComponent<StatePicker>().speed;
     }
 
-
     public bool Activate()
     {
         Vector3 targetDir = Player.transform.position - transform.position;
