@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.5
@@ -398,6 +398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154a7cec07339b0859a69010c13d3c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CubeMaterial: {fileID: 2100000, guid: f2f0583fa0be332b0bce4e1bdb788343, type: 2}
+  PlaneMaterial: {fileID: 2100000, guid: 1cef938def0b527469f8ef0720c534dc, type: 2}
   SpawnChance: 1
   Monsters:
   - {fileID: 2732684518155842968, guid: c73ae6621f8832748a78dfb8aec6dd12, type: 3}

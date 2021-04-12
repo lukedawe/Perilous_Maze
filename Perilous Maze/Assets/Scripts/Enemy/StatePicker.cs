@@ -5,20 +5,26 @@ using UnityEngine;
 public class StatePicker : MonoBehaviour
 {
     IState CurrentState;
-    public int speed;
-    public GameObject Player;
+    [SerializeField] int speed;
+    GameObject Player;
+    Patrol patrol;
+    Persue persue;
 
-    void Awake()
+    public void Constructor(List<Vector3> points)
     {
+        patrol = GetComponent<Patrol>();
+        persue = GetComponent<Persue>();
+
         this.CurrentState = GetComponent<Patrol>();
         GameObject modifier = GameObject.Find("Map Modifier");
         MapMaintainer maintainer = modifier.GetComponent<MapMaintainer>();
         this.Player = maintainer.Player;
 
-        Vector3 point1 = maintainer.PointsGrid[Random.Range(0, maintainer.PointsGrid.Count)];
-        Vector3 point2 = maintainer.PointsGrid[Random.Range(0, maintainer.PointsGrid.Count)];
+        patrol.Constructor(speed, Player, points);
+        persue.Constructor(Player, speed);
 
-        GetComponent<Patrol>().Constructor(point1, point2);
+        patrol.Player = Player;
+        persue.Player = Player;
     }
 
     // Update is called once per frame

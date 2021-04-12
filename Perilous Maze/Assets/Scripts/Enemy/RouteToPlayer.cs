@@ -6,12 +6,12 @@ using HedgeMethods;
 public class RouteToPlayer : MonoBehaviour
 {
     public List<Vector3> PointsGrid;
-    private Vector3 ClosestPointToSelf;
-    private Vector3 ClosestPointToPlayer;
-    private GameObject Player;
+    Vector3 ClosestPointToSelf;
+    Vector3 ClosestPointToPlayer;
+    GameObject Player;
     public MapMaintainer MapMaintainer;
-    private float TimeSinceLastRun;
-    [SerializeField] private float speed;
+    float TimeSinceLastRun;
+    [SerializeField] float speed;
     Vector3 target;
     List<Vector3> FastestPath = new List<Vector3>();
     int TargetIndex;
@@ -32,21 +32,27 @@ public class RouteToPlayer : MonoBehaviour
                 TargetIndex = 0;
                 TimeSinceLastRun = 0;
                 FastestPath.Clear();
+
+                var watch = System.Diagnostics.Stopwatch.StartNew();
                 FastestPath = GetComponent<PathFinder>().FindFastestPath(ClosestPointToSelf, ClosestPointToPlayer);
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Debug.Log("Time taken to find path: " + elapsedMs.ToString());
+
                 // GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
                 if (FastestPath.Count > 0) target = FastestPath[TargetIndex];
             }
 
             if (target != null && FastestPath.Count > 0)
             {
-                target.y = 0;
+                target.y = -0.5f;
                 // Move our position a step closer to the target.
                 float step = speed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
                 transform.LookAt(target);
 
                 // Check if the position of the cube and sphere are approximately equal.
-                if (Vector3.Distance(transform.position, target) < 0.001f)
+                if (Vector3.Distance(transform.position, target) < 0.5f)
                 {
                     TargetIndex++;
                     if (FastestPath.Count > TargetIndex)

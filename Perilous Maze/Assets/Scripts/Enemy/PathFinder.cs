@@ -32,15 +32,12 @@ public class PathFinder : MonoBehaviour
             {
                 if (route.Count < min)
                 {
-                    Debug.Log("New min: " + min);
                     min = route.Count;
                     fastestRoute.Clear();
                     fastestRoute.AddRange(route);
                 }
             }
         }
-
-        Debug.Log("RoutesToPlayer: " + PossibleRoutes.Count + " fastest route: " + fastestRoute.Count);
 
         return fastestRoute;
     }
@@ -74,7 +71,6 @@ public class PathFinder : MonoBehaviour
                 List<Vector3> temp = new List<Vector3>();
                 temp.AddRange(routeToDestination);
                 PossibleRoutes.Add(temp);
-                Debug.Log("Successfully adding route to list of routes" + PossibleRoutes.Count);
             }
         }
     }

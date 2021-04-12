@@ -84,19 +84,15 @@ public class NewMapCreator : MonoBehaviour
 
             if (x1InRange && z1InRange && x2InRange && z2InRange)
             {
-                Debug.Log("In range");
-
                 GameObject[] candidateBlocks = { Maze[x1, z1], Maze[x2, z2] };
                 int[,] candidateBlocksCoords = { { x1, z1 }, { x2, z2 } };
 
                 if (candidateBlocks[0] != null && candidateBlocks[1] != null)
                 {
-                    Debug.Log("Not null");
 
                     int random = Random.Range(1, 11);
                     if (random <= BranchingChance)
                     {
-                        Debug.Log("Within branching chance");
                         foreach (GameObject block in candidateBlocks)
                         {
                             DeleteBlockFromGrid(block);
@@ -110,7 +106,8 @@ public class NewMapCreator : MonoBehaviour
 
     void DeleteBlockFromGrid(GameObject block)
     {
-        route.Add(block.transform.position);
+        Vector3 temp = new Vector3(block.transform.position.x, 0, block.transform.position.z);
+        route.Add(temp);
         Maze[(int)block.transform.position.x, (int)block.transform.position.z] = null;
         Destroy(block);
     }
@@ -141,9 +138,24 @@ public class NewMapCreator : MonoBehaviour
             if (random <= SpawnChance && counter < MapSize / 10)
             {
                 GameObject newMonster = Instantiate(Monsters[monster], point - new Vector3(0, 0.5f, 0), Quaternion.identity);
-                newMonster.GetComponent<RouteToPlayer>().Constructor(route, Player);
+                if (newMonster.GetComponent<RouteToPlayer>() != null)
+                {
+                    newMonster.GetComponent<RouteToPlayer>().Constructor(route, Player);
+                }
+                if (newMonster.GetComponent<StatePicker>() != null)
+                {
+                    newMonster.GetComponent<StatePicker>().Constructor(route);
+                }
                 counter++;
             }
         }
+    }
+
+    void CreateTestMonster()
+    {
+        int random = Random.Range(0, route.Count);
+        Vector3 point = route[random];
+        GameObject newMonster = Instantiate(Monsters[0], point - new Vector3(0, 0.5f, 0), Quaternion.identity);
+        newMonster.GetComponent<StatePicker>().Constructor(route);
     }
 }
