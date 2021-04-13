@@ -36,6 +36,15 @@ public class StatePicker : MonoBehaviour
             {
                 this.CurrentState = GetComponent<Persue>();
             }
+            // if the enemy was persuing but lost the player, return it to the patrolling state
+            else if ((Object)this.CurrentState == GetComponent<Persue>())
+            {
+                bool success = GetComponent<ReturnToPatrol>().CalculateRoute(speed);
+
+                if (success) this.CurrentState = GetComponent<ReturnToPatrol>();
+                else this.CurrentState = GetComponent<Patrol>();
+
+            }
             else
             {
                 this.CurrentState = GetComponent<Patrol>();

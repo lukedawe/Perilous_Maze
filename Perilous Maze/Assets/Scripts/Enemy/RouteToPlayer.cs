@@ -23,6 +23,11 @@ public class RouteToPlayer : MonoBehaviour
         ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, PointsGrid);
         ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
 
+        // if the player is too far away, don't calculate the route to take
+        if (Vector3.Distance(ClosestPointToPlayer, ClosestPointToSelf) > 30)
+        {
+            return;
+        }
 
         if (ClosestPointToSelf != ClosestPointToPlayer)
         {
