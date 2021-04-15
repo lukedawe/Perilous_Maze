@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatePicker : MonoBehaviour
 {
     IState CurrentState;
-    [SerializeField] int speed;
+    [SerializeField] float speed;
     GameObject Player;
     Patrol patrol;
     Persue persue;
@@ -14,8 +14,8 @@ public class StatePicker : MonoBehaviour
     {
         patrol = GetComponent<Patrol>();
         persue = GetComponent<Persue>();
+        this.CurrentState = patrol;
 
-        this.CurrentState = GetComponent<Patrol>();
         GameObject modifier = GameObject.Find("Map Modifier");
         MapMaintainer maintainer = modifier.GetComponent<MapMaintainer>();
         this.Player = maintainer.Player;
@@ -43,7 +43,6 @@ public class StatePicker : MonoBehaviour
 
                 if (success) this.CurrentState = GetComponent<ReturnToPatrol>();
                 else this.CurrentState = GetComponent<Patrol>();
-
             }
             else
             {

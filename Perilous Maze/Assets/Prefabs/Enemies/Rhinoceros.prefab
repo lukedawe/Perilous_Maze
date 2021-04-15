@@ -1479,6 +1479,7 @@ MonoBehaviour:
   MapMaintainer: {fileID: 0}
   speed: 0.3
   PathFinder: {fileID: 0}
+  TurnSpeed: 2
 --- !u!114 &4579525826879604089
 MonoBehaviour:
   m_ObjectHideFlags: 0

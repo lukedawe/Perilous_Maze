@@ -14,9 +14,9 @@ public class ReturnToPatrol : MonoBehaviour, IState
     int CurrentTargetIndex;
     public GameObject Player { get; set; }
     List<Vector3> route;
-    int speed;
+    float speed;
 
-    public bool CalculateRoute(int speed)
+    public bool CalculateRoute(float speed)
     {
         StartPoint = VectorMaths.FindPointClosestToEntity(transform, GetComponent<PathFinder>().PointsGrid);
         EndPoint = GetComponent<Patrol>().point1;

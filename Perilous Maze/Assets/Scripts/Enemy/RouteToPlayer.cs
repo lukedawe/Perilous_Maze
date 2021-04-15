@@ -16,18 +16,13 @@ public class RouteToPlayer : MonoBehaviour
     Vector3[] FastestPath;
     int startIndex;
     public AStar PathFinder;
+    [SerializeField] float TurnSpeed;
 
     void FixedUpdate()
     {
         TimeSinceLastRun += Time.deltaTime;
         ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, PointsGrid);
         ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
-
-        // if the player is too far away, don't calculate the route to take
-        // if (Vector3.Distance(ClosestPointToPlayer, ClosestPointToSelf) > 20)
-        // {
-        //     return;
-        // }
 
         if (ClosestPointToSelf != ClosestPointToPlayer)
         {
@@ -55,7 +50,10 @@ public class RouteToPlayer : MonoBehaviour
                 // Move our position a step closer to the target.
                 float step = speed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
-                transform.LookAt(target);
+
+                Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
 
                 // Check if the position of the cube and sphere are approximately equal.
                 if (Vector3.Distance(transform.position, target) < 0.5f)

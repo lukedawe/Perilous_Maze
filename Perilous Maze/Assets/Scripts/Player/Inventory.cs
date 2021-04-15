@@ -12,13 +12,23 @@ public class Inventory : MonoBehaviour
         this.stones = 3;
     }
 
-    public void ThrowRock()
+    public bool ThrowRock()
     {
-        if (stones > 0) this.stones--;
+        if (stones > 0)
+        {
+            this.stones--;
+            return true;
+        }
+        return false;
     }
 
-    public void PickupRock()
+    public bool PickupRock()
     {
-        if (stones < 3) this.stones++;
+        if (stones < 3)
+        {
+            this.stones++;
+            return true;
+        }
+        return false;
     }
 }

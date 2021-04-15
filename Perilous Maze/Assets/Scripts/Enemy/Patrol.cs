@@ -10,12 +10,12 @@ public class Patrol : MonoBehaviour, IState
     public Vector3 point1;
     Vector3 point2;
     Vector3 CurrentTarget;
-    int speed;
+    float speed;
     List<Vector3> route;
     int currentPoint;
     List<Vector3> ReturnRoute;
 
-    public void Constructor(int speed, GameObject player, List<Vector3> PointsGrid)
+    public void Constructor(float speed, GameObject player, List<Vector3> PointsGrid)
     {
         this.point1 = VectorMaths.FindPointClosestToEntity(transform, PointsGrid);
         this.speed = speed;

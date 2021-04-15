@@ -49,7 +49,6 @@ public class AStar : MonoBehaviour
                 Node current = q;
                 while (current != null)
                 {
-                    Debug.Log(current.position.ToString());
                     path.Add(current.position);
                     current = current.parent;
                 }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class Persue : MonoBehaviour, IState
 {
     public GameObject Player { get; set; }
-    int Speed;
+    float Speed;
 
-    public void Constructor(GameObject player, int speed){
+    public void Constructor(GameObject player, float speed){
         this.Player = player;
         this.Speed = speed;
     }
