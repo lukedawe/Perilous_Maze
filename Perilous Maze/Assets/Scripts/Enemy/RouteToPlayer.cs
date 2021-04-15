@@ -13,9 +13,9 @@ public class RouteToPlayer : MonoBehaviour
     float TimeSinceLastRun;
     [SerializeField] float speed;
     Vector3 target;
-    List<Vector3> FastestPath = new List<Vector3>();
-    int TargetIndex;
-    public PathFinder PathFinder;
+    Vector3[] FastestPath;
+    int startIndex;
+    public AStar PathFinder;
 
     void FixedUpdate()
     {
@@ -24,31 +24,32 @@ public class RouteToPlayer : MonoBehaviour
         ClosestPointToPlayer = MapMaintainer.PointClosestToPlayer;
 
         // if the player is too far away, don't calculate the route to take
-        if (Vector3.Distance(ClosestPointToPlayer, ClosestPointToSelf) > 30)
-        {
-            return;
-        }
+        // if (Vector3.Distance(ClosestPointToPlayer, ClosestPointToSelf) > 20)
+        // {
+        //     return;
+        // }
 
         if (ClosestPointToSelf != ClosestPointToPlayer)
         {
             if (TimeSinceLastRun >= 1)
             {
                 // keep track of the index of the target that the enemy needs to travel towards
-                TargetIndex = 0;
                 TimeSinceLastRun = 0;
-                FastestPath.Clear();
 
                 var watch = System.Diagnostics.Stopwatch.StartNew();
-                FastestPath = GetComponent<PathFinder>().FindFastestPath(ClosestPointToSelf, ClosestPointToPlayer);
+                FastestPath = PathFinder.AStarSearch(ClosestPointToSelf, ClosestPointToPlayer);
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
                 Debug.Log("Time taken to find path: " + elapsedMs.ToString());
 
-                // GetComponent<LineRenderer>().SetPositions(FastestPath.ToArray());
-                if (FastestPath.Count > 0) target = FastestPath[TargetIndex];
+                if (FastestPath != null)
+                {
+                    startIndex = FastestPath.Length - 1;
+                    target = FastestPath[startIndex];
+                }
             }
 
-            if (target != null && FastestPath.Count > 0)
+            if (FastestPath != null && target != null && FastestPath.Length > 0)
             {
                 target.y = -0.5f;
                 // Move our position a step closer to the target.
@@ -59,10 +60,10 @@ public class RouteToPlayer : MonoBehaviour
                 // Check if the position of the cube and sphere are approximately equal.
                 if (Vector3.Distance(transform.position, target) < 0.5f)
                 {
-                    TargetIndex++;
-                    if (FastestPath.Count > TargetIndex)
+                    startIndex--;
+                    if (startIndex > 0)
                     {
-                        target = FastestPath[TargetIndex];
+                        target = FastestPath[startIndex];
                     }
                 }
             }
@@ -71,9 +72,10 @@ public class RouteToPlayer : MonoBehaviour
 
     public void Constructor(List<Vector3> points, GameObject player)
     {
-        this.PathFinder = GetComponent<PathFinder>();
+        Debug.Log("running constructor");
+        this.PathFinder = GetComponent<AStar>();
         this.PointsGrid = points;
-        PathFinder.PointsGrid = points;
+        PathFinder.maze = GameObject.Find("Map Modifier").GetComponent<NewMapCreator>().Maze;
         this.Player = player;
         MapMaintainer = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>();
     }

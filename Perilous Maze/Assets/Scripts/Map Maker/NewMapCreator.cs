@@ -11,7 +11,7 @@ public class NewMapCreator : MonoBehaviour
     [SerializeField] GameObject PlayerPrefab;
     GameObject Player;
     [SerializeField] int MapSize;
-    GameObject[,] Maze;
+    public GameObject[,] Maze;
     Vector3Int StartPoint;
     List<Vector3> route = new List<Vector3>();
     [SerializeField] int BranchingChance;

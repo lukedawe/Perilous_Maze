@@ -39,6 +39,7 @@
      <Compile Include="Assets\Scripts\Map Maker\EndOfRouteHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\ITurnHedge.cs" />
      <Compile Include="Assets\Scripts\Enemy\RouteToPlayer.cs" />
+     <Compile Include="Assets\Scripts\Enemy\AStar.cs" />
      <Compile Include="Assets\Scripts\Map Maker\StraightHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\HegdeMethods.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
      <Compile Include="Assets\Scripts\Enemy\ReturnToPatrol.cs" />
+     <Compile Include="Assets\Scripts\Player\Inventory.cs" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\Legacy\CelShader.shader" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShader.shader" />
      <None Include="Assets\Supercyan Character Pack Free Sample\Shaders\SupercyanShaderLighting.cginc" />

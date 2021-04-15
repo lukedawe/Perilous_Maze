@@ -313,6 +313,7 @@
 /define:UNITY_STANDALONE_LINUX_API
 /define:UNITY_TEAM_LICENSE
 /define:USE_SEARCH_ENGINE_API
+"Assets/Scripts/Enemy/AStar.cs"
 "Assets/Scripts/Enemy/IState.cs"
 "Assets/Scripts/Enemy/PathFinder.cs"
 "Assets/Scripts/Enemy/Patrol.cs"
@@ -333,6 +334,7 @@
 "Assets/Scripts/Map Maker/StraightHedge.cs"
 "Assets/Scripts/Map Maker/TurnHedge.cs"
 "Assets/Scripts/Map Maker/Visualiser.cs"
+"Assets/Scripts/Player/Inventory.cs"
 "Assets/Scripts/Player/PlayerWorldInteraction.cs"
 "Assets/Supercyan Character Pack Free Sample/Scripts/CameraBehaviour.cs"
 "Assets/Supercyan Character Pack Free Sample/Scripts/DemoFree.cs"

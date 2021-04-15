@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-    List<List<Vector3>> PossibleRoutes;
+    public List<List<Vector3>> PossibleRoutes;
     public List<Vector3> PointsGrid;
-
     public List<Vector3> FindFastestPath(Vector3 current, Vector3 destination)
     {
         PossibleRoutes = new List<List<Vector3>>();
