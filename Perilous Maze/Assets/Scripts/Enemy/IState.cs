@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IState
 {
-    bool Activate();
+    bool Activate(float deltaTime);
     GameObject Player { get; set; }
 }

@@ -5,8 +5,6 @@ using UnityEngine;
 public class StatePicker : MonoBehaviour
 {
     IState CurrentState;
-    [SerializeField] float speed;
-    GameObject Player;
     Patrol patrol;
     Persue persue;
 
@@ -16,21 +14,21 @@ public class StatePicker : MonoBehaviour
         persue = GetComponent<Persue>();
         this.CurrentState = patrol;
 
-        GameObject modifier = GameObject.Find("Map Modifier");
-        MapMaintainer maintainer = modifier.GetComponent<MapMaintainer>();
-        this.Player = maintainer.Player;
+        EnemyVariables variables = GetComponent<EnemyVariables>();
 
-        patrol.Constructor(speed, Player, points);
-        persue.Constructor(Player, speed);
+        patrol.Player = variables.Player;
+        persue.Player = variables.Player;
 
-        patrol.Player = Player;
-        persue.Player = Player;
+        variables.Constructor();
+        patrol.Constructor();
+        persue.Constructor();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!this.CurrentState.Activate())
+        if (!this.CurrentState.Activate(Time.deltaTime))
         {
             if ((Object)this.CurrentState == GetComponent<Patrol>())
             {
@@ -39,12 +37,12 @@ public class StatePicker : MonoBehaviour
             // if the enemy was persuing but lost the player, return it to the patrolling state
             else if ((Object)this.CurrentState == GetComponent<Persue>())
             {
-                bool success = GetComponent<ReturnToPatrol>().CalculateRoute(speed);
+                bool success = GetComponent<ReturnToPatrol>().CalculateRoute();
 
                 if (success) this.CurrentState = GetComponent<ReturnToPatrol>();
                 else this.CurrentState = GetComponent<Patrol>();
             }
-            else
+            else if ((Object)this.CurrentState == GetComponent<ReturnToPatrol>())
             {
                 this.CurrentState = GetComponent<Patrol>();
             }

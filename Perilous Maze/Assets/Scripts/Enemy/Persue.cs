@@ -6,13 +6,16 @@ public class Persue : MonoBehaviour, IState
 {
     public GameObject Player { get; set; }
     float Speed;
+    EnemyVariables Variables;
 
-    public void Constructor(GameObject player, float speed){
-        this.Player = player;
-        this.Speed = speed;
+    public void Constructor()
+    {
+        Variables = GetComponent<EnemyVariables>();
+        this.Player = Variables.Player;
+        this.Speed = Variables.Speed;
     }
 
-    public bool Activate()
+    public bool Activate(float deltaTime)
     {
         Vector3 targetDir = Player.transform.position - transform.position;
         float angle = Vector3.Angle(targetDir, transform.forward);
@@ -22,6 +25,7 @@ public class Persue : MonoBehaviour, IState
             float step = Speed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
             transform.LookAt(Player.transform.position);
+
             return true;
         }
         else

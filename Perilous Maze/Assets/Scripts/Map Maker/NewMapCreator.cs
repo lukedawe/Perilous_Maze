@@ -9,7 +9,7 @@ public class NewMapCreator : MonoBehaviour
     [SerializeField] int SpawnChance;
     [SerializeField] List<GameObject> Monsters;
     [SerializeField] GameObject PlayerPrefab;
-    GameObject Player;
+    public GameObject Player;
     [SerializeField] int MapSize;
     public GameObject[,] Maze;
     Vector3Int StartPoint;
@@ -18,7 +18,7 @@ public class NewMapCreator : MonoBehaviour
     readonly Vector3Int[] directions = { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0) };
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Maze = new GameObject[MapSize, MapSize];
         StartPoint = new Vector3Int(1, 0, Random.Range(0, MapSize));

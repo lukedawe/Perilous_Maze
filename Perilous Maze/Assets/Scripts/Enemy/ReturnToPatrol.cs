@@ -13,16 +13,18 @@ public class ReturnToPatrol : MonoBehaviour, IState
     Vector3 CurrentTarget;
     int CurrentTargetIndex;
     public GameObject Player { get; set; }
-    List<Vector3> route;
+    Vector3[] route;
     float speed;
+    EnemyVariables Variables;
 
-    public bool CalculateRoute(float speed)
+    public bool CalculateRoute()
     {
-        StartPoint = VectorMaths.FindPointClosestToEntity(transform, GetComponent<PathFinder>().PointsGrid);
+        Variables = GetComponent<EnemyVariables>();
+        StartPoint = VectorMaths.FindPointClosestToEntity(transform, Variables.PointsGrid);
         EndPoint = GetComponent<Patrol>().point1;
-        route = GetComponent<PathFinder>().FindFastestPath(StartPoint, EndPoint);
-        CurrentTargetIndex = 0;
-        if (route != null && route.Count != 0)
+        route = GetComponent<AStar>().AStarSearch(StartPoint, EndPoint);
+        CurrentTargetIndex = route.Length - 1;
+        if (route != null && route.Length != 0)
         {
             CurrentTarget = route[CurrentTargetIndex];
         }
@@ -30,13 +32,13 @@ public class ReturnToPatrol : MonoBehaviour, IState
         {
             return false;
         }
-        this.speed = speed;
+        this.speed = Variables.Speed;
         return true;
     }
 
-    public bool Activate()
+    public bool Activate(float deltaTime)
     {
-        if (route == null || route.Count == 0) CalculateRoute(speed);
+        if (route == null || route.Length == 0) CalculateRoute();
 
         if (Vector3.Distance(transform.position, EndPoint) < 0.5f)
         {
@@ -44,12 +46,17 @@ public class ReturnToPatrol : MonoBehaviour, IState
         }
         if (Vector3.Distance(transform.position, CurrentTarget) < 0.5f)
         {
-            CurrentTargetIndex++;
+            CurrentTargetIndex--;
             CurrentTarget = route[CurrentTargetIndex];
         }
         float step = speed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, route[CurrentTargetIndex], step);
-        transform.LookAt(route[CurrentTargetIndex]);
+
+        Quaternion targetRotation = Quaternion.LookRotation(CurrentTarget - transform.position);
+        // Smoothly rotate towards the target point.
+        float turnSpeed = Variables.TurnSpeed;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * deltaTime);
+
         return true;
     }
 }
