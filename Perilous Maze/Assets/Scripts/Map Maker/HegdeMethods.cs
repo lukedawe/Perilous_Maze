@@ -13,13 +13,35 @@ namespace HedgeMethods
             Vector3 closestPoint = new Vector3();
             if (PointsGrid.Count == 0)
             {
-                Debug.LogError("No valid points supplied for calculations"); 
+                Debug.LogError("No valid points supplied for calculations");
             }
             float min = (PointsGrid[0] - t.position).magnitude;
 
             foreach (Vector3 point in PointsGrid)
             {
                 float distance = (point - t.position).magnitude;
+                if (distance < min)
+                {
+                    closestPoint = point;
+                    min = distance;
+                }
+            }
+
+            return closestPoint;
+        }
+
+        public static Vector3 FindPointClosestToEntity(Vector3 position, List<Vector3> PointsGrid)
+        {
+            Vector3 closestPoint = new Vector3();
+            if (PointsGrid.Count == 0)
+            {
+                Debug.LogError("No valid points supplied for calculations");
+            }
+            float min = (PointsGrid[0] - position).magnitude;
+
+            foreach (Vector3 point in PointsGrid)
+            {
+                float distance = (point - position).magnitude;
                 if (distance < min)
                 {
                     closestPoint = point;

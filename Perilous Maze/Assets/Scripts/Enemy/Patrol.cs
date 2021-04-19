@@ -49,37 +49,27 @@ public class Patrol : MonoBehaviour, IState
     // Update is called once per frame
     public bool Activate(float deltaTime)
     {
-        if (route == null) return true;
-        if (route.Length == 0) return true;
+        if (route == null) return false;
+        if (route.Length == 0) return false;
 
-        Vector3 targetDir = Player.transform.position - transform.position;
-        float angle = Vector3.Angle(targetDir, transform.forward);
-        float distance = Vector3.Distance(Player.transform.position, transform.position);
-        if (angle < 18f && distance < 5f)
+        if (Vector3.Distance(transform.position, route[route.Length - 1]) < 0.5f || Vector3.Distance(transform.position, route[0]) < 0.5f)
         {
-            return false;
+            if (CurrentTarget == point1) CurrentTarget = point2;
+            else CurrentTarget = point1;
         }
-        else
+        if (Vector3.Distance(transform.position, route[currentPoint]) < 0.5f)
         {
-            if (Vector3.Distance(transform.position, route[route.Length - 1]) < 0.5f || Vector3.Distance(transform.position, route[0]) < 0.5f)
-            {
-                if (CurrentTarget == point1) CurrentTarget = point2;
-                else CurrentTarget = point1;
-            }
-            if (Vector3.Distance(transform.position, route[currentPoint]) < 0.5f)
-            {
-                if (CurrentTarget == point1) currentPoint++;
-                else currentPoint--;
-            }
-            float step = Speed * Time.deltaTime; // calculate distance to move
-            transform.position = Vector3.MoveTowards(transform.position, route[currentPoint], step);
-
-            Quaternion targetRotation = Quaternion.LookRotation(route[currentPoint] - transform.position);
-            // Smoothly rotate towards the target point.
-            float turnSpeed = Variables.TurnSpeed;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-
+            if (CurrentTarget == point1) currentPoint++;
+            else currentPoint--;
         }
+        float step = Speed * Time.deltaTime; // calculate distance to move
+        transform.position = Vector3.MoveTowards(transform.position, route[currentPoint], step);
+
+        Quaternion targetRotation = Quaternion.LookRotation(route[currentPoint] - transform.position);
+        // Smoothly rotate towards the target point.
+        float turnSpeed = Variables.TurnSpeed;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+
         return true;
     }
 }

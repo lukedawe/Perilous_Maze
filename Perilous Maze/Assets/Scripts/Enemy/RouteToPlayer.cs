@@ -27,11 +27,7 @@ public class RouteToPlayer : MonoBehaviour
                 // keep track of the index of the target that the enemy needs to travel towards
                 TimeSinceLastRun = 0;
 
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 FastestPath = PathFinder.AStarSearch(ClosestPointToSelf, ClosestPointToPlayer);
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Debug.Log("Time taken to find path: " + elapsedMs.ToString());
 
                 if (FastestPath != null)
                 {

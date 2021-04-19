@@ -16,6 +16,7 @@ public class NewMapCreator : MonoBehaviour
     List<Vector3> route = new List<Vector3>();
     [SerializeField] int BranchingChance;
     readonly Vector3Int[] directions = { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0) };
+    [SerializeField] GameObject HedgeContainer;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,6 +58,7 @@ public class NewMapCreator : MonoBehaviour
                 Maze[i, j] = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Maze[i, j].transform.position = position;
                 Maze[i, j].GetComponent<Renderer>().material = CubeMaterial;
+                Maze[i, j].transform.SetParent(HedgeContainer.transform);
             }
         }
     }
