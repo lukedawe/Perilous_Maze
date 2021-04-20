@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StatePicker : MonoBehaviour
 {
+    [SerializeField] string stateText;
     IState CurrentState;
     Patrol patrol;
     Persue persue;
@@ -42,25 +43,43 @@ public class StatePicker : MonoBehaviour
     void Update()
     {
         if (CanSeePlayer())
+        {
             this.CurrentState = persue;
+            stateText = "Persue";
+        }
 
         if (!this.CurrentState.Activate(Time.deltaTime))
         {
             if ((Object)this.CurrentState == GetComponent<Patrol>())
             {
                 this.CurrentState = GetComponent<Persue>();
+                stateText = "Persue";
             }
             // if the enemy was persuing but lost the player, return it to the patrolling state
             else if ((Object)this.CurrentState == GetComponent<Persue>() || (Object)this.CurrentState == GetComponent<WalkToDistraction>())
             {
+                // something with this causes an error
                 bool success = GetComponent<ReturnToPatrol>().CalculateRoute();
-
-                if (success) this.CurrentState = GetComponent<ReturnToPatrol>();
-                else this.CurrentState = GetComponent<Patrol>();
+                stateText = "Return to patrol";
+                
+                // if there is success in calculating the route...
+                if (success)
+                {
+                    this.CurrentState = GetComponent<ReturnToPatrol>();
+                    stateText = "Return to patrol";
+                }
+                // this will cause the enemy to run into walls 
+                else
+                {
+                    Debug.LogError("Could not return to patrol");
+                    this.CurrentState = GetComponent<Patrol>();
+                    stateText = "Patrol";
+                }
             }
             else if ((Object)this.CurrentState == GetComponent<ReturnToPatrol>())
             {
                 this.CurrentState = GetComponent<Patrol>();
+                stateText = "Patrol";
             }
         }
     }

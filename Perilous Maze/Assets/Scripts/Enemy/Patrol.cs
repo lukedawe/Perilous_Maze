@@ -6,10 +6,11 @@ using HedgeMethods;
 
 public class Patrol : MonoBehaviour, IState
 {
-    public GameObject Player { get; set; }
-    public Vector3 point1;
+    [HideInInspector] public GameObject Player { get; set; }
+    Vector3 point1;
     Vector3 point2;
     Vector3 CurrentTarget;
+    [HideInInspector] public Vector3 IntermediateTarget;
     float Speed;
     Vector3[] route;
     int currentPoint;
@@ -61,6 +62,8 @@ public class Patrol : MonoBehaviour, IState
         {
             if (CurrentTarget == point1) currentPoint++;
             else currentPoint--;
+
+            IntermediateTarget = route[currentPoint];
         }
         float step = Speed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, route[currentPoint], step);

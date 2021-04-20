@@ -21,7 +21,7 @@ public class ReturnToPatrol : MonoBehaviour, IState
     {
         Variables = GetComponent<EnemyVariables>();
         StartPoint = VectorMaths.FindPointClosestToEntity(transform, Variables.PointsGrid);
-        EndPoint = GetComponent<Patrol>().point1;
+        EndPoint = GetComponent<Patrol>().IntermediateTarget;
         route = GetComponent<AStar>().AStarSearch(StartPoint, EndPoint);
         CurrentTargetIndex = route.Length - 1;
         if (route != null && route.Length != 0)
@@ -49,7 +49,7 @@ public class ReturnToPatrol : MonoBehaviour, IState
             CurrentTargetIndex--;
             CurrentTarget = route[CurrentTargetIndex];
         }
-        float step = speed * Time.deltaTime; // calculate distance to move
+        float step = speed * deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, route[CurrentTargetIndex], step);
 
         Quaternion targetRotation = Quaternion.LookRotation(CurrentTarget - transform.position);
