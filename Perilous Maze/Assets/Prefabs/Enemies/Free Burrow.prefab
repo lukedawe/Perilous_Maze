@@ -498,7 +498,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   HedgeMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   ViewAngle: 50
   ViewDistance: 50
 --- !u!114 &8912386866692067245

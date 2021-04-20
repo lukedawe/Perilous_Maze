@@ -59,6 +59,7 @@ public class NewMapCreator : MonoBehaviour
                 Maze[i, j].transform.position = position;
                 Maze[i, j].GetComponent<Renderer>().material = CubeMaterial;
                 Maze[i, j].transform.SetParent(HedgeContainer.transform);
+                Maze[i, j].layer = 3;
             }
         }
     }

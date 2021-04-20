@@ -15,7 +15,6 @@ public class EnemyVariables : MonoBehaviour
 
     public void Constructor()
     {
-        HedgeMask = LayerMask.GetMask("Hedge Container");
         this.Maze = GameObject.Find("Map Modifier").GetComponent<NewMapCreator>().Maze;
         this.PointsGrid = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().PointsGrid;
         this.Player = GameObject.Find("Map Modifier").GetComponent<NewMapCreator>().Player;

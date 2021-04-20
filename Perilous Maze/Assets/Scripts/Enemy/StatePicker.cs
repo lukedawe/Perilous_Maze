@@ -74,7 +74,7 @@ public class StatePicker : MonoBehaviour
         {
             Debug.Log("Is within angle");
             Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
-            if (!Physics.Raycast(transform.position + transform.forward, directionToPlayer, distance, Variables.HedgeMask))
+            if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
             {
                 Debug.Log("Chasing the player");
                 return true;
