@@ -5,15 +5,26 @@ using UnityEngine;
 public class Persue : MonoBehaviour, IState
 {
     public GameObject Player { get; set; }
-    float Speed;
     EnemyVariables Variables;
 
     public void Constructor()
     {
         Variables = GetComponent<EnemyVariables>();
         this.Player = Variables.Player;
-        this.Speed = Variables.Speed;
     }
+
+    // public bool Activate(float deltaTime)
+    // {
+    //     float distance = Vector3.Distance(Player.transform.position, transform.position);
+    //     if (distance < 30)
+    //     {
+    //         float step = Variables.Speed * Time.deltaTime; // calculate distance to move
+    //         transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
+    //         transform.LookAt(Player.transform.position);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     public bool Activate(float deltaTime)
     {
@@ -25,7 +36,7 @@ public class Persue : MonoBehaviour, IState
             Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
             if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
             {
-                float step = Speed * Time.deltaTime; // calculate distance to move
+                float step = Variables.Speed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
                 transform.LookAt(Player.transform.position);
 

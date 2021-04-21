@@ -23,9 +23,10 @@ public class ReturnToPatrol : MonoBehaviour, IState
         StartPoint = VectorMaths.FindPointClosestToEntity(transform, Variables.PointsGrid);
         EndPoint = GetComponent<Patrol>().IntermediateTarget;
         route = GetComponent<AStar>().AStarSearch(StartPoint, EndPoint);
-        CurrentTargetIndex = route.Length - 1;
+
         if (route != null && route.Length != 0)
         {
+            CurrentTargetIndex = route.Length - 1;
             CurrentTarget = route[CurrentTargetIndex];
         }
         else

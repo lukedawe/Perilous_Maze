@@ -65,7 +65,7 @@ public class Patrol : MonoBehaviour, IState
 
             IntermediateTarget = route[currentPoint];
         }
-        float step = Speed * Time.deltaTime; // calculate distance to move
+        float step = Speed * deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, route[currentPoint], step);
 
         Quaternion targetRotation = Quaternion.LookRotation(route[currentPoint] - transform.position);

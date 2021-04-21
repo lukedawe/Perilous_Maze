@@ -1504,8 +1504,9 @@ MonoBehaviour:
   PlaneMaterial: {fileID: 2100000, guid: 1cef938def0b527469f8ef0720c534dc, type: 2}
   SpawnChance: 1
   Monsters:
+  - {fileID: 1543216753092369487, guid: ca014879105e38940824f2aeca60623c, type: 3}
+  - {fileID: 1090219386143568, guid: a817c29ea6847604bb2c6c51d9a74bf1, type: 3}
   - {fileID: 2732684518155842968, guid: c73ae6621f8832748a78dfb8aec6dd12, type: 3}
-  - {fileID: 171952, guid: fdc7c645919f60047929b2f994266803, type: 3}
   PlayerPrefab: {fileID: 1824340380413090, guid: 0e74cf81e6fd82546b4797f71ceffb81, type: 3}
   Player: {fileID: 0}
   MapSize: 30

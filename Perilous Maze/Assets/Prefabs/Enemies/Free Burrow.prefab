@@ -321,7 +321,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3361834574544056098}
   - component: {fileID: 8667052616836904280}
-  - component: {fileID: -7737625674250265793}
   - component: {fileID: 1016679186320645311}
   - component: {fileID: 588542824118177815}
   - component: {fileID: -5310883339293661088}
@@ -346,7 +345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2732684518155842968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264119811822447710}
@@ -376,22 +375,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!54 &-7737625674250265793
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2732684518155842968}
-  serializedVersion: 2
-  m_Mass: 10
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!136 &1016679186320645311
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -403,9 +386,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 0
   m_Direction: 1
-  m_Center: {x: 0, y: 0.51, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &588542824118177815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f670543a2da7a5cd2ba059b486cbb355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point1: {x: 0, y: 0, z: 0}
+  IntermediateTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &-5310883339293661088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,6 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c03360bfe631c77a452d6d985f4dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateText: 
 --- !u!114 &3776828796896874679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +484,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   ViewAngle: 50
-  ViewDistance: 50
+  ViewDistance: 30
 --- !u!114 &8912386866692067245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,7 +699,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 3597979474894058049}
   m_AABB:
     m_Center: {x: -0.22272307, y: -0.055911213, z: 0.0000013709068}
-    m_Extent: {x: 0.6295289, y: 0.43151852, z: 0.6325811}
+    m_Extent: {x: 0.5, y: 0.35, z: 0.5}
   m_DirtyAABB: 0
 --- !u!1 &3003363479014322590
 GameObject:

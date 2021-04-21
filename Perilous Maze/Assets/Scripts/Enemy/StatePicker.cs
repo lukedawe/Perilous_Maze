@@ -61,7 +61,7 @@ public class StatePicker : MonoBehaviour
                 // something with this causes an error
                 bool success = GetComponent<ReturnToPatrol>().CalculateRoute();
                 stateText = "Return to patrol";
-                
+
                 // if there is success in calculating the route...
                 if (success)
                 {
@@ -91,7 +91,6 @@ public class StatePicker : MonoBehaviour
         float distance = Vector3.Distance(Variables.Player.transform.position, transform.position);
         if (angle < Variables.ViewAngle && distance < Variables.ViewDistance)
         {
-            Debug.Log("Is within angle");
             Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
             if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
             {

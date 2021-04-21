@@ -9,9 +9,9 @@ public class NewMapCreator : MonoBehaviour
     [SerializeField] int SpawnChance;
     [SerializeField] List<GameObject> Monsters;
     [SerializeField] GameObject PlayerPrefab;
-    public GameObject Player;
+    [HideInInspector] public GameObject Player;
     [SerializeField] int MapSize;
-    public GameObject[,] Maze;
+    [HideInInspector] public GameObject[,] Maze;
     Vector3Int StartPoint;
     List<Vector3> route = new List<Vector3>();
     [SerializeField] int BranchingChance;
@@ -22,11 +22,12 @@ public class NewMapCreator : MonoBehaviour
     void Awake()
     {
         Maze = new GameObject[MapSize, MapSize];
-        StartPoint = new Vector3Int(1, 0, Random.Range(0, MapSize));
+        StartPoint = new Vector3Int(1, 0, Random.Range(1, MapSize - 2));
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         plane.transform.position = new Vector3(0, -0.5f, 0);
         plane.transform.localScale = new Vector3(MapSize / 2, 1, MapSize / 2);
         plane.GetComponent<Renderer>().material = PlaneMaterial;
+        plane.layer = 3;
 
         do
         {
@@ -60,6 +61,7 @@ public class NewMapCreator : MonoBehaviour
                 Maze[i, j].GetComponent<Renderer>().material = CubeMaterial;
                 Maze[i, j].transform.SetParent(HedgeContainer.transform);
                 Maze[i, j].layer = 3;
+                // Maze[i, j].transform.localScale = new Vector3(1, 1f, 1);
             }
         }
     }
@@ -125,6 +127,7 @@ public class NewMapCreator : MonoBehaviour
                 if (Maze[i, j] != null)
                 {
                     Destroy(Maze[i, j]);
+                    Maze[i, j] = null;
                 }
             }
         }

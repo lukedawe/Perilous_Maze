@@ -6,9 +6,9 @@ using HedgeMethods;
 public class MapMaintainer : MonoBehaviour
 {
 
-    public List<Vector3> PointsGrid;
-    public GameObject Player;
-    public Vector3 PointClosestToPlayer;
+    [HideInInspector] public List<Vector3> PointsGrid;
+    [HideInInspector] public GameObject Player;
+    [HideInInspector] public Vector3 PointClosestToPlayer;
 
     // Update is called once per frame
     void Update()
