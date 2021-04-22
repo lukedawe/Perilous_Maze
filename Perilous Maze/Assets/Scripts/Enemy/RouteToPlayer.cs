@@ -38,7 +38,7 @@ public class RouteToPlayer : MonoBehaviour
 
             if (FastestPath != null && target != null && FastestPath.Length > 0)
             {
-                target.y = -0.5f;
+                // target.y = -0.5f;
                 // Move our position a step closer to the target.
                 float step = Variables.Speed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, target, step);

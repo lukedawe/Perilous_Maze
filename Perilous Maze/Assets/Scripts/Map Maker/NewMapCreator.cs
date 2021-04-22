@@ -17,14 +17,18 @@ public class NewMapCreator : MonoBehaviour
     [SerializeField] int BranchingChance;
     readonly Vector3Int[] directions = { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0) };
     [SerializeField] GameObject HedgeContainer;
+    public Vector3 EndPoint;
+    [SerializeField] GameObject EndEffect;
+    [HideInInspector] GameObject Enemies;
+    [SerializeField] GameObject SafeHouse;
 
     // Start is called before the first frame update
     void Awake()
     {
+        Time.timeScale = 1f;
         Maze = new GameObject[MapSize, MapSize];
         StartPoint = new Vector3Int(1, 0, Random.Range(1, MapSize - 2));
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        plane.transform.position = new Vector3(0, -0.5f, 0);
         plane.transform.localScale = new Vector3(MapSize / 2, 1, MapSize / 2);
         plane.GetComponent<Renderer>().material = PlaneMaterial;
         plane.layer = 3;
@@ -42,6 +46,8 @@ public class NewMapCreator : MonoBehaviour
         GameObject cameraReference = GameObject.Find("Main Camera");
         cameraReference.GetComponent<CameraBehaviour>().CameraStart(Player);
 
+        CreateEndPoint();
+
         GetComponent<MapMaintainer>().PointsGrid = route;
         GetComponent<MapMaintainer>().Player = Player;
         GetComponent<MapDecorator>().Constructor(MapSize);
@@ -55,7 +61,7 @@ public class NewMapCreator : MonoBehaviour
         {
             for (int j = 0; j < MapSize; j++)
             {
-                Vector3Int position = new Vector3Int(i, 0, j);
+                Vector3 position = new Vector3(i, 0.5f, j);
                 Maze[i, j] = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Maze[i, j].transform.position = position;
                 Maze[i, j].GetComponent<Renderer>().material = CubeMaterial;
@@ -137,13 +143,13 @@ public class NewMapCreator : MonoBehaviour
     {
         // so that I can concentrate on what one monster does
         int counter = 0;
-        foreach (Vector3 point in route)
+        for (int i = route.Count - 1; i >= 0; i--)
         {
             int random = Random.Range(1, 11);
             int monster = Random.Range(0, Monsters.Count);
-            if (random <= SpawnChance && counter < MapSize / 10)
+            if (random <= SpawnChance && counter < MapSize / 5)
             {
-                GameObject newMonster = Instantiate(Monsters[monster], point - new Vector3(0, 0.5f, 0), Quaternion.identity);
+                GameObject newMonster = Instantiate(Monsters[monster], route[i], Quaternion.identity);
                 if (newMonster.GetComponent<RouteToPlayer>() != null)
                 {
                     newMonster.GetComponent<RouteToPlayer>().Constructor(route, Player);
@@ -161,7 +167,34 @@ public class NewMapCreator : MonoBehaviour
     {
         int random = Random.Range(0, route.Count);
         Vector3 point = route[random];
-        GameObject newMonster = Instantiate(Monsters[0], point - new Vector3(0, 0.5f, 0), Quaternion.identity);
+        GameObject newMonster = Instantiate(Monsters[0], point, Quaternion.identity);
         newMonster.GetComponent<StatePicker>().Constructor(route);
+    }
+
+    void CreateEndPoint()
+    {
+        for (int i = MapSize - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < MapSize; j++)
+            {
+                if (Maze[i, j] == null)
+                {
+                    EndPoint = new Vector3(i, 0, j);
+                    // Instantiate(EndEffect, EndPoint, Quaternion.identity);
+                    goto end;
+                }
+
+            }
+        }
+    end:;
+        float k = EndPoint.x + 1;
+        while (k < MapSize)
+        {
+            Debug.Log("Deleting: " + k + " " + EndPoint.z);
+            DeleteBlockFromGrid(Maze[(int)k, (int)EndPoint.z]);
+            k++;
+        }
+        EndPoint = new Vector3(k - 1, 0, EndPoint.z);
+        Instantiate(SafeHouse, EndPoint + new Vector3(5, 0, 1.5f), Quaternion.Euler(0, -90f, 0));
     }
 }

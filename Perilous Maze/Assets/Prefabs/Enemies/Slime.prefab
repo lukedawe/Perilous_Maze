@@ -135,7 +135,7 @@ MonoBehaviour:
   HedgeMask:
     serializedVersion: 2
     m_Bits: 8
-  ViewAngle: 50
+  ViewAngle: 70
   ViewDistance: 30
 --- !u!114 &-4623323202982158957
 MonoBehaviour:

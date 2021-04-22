@@ -52,6 +52,7 @@ public class StatePicker : MonoBehaviour
         {
             if ((Object)this.CurrentState == GetComponent<Patrol>())
             {
+                Debug.Log("Patrol returns false");
                 this.CurrentState = GetComponent<Persue>();
                 stateText = "Persue";
             }

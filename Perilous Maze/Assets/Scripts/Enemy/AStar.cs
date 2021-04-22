@@ -59,8 +59,8 @@ public class AStar : MonoBehaviour
             {
                 Node successor = new Node(q, q.position + direction);
 
-                bool xInRange = (successor.position.x > 0 && successor.position.x < maze.Length - 1);
-                bool zInRange = (successor.position.z > 0 && successor.position.z < maze.Length - 1);
+                bool xInRange = (successor.position.x > 0 && successor.position.x < Math.Sqrt(maze.Length) - 1);
+                bool zInRange = (successor.position.z > 0 && successor.position.z < Math.Sqrt(maze.Length) - 1);
 
                 if (!xInRange || !zInRange)
                 {

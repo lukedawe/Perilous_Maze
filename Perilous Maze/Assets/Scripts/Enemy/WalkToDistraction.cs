@@ -31,19 +31,10 @@ public class WalkToDistraction : MonoBehaviour, IState
     }
     public bool Activate(float deltaTime)
     {
-
-        Vector3 targetDir = Player.transform.position - transform.position;
-        float angle = Vector3.Angle(targetDir, transform.forward);
-        float distance = Vector3.Distance(Player.transform.position, transform.position);
-        if (angle < 18f && distance < 5f)
-        {
-            return false;
-        }
-        else if (StartIndex >= 0)
+        if (StartIndex > 0)
         {
             if (FastestPath != null && target != null && FastestPath.Length > 0)
             {
-                target.y = -0.5f;
                 // Move our position a step closer to the target.
                 float step = Variables.Speed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
@@ -65,5 +56,6 @@ public class WalkToDistraction : MonoBehaviour, IState
             return true;
         }
         return false;
+
     }
 }
