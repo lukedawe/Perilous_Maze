@@ -20,6 +20,11 @@ public class StatePicker : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        Distractable.OnDistraction -= WalkTowardsDistraction;
+    }
+
     public void Constructor(List<Vector3> points)
     {
         Distractable.OnDistraction += WalkTowardsDistraction;

@@ -18,16 +18,7 @@ public class WinMenu : MonoBehaviour
 
     public void ShowPanel()
     {
-        enabled = true;
         Pause();
-    }
-
-    void Update()
-    {
-        if (GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().GameWon)
-        {
-            ShowPanel();
-        }
     }
 
     public void Pause()

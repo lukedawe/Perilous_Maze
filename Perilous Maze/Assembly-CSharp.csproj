@@ -75,6 +75,9 @@
      <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\AdjustTimeScale.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EndGame.cs" />
+     <Compile Include="Assets\Scripts\Menus\Lose Menu.cs" />
+     <Compile Include="Assets\Scripts\Menus\GameLost.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

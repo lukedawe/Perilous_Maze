@@ -11,6 +11,7 @@ public class MapMaintainer : MonoBehaviour
     [HideInInspector] public Vector3 PointClosestToPlayer;
     [HideInInspector] public bool GameWon = false;
 
+
     // Update is called once per frame
     void Update()
     {
@@ -18,12 +19,22 @@ public class MapMaintainer : MonoBehaviour
         Vector3[] playerToPoint = { Player.transform.position, PointClosestToPlayer };
         if (PointClosestToPlayer == GetComponent<NewMapCreator>().EndPoint && !GameWon)
         {
-            GameWon = true;
+            GameWin();
         }
+    }
+
+    public void GameWin()
+    {
+        GameObject.Find("Menu Controller").GetComponent<WinMenu>().ShowPanel();
     }
 
     void ResetMap()
     {
         return;
+    }
+
+    public void GameLost()
+    {
+        GameObject.Find("Menu Controller").GetComponent<GameLost>().ShowPanel();
     }
 }

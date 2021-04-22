@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: -6978258280761085887}
   - component: {fileID: -3957349836599823892}
   - component: {fileID: 8912386866692067245}
+  - component: {fileID: -194872432758317526}
   m_Layer: 0
   m_Name: Free Burrow
   m_TagString: Untagged
@@ -495,6 +496,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fb8f9de106e66d2798b53dd2ea4e72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-194872432758317526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732684518155842968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a0093e5f9df992d83671d4924ffae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2748282422418694191

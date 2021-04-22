@@ -191,7 +191,6 @@ public class NewMapCreator : MonoBehaviour
         float k = EndPoint.x + 1;
         while (k < MapSize)
         {
-            Debug.Log("Deleting: " + k + " " + EndPoint.z);
             DeleteBlockFromGrid(Maze[(int)k, (int)EndPoint.z]);
             k++;
         }

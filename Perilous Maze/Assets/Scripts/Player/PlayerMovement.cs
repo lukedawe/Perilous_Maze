@@ -129,7 +129,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction.magnitude < 0.2f)
         {
-            Debug.Log("Player is not moving");
             GetComponent<AudioSource>().Pause();
             walkSoundPlaying = false;
         }
