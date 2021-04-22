@@ -14,6 +14,7 @@ public class NewMapCreator : MonoBehaviour
     [HideInInspector] public GameObject[,] Maze;
     Vector3Int StartPoint;
     List<Vector3> route = new List<Vector3>();
+    [Range(0, 10)]
     [SerializeField] int BranchingChance;
     readonly Vector3Int[] directions = { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0) };
     [SerializeField] GameObject HedgeContainer;

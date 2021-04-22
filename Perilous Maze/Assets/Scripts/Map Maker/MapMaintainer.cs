@@ -16,14 +16,9 @@ public class MapMaintainer : MonoBehaviour
     {
         PointClosestToPlayer = VectorMaths.FindPointClosestToEntity(Player.transform, PointsGrid);
         Vector3[] playerToPoint = { Player.transform.position, PointClosestToPlayer };
-        if (PointClosestToPlayer == GetComponent<NewMapCreator>().EndPoint)
+        if (PointClosestToPlayer == GetComponent<NewMapCreator>().EndPoint && !GameWon)
         {
-            Debug.Log("Game Won!!");
             GameWon = true;
-        }
-        else
-        {
-            Debug.Log(PointClosestToPlayer + " " + GetComponent<NewMapCreator>().EndPoint);
         }
     }
 
