@@ -196,6 +196,6 @@ public class NewMapCreator : MonoBehaviour
             k++;
         }
         EndPoint = new Vector3(k - 1, 0, EndPoint.z);
-        Instantiate(SafeHouse, EndPoint + new Vector3(5, 0, 1.5f), Quaternion.Euler(0, -90f, 0));
+        Instantiate(SafeHouse, EndPoint + new Vector3(6, 0, 1.5f), Quaternion.Euler(0, -90f, 0));
     }
 }

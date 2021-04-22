@@ -59,7 +59,7 @@
      <Compile Include="Assets\Scripts\Map Maker\MapMaintainer.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapDecorator.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\ProximityActivate.cs" />
-     <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\SimpleSampleCharacterControl.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Enemy\StatePicker.cs" />
      <Compile Include="Assets\Scripts\Enemy\WalkToDistraction.cs" />
      <Compile Include="Assets\Imported Resources\TutorialInfo\Scripts\Readme.cs" />
@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\Enemy\Persue.cs" />
      <Compile Include="Assets\Imported Resources\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerWorldInteraction.cs" />
+     <Compile Include="Assets\Scripts\Menus\MenuController.cs" />
      <Compile Include="Assets\Scripts\Menus\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\Enemy\PathFinder.cs" />
      <Compile Include="Assets\Scripts\Map Maker\FourWayHedge.cs" />
@@ -74,7 +75,6 @@
      <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\AdjustTimeScale.cs" />
-     <Compile Include="Assets\Scripts\Menus\MenuController.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
