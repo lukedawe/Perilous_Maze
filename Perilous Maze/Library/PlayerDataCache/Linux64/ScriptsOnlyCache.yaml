@@ -1,7 +1,5 @@
 ScriptsOnlyBuild:
   usedScripts:
-    Assembly-CSharp-Editor.dll:
-    - ReadmeEditor
     Assembly-CSharp.dll:
     - AStar
     - CameraBehaviour
@@ -20,7 +18,6 @@ ScriptsOnlyBuild:
     - Persue
     - PlayerMovement
     - PlayerWorldInteraction
-    - Readme
     - ReturnToPatrol
     - RouteToPlayer
     - SpawnEffect
@@ -959,4 +956,4 @@ ScriptsOnlyBuild:
   platform: 24
   scenePathNames:
   - Assets/Scenes/LevelOne.unity
-  playerPath: /home/luke/Documents/Games Programming/V01.x86_64
+  playerPath: /home/luke/Documents/Games Programming/V01_Ubuntu.x86_64

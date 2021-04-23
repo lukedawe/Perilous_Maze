@@ -38,9 +38,11 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Enemy\ReturnToPatrol.cs" />
      <Compile Include="Assets\Scripts\Map Maker\EndOfRouteHedge.cs" />
+     <Compile Include="Assets\Scripts\Menus\Lose Menu.cs" />
      <Compile Include="Assets\Scripts\Map Maker\ITurnHedge.cs" />
      <Compile Include="Assets\Scripts\Enemy\RouteToPlayer.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Ramps\Runtime\RampAsset.cs" />
+     <Compile Include="Assets\Scripts\Menus\GameLost.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\SimpleCharacterMotor.cs" />
      <Compile Include="Assets\Scripts\Enemy\AStar.cs" />
      <Compile Include="Assets\Scripts\Player\Distractable.cs" />
@@ -48,6 +50,7 @@
      <Compile Include="Assets\Scripts\Map Maker\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\HegdeMethods.cs" />
      <Compile Include="Assets\Scripts\Enemy\IState.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EndGame.cs" />
      <Compile Include="Assets\Scripts\Map Maker\NewMapCreator.cs" />
      <Compile Include="Assets\Scripts\Map Maker\IHedge.cs" />
      <Compile Include="Assets\Scripts\Menus\WinMenu.cs" />
@@ -75,9 +78,7 @@
      <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\AdjustTimeScale.cs" />
-     <Compile Include="Assets\Scripts\Enemy\EndGame.cs" />
-     <Compile Include="Assets\Scripts\Menus\Lose Menu.cs" />
-     <Compile Include="Assets\Scripts\Menus\GameLost.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerVariables.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
