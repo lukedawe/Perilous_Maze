@@ -22,6 +22,7 @@ public class NewMapCreator : MonoBehaviour
     [SerializeField] GameObject EndEffect;
     [HideInInspector] GameObject Enemies;
     [SerializeField] GameObject SafeHouse;
+    [SerializeField] GameObject playerVariables;
 
     // Start is called before the first frame update
     void Awake()
@@ -51,9 +52,10 @@ public class NewMapCreator : MonoBehaviour
 
         GetComponent<MapMaintainer>().PointsGrid = route;
         GetComponent<MapMaintainer>().Player = Player;
+
         GetComponent<MapDecorator>().Constructor(MapSize);
 
-        CreateMonsters();
+        //CreateMonsters();
     }
 
     void BeginMap()
