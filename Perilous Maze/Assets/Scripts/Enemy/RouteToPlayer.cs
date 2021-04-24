@@ -51,12 +51,18 @@ public class RouteToPlayer : MonoBehaviour
                 if (Vector3.Distance(transform.position, target) < 0.5f)
                 {
                     startIndex--;
-                    if (startIndex > 0)
+                    if (startIndex >= 0)
                     {
                         target = FastestPath[startIndex];
                     }
                 }
             }
+        }
+        else
+        {
+            float step = Variables.Speed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, Variables.Player.transform.position, step);
+            transform.LookAt(Variables.Player.transform.position);
         }
     }
 

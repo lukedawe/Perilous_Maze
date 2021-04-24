@@ -55,7 +55,7 @@ public class NewMapCreator : MonoBehaviour
 
         GetComponent<MapDecorator>().Constructor(MapSize);
 
-        //CreateMonsters();
+        CreateMonsters();
     }
 
     void BeginMap()
