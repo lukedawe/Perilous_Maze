@@ -90,18 +90,21 @@ public class NewMapCreator : MonoBehaviour
             int z1 = (int)(position.z + direction.z);
             int x2 = (int)(position.x + 2 * direction.x);
             int z2 = (int)(position.z + 2 * direction.z);
+            int x3 = (int)(position.x + 3 * direction.x);
+            int z3 = (int)(position.z + 3 * direction.z);
 
             bool x1InRange = x1 > 0 && x1 < MapSize - 1;
             bool z1InRange = z1 > 0 && z1 < MapSize - 1;
             bool x2InRange = x2 > 0 && x2 < MapSize - 1;
             bool z2InRange = z2 > 0 && z2 < MapSize - 1;
+            bool x3InRange = x3 > 0 && x3 < MapSize - 1;
+            bool z3InRange = z3 > 0 && z3 < MapSize - 1;
 
-            if (x1InRange && z1InRange && x2InRange && z2InRange)
+            if (x1InRange && z1InRange && x2InRange && z2InRange && x3InRange && z3InRange)
             {
                 GameObject[] candidateBlocks = { Maze[x1, z1], Maze[x2, z2] };
-                int[,] candidateBlocksCoords = { { x1, z1 }, { x2, z2 } };
 
-                if (candidateBlocks[0] != null && candidateBlocks[1] != null)
+                if (candidateBlocks[0] != null && candidateBlocks[1] != null && Maze[x3, z3] != null)
                 {
 
                     int random = Random.Range(1, 11);

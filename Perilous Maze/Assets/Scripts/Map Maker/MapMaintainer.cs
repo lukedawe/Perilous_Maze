@@ -49,6 +49,7 @@ public class MapMaintainer : MonoBehaviour
 
     public void GameLost()
     {
+        variables.ResetPoints();
         GameObject.Find("Menu Controller").GetComponent<GameLost>().ShowPanel();
     }
 }

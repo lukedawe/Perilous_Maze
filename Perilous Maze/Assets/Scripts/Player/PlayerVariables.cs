@@ -34,6 +34,11 @@ public class PlayerVariables : MonoBehaviour
         modifier.GetComponent<MapMaintainer>().variables = this;
     }
 
+    public void ResetPoints()
+    {
+        pointsAccumulated = 0;
+    }
+
     public void addPoints(float points)
     {
         this.pointsAccumulated += (int)points;

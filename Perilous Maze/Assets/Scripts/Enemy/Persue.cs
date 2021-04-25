@@ -23,19 +23,6 @@ public class Persue : MonoBehaviour, IState
         PathFinder = GetComponent<AStar>();
     }
 
-    // public bool Activate(float deltaTime)
-    // {
-    //     float distance = Vector3.Distance(Player.transform.position, transform.position);
-    //     if (distance < 30)
-    //     {
-    //         float step = Variables.Speed * Time.deltaTime; // calculate distance to move
-    //         transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
-    //         transform.LookAt(Player.transform.position);
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     public bool Activate(float deltaTime)
     {
         timeSinceLastSeen += deltaTime;
@@ -50,23 +37,17 @@ public class Persue : MonoBehaviour, IState
             {
                 timeSinceLastSeen = 0;
                 positionLastSeenIn = Player.transform.position;
-                // float step = Variables.Speed * Time.deltaTime; // calculate distance to move
-                // transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
-                // transform.LookAt(Player.transform.position);
-
-                // return true;
             }
         }
-        if (timeSinceLastSeen < 2)
+        if (timeSinceLastSeen < Variables.DistractedTime)
         {
-            Variables.Speed = 1;
             timeSinceLastRun += Time.deltaTime;
             Vector3 ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, Variables.PointsGrid);
             Vector3 ClosestPointToPlayer = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().PointClosestToPlayer;
 
             if (ClosestPointToSelf != ClosestPointToPlayer)
             {
-                if (timeSinceLastRun >= 1)
+                if (timeSinceLastRun >= 0.2)
                 {
                     // keep track of the index of the target that the enemy needs to travel towards
                     timeSinceLastRun = 0;
@@ -82,9 +63,8 @@ public class Persue : MonoBehaviour, IState
 
                 if (FastestPath != null && target != null && FastestPath.Length > 0)
                 {
-                    // target.y = -0.5f;
                     // Move our position a step closer to the target.
-                    float step = Variables.Speed * Time.deltaTime; // calculate distance to move
+                    float step = Variables.ChaseSpeed * Time.deltaTime; // calculate distance to move
                     transform.position = Vector3.MoveTowards(transform.position, target, step);
 
                     Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);

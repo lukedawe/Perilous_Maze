@@ -58,13 +58,27 @@ public class Patrol : MonoBehaviour, IState
             if (CurrentTarget == point1) CurrentTarget = point2;
             else CurrentTarget = point1;
         }
+
         if (Vector3.Distance(transform.position, route[currentPoint]) < 0.5f)
         {
-            if (CurrentTarget == point1) currentPoint++;
-            else currentPoint--;
+            if (CurrentTarget == point1)
+            {
+                if (currentPoint < route.Length - 1)
+                {
+                    currentPoint++;
+                }
+            }
+            else
+            {
+                if (currentPoint > 0)
+                {
+                    currentPoint--;
+                }
+            }
 
             IntermediateTarget = route[currentPoint];
         }
+
         float step = Speed * deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, route[currentPoint], step);
 

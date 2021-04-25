@@ -486,6 +486,8 @@ MonoBehaviour:
     m_Bits: 8
   ViewAngle: 70
   ViewDistance: 30
+  ChaseSpeed: 1.3
+  DistractedTime: 5
 --- !u!114 &8912386866692067245
 MonoBehaviour:
   m_ObjectHideFlags: 0

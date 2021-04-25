@@ -12,6 +12,8 @@ public class EnemyVariables : MonoBehaviour
     public LayerMask HedgeMask;
     public float ViewAngle;
     public float ViewDistance;
+    public float ChaseSpeed;
+    public float DistractedTime;
 
     public void Constructor()
     {

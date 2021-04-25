@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3ff70dd638e4312874edbe588170f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
+  Speed: 1.25
   TurnSpeed: 3
   PointsGrid: []
   Player: {fileID: 0}
@@ -139,6 +139,8 @@ MonoBehaviour:
     m_Bits: 8
   ViewAngle: 70
   ViewDistance: 30
+  ChaseSpeed: 1.5
+  DistractedTime: 3
 --- !u!114 &-4623323202982158957
 MonoBehaviour:
   m_ObjectHideFlags: 0
