@@ -8,12 +8,17 @@ public class PlayerWorldInteraction : MonoBehaviour
     [SerializeField] float ThrowForce;
     Vector3 RockHeight = new Vector3(0, 1, 0);
     float TimeSinceLastAction;
+    [SerializeField] Animator animator;
+    GameObject newRock;
+
     void ThrowRock()
     {
         if (GetComponent<Inventory>().ThrowRock())
         {
-            GameObject newRock = Instantiate(RockPrefab, transform.position + transform.forward + RockHeight, Quaternion.identity);
-            newRock.GetComponent<Rigidbody>().AddForce(new Vector3(transform.forward.x, 3, transform.forward.z) * ThrowForce);
+            animator.SetTrigger("Throw");
+            newRock = Instantiate(RockPrefab, GameObject.Find("Rock position").transform.position, Quaternion.identity);
+            // newRock.GetComponent<Release>().AtRelease();
+            // newRock.GetComponent<Rigidbody>().AddForce(new Vector3(transform.forward.x, 3, transform.forward.z) * ThrowForce);
         }
     }
     void FixedUpdate()
@@ -24,5 +29,10 @@ public class PlayerWorldInteraction : MonoBehaviour
             TimeSinceLastAction = 0;
             ThrowRock();
         }
+    }
+
+    void AtRelease()
+    {
+        newRock.GetComponent<Release>().AtRelease();
     }
 }

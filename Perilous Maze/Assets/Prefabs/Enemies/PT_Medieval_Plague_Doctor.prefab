@@ -854,7 +854,7 @@ GameObject:
   - component: {fileID: 2353371726768755957}
   m_Layer: 0
   m_Name: PT_Medieval_Plague_Doctor
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,6 +927,8 @@ MonoBehaviour:
     m_Bits: 0
   ViewAngle: 0
   ViewDistance: 0
+  ChaseSpeed: 0
+  DistractedTime: 0
 --- !u!114 &-1475770951936422460
 MonoBehaviour:
   m_ObjectHideFlags: 0

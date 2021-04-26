@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Map Maker\StraightHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\HegdeMethods.cs" />
+     <Compile Include="Assets\Release.cs" />
      <Compile Include="Assets\Scripts\Enemy\IState.cs" />
      <Compile Include="Assets\Scripts\Enemy\EndGame.cs" />
      <Compile Include="Assets\Scripts\Map Maker\NewMapCreator.cs" />
@@ -71,6 +72,8 @@
      <Compile Include="Assets\Imported Resources\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerWorldInteraction.cs" />
      <Compile Include="Assets\Scripts\Menus\MenuController.cs" />
+     <Compile Include="Assets\HighScoreHandler.cs" />
+     <Compile Include="Assets\OptionsHandler.cs" />
      <Compile Include="Assets\Scripts\Menus\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\Enemy\PathFinder.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerVariables.cs" />
@@ -79,8 +82,6 @@
      <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\AdjustTimeScale.cs" />
-     <Compile Include="Assets\OptionsHandler.cs" />
-     <Compile Include="Assets\HighScoreHandler.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
