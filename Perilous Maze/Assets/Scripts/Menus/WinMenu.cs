@@ -37,6 +37,6 @@ public class WinMenu : MonoBehaviour
     {
         enabled = false;
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

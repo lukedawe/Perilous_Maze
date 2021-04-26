@@ -31,7 +31,13 @@ public class PlayerVariables : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject modifier = GameObject.Find("Map Modifier");
-        modifier.GetComponent<MapMaintainer>().variables = this;
+        if (modifier)
+        {
+            modifier.GetComponent<MapMaintainer>().variables = this;
+        }
+        else{
+            Debug.LogError("modifier not found");
+        }
     }
 
     public void ResetPoints()
@@ -42,6 +48,20 @@ public class PlayerVariables : MonoBehaviour
     public void addPoints(float points)
     {
         this.pointsAccumulated += (int)points;
+
+        if (PlayerPrefs.HasKey("HighScore"))
+        {
+            int highScore = PlayerPrefs.GetInt("HighScore");
+
+            if (pointsAccumulated > highScore)
+            {
+                PlayerPrefs.SetInt("HighScore", pointsAccumulated);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("HighScore", pointsAccumulated);
+        }
     }
 }
 

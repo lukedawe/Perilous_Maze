@@ -10,7 +10,7 @@ public class NewMapCreator : MonoBehaviour
     [SerializeField] List<GameObject> Monsters;
     [SerializeField] GameObject PlayerPrefab;
     [HideInInspector] public GameObject Player;
-    [SerializeField] int MapSize;
+    int MapSize;
     [HideInInspector] public GameObject[,] Maze;
     Vector3Int StartPoint;
     List<Vector3> route = new List<Vector3>();
@@ -27,6 +27,8 @@ public class NewMapCreator : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        chooseDifficulty();
+
         Time.timeScale = 1f;
         Maze = new GameObject[MapSize, MapSize];
         StartPoint = new Vector3Int(1, 0, Random.Range(1, MapSize - 2));
@@ -56,6 +58,38 @@ public class NewMapCreator : MonoBehaviour
         GetComponent<MapDecorator>().Constructor(MapSize);
 
         CreateMonsters();
+    }
+
+    void chooseDifficulty()
+    {
+        string difficulty;
+
+        if (PlayerPrefs.HasKey("Difficulty"))
+        {
+            difficulty = PlayerPrefs.GetString("Difficulty");
+        }
+        else
+        {
+            difficulty = "Medium";
+        }
+
+        Debug.Log("Difficulty: " + difficulty);
+
+        switch (difficulty)
+        {
+            case "Easy":
+                MapSize = 30;
+                break;
+            case "Medium":
+                MapSize = 40;
+                break;
+            case "Hard":
+                MapSize = 50;
+                break;
+            default:
+                MapSize = 40;
+                break;
+        }
     }
 
     void BeginMap()
