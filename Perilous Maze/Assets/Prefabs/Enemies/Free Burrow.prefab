@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a97b2e74533f3abc99340ed8ac26345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 8667052616836904280}
 --- !u!114 &-7068443462637098687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateText: 
+  animator: {fileID: 8667052616836904280}
 --- !u!114 &3776828796896874679
 MonoBehaviour:
   m_ObjectHideFlags: 0

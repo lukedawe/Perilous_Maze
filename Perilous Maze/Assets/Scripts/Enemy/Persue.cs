@@ -14,6 +14,7 @@ public class Persue : MonoBehaviour, IState
     AStar PathFinder;
     int startIndex;
     Vector3 target;
+    [SerializeField] Animator animator;
 
 
     public void Constructor()
@@ -35,8 +36,12 @@ public class Persue : MonoBehaviour, IState
             Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
             if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
             {
+                animator.SetTrigger("Chase");
                 timeSinceLastSeen = 0;
                 positionLastSeenIn = Player.transform.position;
+            }
+            else{
+                animator.SetTrigger("LostPlayer");
             }
         }
         if (timeSinceLastSeen < Variables.DistractedTime)

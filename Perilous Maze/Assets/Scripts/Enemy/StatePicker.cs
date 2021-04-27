@@ -9,14 +9,15 @@ public class StatePicker : MonoBehaviour
     Patrol patrol;
     Persue persue;
     EnemyVariables Variables;
+    [SerializeField] Animator animator;
 
     void WalkTowardsDistraction(Vector3 destination)
     {
-        Debug.Log("Rock thrown");
-        if (Vector3.Distance(transform.position, destination) < 30)
+        if (Vector3.Distance(transform.position, destination) < 30 && (Object)CurrentState != GetComponent<Persue>())
         {
             GetComponent<WalkToDistraction>().Constructor(destination);
             this.CurrentState = GetComponent<WalkToDistraction>();
+            animator.SetTrigger("Distracted");
         }
     }
 
@@ -55,17 +56,12 @@ public class StatePicker : MonoBehaviour
 
         if (!this.CurrentState.Activate(Time.deltaTime))
         {
-            if ((Object)this.CurrentState == GetComponent<Patrol>())
-            {
-                Debug.Log("Patrol returns false");
-                this.CurrentState = GetComponent<Persue>();
-                stateText = "Persue";
-            }
             // if the enemy was persuing but lost the player, return it to the patrolling state
-            else if ((Object)this.CurrentState == GetComponent<Persue>() || (Object)this.CurrentState == GetComponent<WalkToDistraction>())
+            if ((Object)this.CurrentState == GetComponent<Persue>() || (Object)this.CurrentState == GetComponent<WalkToDistraction>())
             {
                 // something with this causes an error
                 bool success = GetComponent<ReturnToPatrol>().CalculateRoute();
+                animator.SetTrigger("ReturnToPatrol");
                 stateText = "Return to patrol";
 
                 // if there is success in calculating the route...
@@ -84,6 +80,7 @@ public class StatePicker : MonoBehaviour
             }
             else if ((Object)this.CurrentState == GetComponent<ReturnToPatrol>())
             {
+                animator.SetTrigger("ReturnToPatrol");
                 this.CurrentState = GetComponent<Patrol>();
                 stateText = "Patrol";
             }

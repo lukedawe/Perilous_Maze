@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HighScoreHandler : MonoBehaviour
 {
-    [SerializeField] Text HighScore;
+    [SerializeField] TMP_Text HighScore;
 
     void Start()
     {
