@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Map Maker\StraightHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\HegdeMethods.cs" />
+     <Compile Include="Assets\SettingsMenu.cs" />
      <Compile Include="Assets\Release.cs" />
      <Compile Include="Assets\Scripts\Enemy\IState.cs" />
      <Compile Include="Assets\Scripts\Enemy\EndGame.cs" />

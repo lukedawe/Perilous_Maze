@@ -33,4 +33,9 @@ public class OptionsHandler : MonoBehaviour
 
         SceneManager.LoadScene(1);
     }
+
+    public void LaunchSettings()
+    {
+        SceneManager.LoadScene(2);
+    }
 }

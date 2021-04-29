@@ -78,16 +78,16 @@ public class NewMapCreator : MonoBehaviour
         switch (difficulty)
         {
             case "Easy":
-                MapSize = 30;
+                MapSize = 20;
                 break;
             case "Medium":
-                MapSize = 40;
+                MapSize = 30;
                 break;
             case "Hard":
-                MapSize = 50;
+                MapSize = 40;
                 break;
             default:
-                MapSize = 40;
+                MapSize = 30;
                 break;
         }
     }
@@ -120,6 +120,9 @@ public class NewMapCreator : MonoBehaviour
     {
         foreach (Vector3Int direction in directions)
         {
+            // x1, z1 and x2, z2 are the blocks that will be deleted, x3, z3 is the block that will not be deleted
+            // but x1, z1 and x2, z2 will not be deleted if x3 is already deleted
+
             int x1 = (int)(position.x + direction.x);
             int z1 = (int)(position.z + direction.z);
             int x2 = (int)(position.x + 2 * direction.x);
@@ -134,10 +137,12 @@ public class NewMapCreator : MonoBehaviour
             bool x3InRange = x3 > 0 && x3 < MapSize - 1;
             bool z3InRange = z3 > 0 && z3 < MapSize - 1;
 
+            // make sure that everything is within the maze
             if (x1InRange && z1InRange && x2InRange && z2InRange && x3InRange && z3InRange)
             {
                 GameObject[] candidateBlocks = { Maze[x1, z1], Maze[x2, z2] };
 
+                // if all the blocks are still there...
                 if (candidateBlocks[0] != null && candidateBlocks[1] != null && Maze[x3, z3] != null)
                 {
 
@@ -146,6 +151,7 @@ public class NewMapCreator : MonoBehaviour
                     {
                         foreach (GameObject block in candidateBlocks)
                         {
+                            // delete the blocks and continue from x2, z2
                             DeleteBlockFromGrid(block);
                             MakeRoute(candidateBlocks[1].transform.position);
                         }
@@ -158,6 +164,7 @@ public class NewMapCreator : MonoBehaviour
     void DeleteBlockFromGrid(GameObject block)
     {
         Vector3 temp = new Vector3(block.transform.position.x, 0, block.transform.position.z);
+        // add the position of the block to the route, so that the enemies know where they can walk etc.
         route.Add(temp);
         Maze[(int)block.transform.position.x, (int)block.transform.position.z] = null;
         Destroy(block);
@@ -181,19 +188,32 @@ public class NewMapCreator : MonoBehaviour
 
     void CreateMonsters()
     {
-        // so that I can concentrate on what one monster does
+        List<Vector3> cannotSpawnPoints = new List<Vector3>();
+
         int counter = 0;
+        // trackerCount is the number of enemies that can follow you all the time
+        int trackerCount = 0;
         for (int i = route.Count - 1; i >= 0; i--)
         {
             int random = Random.Range(1, 11);
             int monster = Random.Range(0, Monsters.Count);
-            if (random <= SpawnChance && counter < MapSize / 5)
+            // limit the number of enemies per level
+            if (random <= SpawnChance && counter < MapSize / 10)
             {
+                // if the monster is the plague doctor and there has already been one, don't spawn another
+                if (monster == 0 && trackerCount > 0)
+                {
+                    continue;
+                }
+
                 GameObject newMonster = Instantiate(Monsters[monster], route[i], Quaternion.identity);
+                // for the plague doctor enemy
                 if (newMonster.GetComponent<RouteToPlayer>() != null)
                 {
                     newMonster.GetComponent<RouteToPlayer>().Constructor(route, Player);
+                    trackerCount++;
                 }
+                // for the blob and bear enemies
                 if (newMonster.GetComponent<StatePicker>() != null)
                 {
                     newMonster.GetComponent<StatePicker>().Constructor(route);
@@ -203,6 +223,7 @@ public class NewMapCreator : MonoBehaviour
         }
     }
 
+    // for testing, spawn a monster of a certain type
     void CreateTestMonster()
     {
         int random = Random.Range(0, route.Count);
@@ -211,6 +232,7 @@ public class NewMapCreator : MonoBehaviour
         newMonster.GetComponent<StatePicker>().Constructor(route);
     }
 
+    // find a suitable end point
     void CreateEndPoint()
     {
         for (int i = MapSize - 1; i >= 0; i--)
@@ -219,8 +241,8 @@ public class NewMapCreator : MonoBehaviour
             {
                 if (Maze[i, j] == null)
                 {
+                    // this is the point that is the closest to the other side of the maze
                     EndPoint = new Vector3(i, 0, j);
-                    // Instantiate(EndEffect, EndPoint, Quaternion.identity);
                     goto end;
                 }
 
@@ -228,11 +250,14 @@ public class NewMapCreator : MonoBehaviour
         }
     end:;
         float k = EndPoint.x + 1;
+
+        // delete blocks from the previous end point until you reach the actual edge of the maze
         while (k < MapSize)
         {
             DeleteBlockFromGrid(Maze[(int)k, (int)EndPoint.z]);
             k++;
         }
+        // save the end point and spawn the house
         EndPoint = new Vector3(k - 1, 0, EndPoint.z);
         Instantiate(SafeHouse, EndPoint + new Vector3(6, 0, 1.5f), Quaternion.Euler(0, -90f, 0));
     }
