@@ -111,7 +111,7 @@ public class NewMapCreator : MonoBehaviour
 
     void StartRoute()
     {
-        GameObject start = Maze[1, StartPoint.z];
+        GameObject start = Maze[StartPoint.x, StartPoint.z];
         DeleteBlockFromGrid(start);
         MakeRoute(start.transform.position);
     }
@@ -188,7 +188,11 @@ public class NewMapCreator : MonoBehaviour
 
     void CreateMonsters()
     {
+        // get the route the player has to take to get from the start to the end of the maze
         List<Vector3> cannotSpawnPoints = new List<Vector3>();
+        AStar a = new AStar();
+        a.Constructor(Maze);
+        cannotSpawnPoints.AddRange(a.AStarSearch(StartPoint, EndPoint));
 
         int counter = 0;
         // trackerCount is the number of enemies that can follow you all the time
@@ -201,7 +205,8 @@ public class NewMapCreator : MonoBehaviour
             if (random <= SpawnChance && counter < MapSize / 10)
             {
                 // if the monster is the plague doctor and there has already been one, don't spawn another
-                if (monster == 0 && trackerCount > 0)
+                // OR if the point stands between the player and the end
+                if (monster == 0 && trackerCount > 0 || cannotSpawnPoints.Contains(route[i]))
                 {
                     continue;
                 }

@@ -14,7 +14,7 @@ public class AStar : MonoBehaviour
     }
 
     // Manhattan heuristic as we can only go 4 directions
-    int GetHeuristic(Vector3 start, Vector3 end)
+    static int GetHeuristic(Vector3 start, Vector3 end)
     {
         return (int)(start.x - end.x) + (int)(start.y - end.y);
     }

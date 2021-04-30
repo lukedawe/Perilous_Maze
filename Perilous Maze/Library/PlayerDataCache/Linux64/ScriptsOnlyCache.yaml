@@ -1,7 +1,5 @@
 ScriptsOnlyBuild:
   usedScripts:
-    Assembly-CSharp-Editor.dll:
-    - ReadmeEditor
     Assembly-CSharp.dll:
     - AStar
     - CameraBehaviour
@@ -23,7 +21,6 @@ ScriptsOnlyBuild:
     - PlayerMovement
     - PlayerVariables
     - PlayerWorldInteraction
-    - Readme
     - Release
     - ReturnToPatrol
     - RouteToPlayer
@@ -233,6 +230,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
@@ -305,6 +304,8 @@ ScriptsOnlyBuild:
     - Class: 48
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 89
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -631,7 +632,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 7d8e243ed3f4228c740ea09eec842cd9
+      Hash: 081eb9fece71ec9ac9d079a8fb370304
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SettingsMenu

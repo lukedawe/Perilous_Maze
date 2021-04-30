@@ -12,13 +12,11 @@ public class Release : MonoBehaviour
         hand = GameObject.Find("Rock position");
         transform.parent = hand.transform;
         GetComponent<Rigidbody>().useGravity = false;
-        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void AtRelease()
     {
         transform.parent = null;
-        GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Rigidbody>().useGravity = true;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         GetComponent<Rigidbody>().AddForce(new Vector3(player.transform.forward.x, 2, player.transform.forward.z) * throwForce);

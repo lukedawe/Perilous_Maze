@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 // all code for this from https://www.red-gate.com/simple-talk/dotnet/c-programming/how-to-create-a-settings-menu-in-unity/ 
+// (slightly modified because source was out of date)
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
@@ -42,7 +44,8 @@ public class SettingsMenu : MonoBehaviour
         LoadSettings(currentResolutionIndex);
     }
 
-    public void GoToMainMenu(){
+    public void GoToMainMenu()
+    {
         SceneManager.LoadScene(0);
     }
 
@@ -52,7 +55,7 @@ public class SettingsMenu : MonoBehaviour
         audioMixer.SetFloat("Volume", volume);
         currentVolume = volume;
     }
-    
+
     public void SetFullscreen()
     {
         bool isFullscreen = fullScreenToggle;
