@@ -51,7 +51,7 @@
      <Compile Include="Assets\Scripts\Map Maker\TurnHedge.cs" />
      <Compile Include="Assets\Scripts\Map Maker\HegdeMethods.cs" />
      <Compile Include="Assets\SettingsMenu.cs" />
-     <Compile Include="Assets\Release.cs" />
+     <Compile Include="Assets\Scripts\Player\Release.cs" />
      <Compile Include="Assets\Imported Resources\Ultimate 10 Plus Shaders\Scripts\U10PS_SnowOverTime.cs" />
      <Compile Include="Assets\Scripts\Enemy\IState.cs" />
      <Compile Include="Assets\Scripts\Enemy\EndGame.cs" />
@@ -77,7 +77,7 @@
      <Compile Include="Assets\Imported Resources\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerWorldInteraction.cs" />
      <Compile Include="Assets\Scripts\Menus\MenuController.cs" />
-     <Compile Include="Assets\HighScoreHandler.cs" />
+     <Compile Include="Assets\Scripts\Player\HighScoreHandler.cs" />
      <Compile Include="Assets\Imported Resources\Ultimate 10 Plus Shaders\Shaders\Plexus\Plexus.cs" />
      <Compile Include="Assets\OptionsHandler.cs" />
      <Compile Include="Assets\Scripts\Menus\PauseMenu.cs" />
@@ -88,6 +88,7 @@
      <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Map Maker\MapCreator.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\AdjustTimeScale.cs" />
+     <Compile Include="Assets\Scripts\Map Maker\Openable.cs" />
      <None Include="Assets\Imported Resources\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Imported Resources\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Imported Resources\Ultimate 10 Plus Shaders\Shaders\Edge Detection.shader" />
@@ -131,6 +132,7 @@
      <None Include="Assets\Imported Resources\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Imported Resources\EffectExamples\Misc Effects\Shaders\Dissolve.shader" />
      <None Include="Assets\Imported Resources\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\Imported Resources\Overaction\animated-cartoon-chest-kit\License.txt" />
     <Reference Include="UnityEngine">
         <HintPath>/home/luke/Unity/Hub/Editor/2020.3.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

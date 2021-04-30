@@ -41,8 +41,10 @@ public class AStar : MonoBehaviour
                 }
             }
 
+            // remove that node from the open list
             open.Remove(q);
 
+            // if q is at the destination, return an array of the route that it took to get to q
             if (q.position == destination)
             {
                 List<Vector3> path = new List<Vector3>();
@@ -54,6 +56,8 @@ public class AStar : MonoBehaviour
                 }
                 return path.ToArray();
             }
+
+            // go in each direction from q, as long as it's in range and possible to travel to and 
 
             foreach (Vector3 direction in directions)
             {
@@ -74,7 +78,7 @@ public class AStar : MonoBehaviour
                 successor.g = q.g + 1;
                 successor.h = GetHeuristic(successor.position, destination);
                 successor.f = successor.g + successor.h;
-
+                // make sure that each resulting point isn't in open or closed list already with a lower f value.
                 foreach (Node n in open)
                 {
                     if (n.position == successor.position && n.f < successor.f)
@@ -90,6 +94,7 @@ public class AStar : MonoBehaviour
                     }
                 }
 
+                // then add that to that node to the open list
                 open.Add(successor);
 
             outer:
@@ -98,10 +103,12 @@ public class AStar : MonoBehaviour
 
             closed.Add(q);
         }
+
         Debug.Log("No path found\n" + maze);
         return null;
     }
 
+    // a class for holding the data of each point in the maze
     class Node
     {
         public Node parent;

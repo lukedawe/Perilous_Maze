@@ -3566,7 +3566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CubeMaterial: {fileID: 2100000, guid: f2f0583fa0be332b0bce4e1bdb788343, type: 2}
   PlaneMaterial: {fileID: 2100000, guid: 1cef938def0b527469f8ef0720c534dc, type: 2}
-  SpawnChance: 1
+  SpawnChance: 3
+  ChestSpawnChance: 3
   Monsters:
   - {fileID: 1543216753092369487, guid: ca014879105e38940824f2aeca60623c, type: 3}
   - {fileID: 1090219386143568, guid: a817c29ea6847604bb2c6c51d9a74bf1, type: 3}
@@ -3581,6 +3582,10 @@ MonoBehaviour:
   SafeHouse: {fileID: 1121113006719782, guid: 386f40ad68cdd3c4fbcb471ef2d93772, type: 3}
   playerVariables: {fileID: 7012208079643983063, guid: 22914dc5c7e0d31cb97f511cea5e3594,
     type: 3}
+  Chests:
+  - {fileID: 7027259316256617975, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
+  - {fileID: 5333538710379276522, guid: f2d7b5152d92ffe409cf102908dfb320, type: 3}
+  - {fileID: 8064373559355310391, guid: 04aef8c000776674aad5e57c16980859, type: 3}
 --- !u!1 &1866634949
 GameObject:
   m_ObjectHideFlags: 0

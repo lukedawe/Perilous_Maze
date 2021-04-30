@@ -13,7 +13,7 @@ public class StatePicker : MonoBehaviour
 
     void WalkTowardsDistraction(Vector3 destination)
     {
-        if (Vector3.Distance(transform.position, destination) < 30 && (Object)CurrentState != GetComponent<Persue>())
+        if (Vector3.Distance(transform.position, destination) < 10 && (Object)CurrentState != GetComponent<Persue>())
         {
             GetComponent<WalkToDistraction>().Constructor(destination);
             this.CurrentState = GetComponent<WalkToDistraction>();
@@ -70,7 +70,7 @@ public class StatePicker : MonoBehaviour
                     this.CurrentState = GetComponent<ReturnToPatrol>();
                     stateText = "Return to patrol";
                 }
-                // this will cause the enemy to run into walls 
+                // this will cause the enemy to run into walls so we return an error
                 else
                 {
                     Debug.LogError("Could not return to patrol");

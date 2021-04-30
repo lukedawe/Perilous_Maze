@@ -6,13 +6,16 @@ public class NewMapCreator : MonoBehaviour
 {
     [SerializeField] Material CubeMaterial;
     [SerializeField] Material PlaneMaterial;
+    [Range(0, 10)]
     [SerializeField] int SpawnChance;
+    [Range(0, 10)]
+    [SerializeField] int ChestSpawnChance;
     [SerializeField] List<GameObject> Monsters;
     [SerializeField] GameObject PlayerPrefab;
     [HideInInspector] public GameObject Player;
     int MapSize;
     [HideInInspector] public GameObject[,] Maze;
-    Vector3Int StartPoint;
+    Vector3 StartPoint;
     List<Vector3> route = new List<Vector3>();
     [Range(0, 10)]
     [SerializeField] int BranchingChance;
@@ -23,6 +26,7 @@ public class NewMapCreator : MonoBehaviour
     [HideInInspector] GameObject Enemies;
     [SerializeField] GameObject SafeHouse;
     [SerializeField] GameObject playerVariables;
+    [SerializeField] List<GameObject> Chests;
 
     // Start is called before the first frame update
     void Awake()
@@ -31,7 +35,7 @@ public class NewMapCreator : MonoBehaviour
 
         Time.timeScale = 1f;
         Maze = new GameObject[MapSize, MapSize];
-        StartPoint = new Vector3Int(1, 0, Random.Range(1, MapSize - 2));
+        StartPoint = new Vector3(1, 0, Random.Range(1, MapSize - 2));
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         plane.transform.localScale = new Vector3(MapSize / 2, 1, MapSize / 2);
         plane.GetComponent<Renderer>().material = PlaneMaterial;
@@ -58,6 +62,8 @@ public class NewMapCreator : MonoBehaviour
         GetComponent<MapDecorator>().Constructor(MapSize);
 
         CreateMonsters();
+        spawnChests();
+
     }
 
     void chooseDifficulty()
@@ -104,14 +110,13 @@ public class NewMapCreator : MonoBehaviour
                 Maze[i, j].GetComponent<Renderer>().material = CubeMaterial;
                 Maze[i, j].transform.SetParent(HedgeContainer.transform);
                 Maze[i, j].layer = 3;
-                // Maze[i, j].transform.localScale = new Vector3(1, 1f, 1);
             }
         }
     }
 
     void StartRoute()
     {
-        GameObject start = Maze[StartPoint.x, StartPoint.z];
+        GameObject start = Maze[(int)StartPoint.x, (int)StartPoint.z];
         DeleteBlockFromGrid(start);
         MakeRoute(start.transform.position);
     }
@@ -188,11 +193,6 @@ public class NewMapCreator : MonoBehaviour
 
     void CreateMonsters()
     {
-        // get the route the player has to take to get from the start to the end of the maze
-        List<Vector3> cannotSpawnPoints = new List<Vector3>();
-        AStar a = new AStar();
-        a.Constructor(Maze);
-        cannotSpawnPoints.AddRange(a.AStarSearch(StartPoint, EndPoint));
 
         int counter = 0;
         // trackerCount is the number of enemies that can follow you all the time
@@ -202,11 +202,11 @@ public class NewMapCreator : MonoBehaviour
             int random = Random.Range(1, 11);
             int monster = Random.Range(0, Monsters.Count);
             // limit the number of enemies per level
-            if (random <= SpawnChance && counter < MapSize / 10)
+            if (random <= SpawnChance && counter < MapSize / 7)
             {
                 // if the monster is the plague doctor and there has already been one, don't spawn another
-                // OR if the point stands between the player and the end
-                if (monster == 0 && trackerCount > 0 || cannotSpawnPoints.Contains(route[i]))
+                // OR if the point is too close to the player
+                if (monster == 0 && trackerCount > 0 || Vector3.Distance(route[i], StartPoint) < 10)
                 {
                     continue;
                 }
@@ -224,6 +224,55 @@ public class NewMapCreator : MonoBehaviour
                     newMonster.GetComponent<StatePicker>().Constructor(route);
                 }
                 counter++;
+            }
+        }
+    }
+
+    void spawnChests()
+    {
+
+        int chestCounter = 0;
+
+        foreach (Vector3 position in route)
+        {
+            Vector3 directionToFace = new Vector3(0, 0, 0);
+            // keeps track of the number of hedges that surround a block
+            int surroundedByCounter = 0;
+            foreach (Vector3 d in directions)
+            {
+
+                Vector3 newPosition = new Vector3(position.x + d.x, 0, position.z + d.z);
+
+                bool xInRange = newPosition.x > 0 && newPosition.x < MapSize - 1;
+                bool zInRange = newPosition.z > 0 && newPosition.z < MapSize - 1;
+
+                if (!xInRange || !zInRange)
+                {
+                    continue;
+                }
+                if (Maze[(int)(newPosition.x), (int)(newPosition.z)])
+                {
+                    surroundedByCounter++;
+                }
+                else
+                {
+                    directionToFace = newPosition;
+                }
+
+                // if it is the last direction to check AND the position is surrounded by 3 hedges (aka it's a dead end)
+                if (d == directions[3] && surroundedByCounter == 3)
+                {
+                    int random = Random.Range(1, 11);
+                    int chestType = Random.Range(0, Chests.Count - 1);
+                    // limit the number of enemies per level
+                    if (random <= ChestSpawnChance && chestCounter < MapSize / 10)
+                    {
+                        float angle = Vector3.Angle(directionToFace, position);
+                        GameObject g = Instantiate(Chests[chestType], position, Quaternion.identity);
+                        g.transform.LookAt(directionToFace, Vector3.up);
+                        chestCounter++;
+                    }
+                }
             }
         }
     }

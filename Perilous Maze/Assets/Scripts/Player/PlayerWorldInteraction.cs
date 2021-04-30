@@ -11,6 +11,18 @@ public class PlayerWorldInteraction : MonoBehaviour
     [SerializeField] Animator animator;
     GameObject newRock;
 
+    public delegate void Pickup(Vector3 position);
+    public static event Pickup pickup;
+
+    void OnPickup()
+    {
+        // check that there are methods that are subscribed to the event
+        if (pickup != null)
+        {
+            pickup(transform.position);
+        }
+    }
+
     void ThrowRock()
     {
         if (GetComponent<Inventory>().ThrowRock())
@@ -28,6 +40,12 @@ public class PlayerWorldInteraction : MonoBehaviour
         {
             TimeSinceLastAction = 0;
             ThrowRock();
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            OnPickup();
+            animator.SetTrigger("Pickup");
         }
     }
 
