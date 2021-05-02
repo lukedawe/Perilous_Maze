@@ -924,9 +924,9 @@ MonoBehaviour:
   Player: {fileID: 0}
   HedgeMask:
     serializedVersion: 2
-    m_Bits: 0
-  ViewAngle: 0
-  ViewDistance: 0
+    m_Bits: 8
+  ViewAngle: 70
+  ViewDistance: 10
   ChaseSpeed: 0
   DistractedTime: 0
 --- !u!114 &-1475770951936422460
@@ -941,7 +941,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ea5efffd7a5d94318bf8f75b5d06b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder: {fileID: 0}
+  PathFinder: {fileID: -2330510541472731599}
+  Variables: {fileID: 3867709360791726760}
+  animator: {fileID: 1543216753085116367}
 --- !u!82 &-7467691766297589078
 AudioSource:
   m_ObjectHideFlags: 0

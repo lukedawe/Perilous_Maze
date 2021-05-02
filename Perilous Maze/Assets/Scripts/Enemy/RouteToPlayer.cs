@@ -12,18 +12,32 @@ public class RouteToPlayer : MonoBehaviour
     Vector3[] FastestPath;
     int startIndex;
     public AStar PathFinder;
-    EnemyVariables Variables;
+    [SerializeField] EnemyVariables Variables;
+    [SerializeField] Animator animator;
+    bool isWalking;
 
     void FixedUpdate()
     {
         TimeSinceLastRun += Time.deltaTime;
+
+        if (Variables.Player.GetComponent<PlayerMovement>().walkSoundPlaying)
+        {
+            ClosestPointToPlayer = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().PointClosestToPlayer;
+        }
+
         ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, Variables.PointsGrid);
-        ClosestPointToPlayer = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().PointClosestToPlayer;
 
         if (ClosestPointToSelf != ClosestPointToPlayer)
         {
+            if (!isWalking)
+            {
+                animator.SetTrigger("Walking");
+                isWalking = true;
+            }
+
             if (TimeSinceLastRun >= 1)
             {
+
                 // keep track of the index of the target that the enemy needs to travel towards
                 TimeSinceLastRun = 0;
 
@@ -58,20 +72,50 @@ public class RouteToPlayer : MonoBehaviour
                 }
             }
         }
-        else
+        else if (CanSeePlayer())
         {
+
+            if (!isWalking)
+            {
+                animator.SetTrigger("Walking");
+                isWalking = true;
+            }
+
             float step = Variables.Speed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, Variables.Player.transform.position, step);
             transform.LookAt(Variables.Player.transform.position);
+        }
+        else
+        {
+            if (isWalking)
+            {
+                animator.SetTrigger("Idle");
+                isWalking = false;
+            }
         }
     }
 
     public void Constructor(List<Vector3> points, GameObject player)
     {
-        GetComponent<EnemyVariables>().Constructor();
-        this.Variables = GetComponent<EnemyVariables>();
+        Variables.Constructor();
         Debug.Log("running constructor");
-        this.PathFinder = GetComponent<AStar>();
         PathFinder.maze = GameObject.Find("Map Modifier").GetComponent<NewMapCreator>().Maze;
+    }
+
+    bool CanSeePlayer()
+    {
+        Vector3 targetDir = Variables.Player.transform.position - transform.position;
+        float angle = Vector3.Angle(targetDir, transform.forward);
+        float distance = Vector3.Distance(Variables.Player.transform.position, transform.position);
+        if (angle < Variables.ViewAngle && distance < Variables.ViewDistance)
+        {
+            Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
+            if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
+            {
+                Debug.Log("Chasing the player");
+                return true;
+            }
+        }
+        return false;
     }
 }

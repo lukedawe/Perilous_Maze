@@ -9,17 +9,29 @@ public class MapDecorator : MonoBehaviour
     [SerializeField] GameObject tree;
     int mapSize;
     [SerializeField] GameObject dust;
+    [SerializeField] int decorationIntensity;
+    List<Vector3> cannotPlaceDecoration = new List<Vector3>();
+
 
     public void Constructor(int mapSize)
     {
         this.mapSize = mapSize;
         DecorationContainer = GameObject.Find("Decoration Container");
-        for (int i = 0; i < mapSize * 5; i++)
+
+        for (int i = 0; i < mapSize * decorationIntensity; i++)
         {
             int random = Random.Range(0, DecorationPrefabs.Count);
-            Vector3 position = new Vector3(Random.Range(0, mapSize), 0, Random.Range(0, mapSize));
+            Vector3 position;
+
+            do
+            {
+                position = new Vector3(Random.Range(0, mapSize), 0, Random.Range(0, mapSize));
+            }
+            while (cannotPlaceDecoration.Contains(position) && GetComponent<NewMapCreator>().route.Contains(position));
+
             GameObject temp = Instantiate(DecorationPrefabs[random], position, Quaternion.identity);
             temp.transform.SetParent(DecorationContainer.transform);
+            cannotPlaceDecoration.Add(temp.transform.position);
         }
         SurroundMapWithTrees();
         AtmosphericDust();

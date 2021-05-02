@@ -16,7 +16,7 @@ public class NewMapCreator : MonoBehaviour
     int MapSize;
     [HideInInspector] public GameObject[,] Maze;
     Vector3 StartPoint;
-    List<Vector3> route = new List<Vector3>();
+    [HideInInspector] public List<Vector3> route = new List<Vector3>();
     [Range(0, 10)]
     [SerializeField] int BranchingChance;
     readonly Vector3Int[] directions = { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0) };
@@ -195,8 +195,6 @@ public class NewMapCreator : MonoBehaviour
     {
 
         int counter = 0;
-        // trackerCount is the number of enemies that can follow you all the time
-        int trackerCount = 0;
         for (int i = route.Count - 1; i >= 0; i--)
         {
             int random = Random.Range(1, 11);
@@ -204,9 +202,8 @@ public class NewMapCreator : MonoBehaviour
             // limit the number of enemies per level
             if (random <= SpawnChance && counter < MapSize / 7)
             {
-                // if the monster is the plague doctor and there has already been one, don't spawn another
-                // OR if the point is too close to the player
-                if (monster == 0 && trackerCount > 0 || Vector3.Distance(route[i], StartPoint) < 10)
+                // if the point is too close to the player
+                if (Vector3.Distance(route[i], StartPoint) < 10)
                 {
                     continue;
                 }
@@ -216,7 +213,6 @@ public class NewMapCreator : MonoBehaviour
                 if (newMonster.GetComponent<RouteToPlayer>() != null)
                 {
                     newMonster.GetComponent<RouteToPlayer>().Constructor(route, Player);
-                    trackerCount++;
                 }
                 // for the blob and bear enemies
                 if (newMonster.GetComponent<StatePicker>() != null)

@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 m_currentDirection = Vector3.zero;
     private bool m_isGrounded;
     private List<Collider> m_collisions = new List<Collider>();
-    [HideInInspector] bool walkSoundPlaying = false;
+    [HideInInspector] public bool walkSoundPlaying = false;
+    public bool IsRunning = false;
 
     private void Awake()
     {
@@ -101,6 +102,8 @@ public class PlayerMovement : MonoBehaviour
         {
             v *= m_walkScale;
             h *= m_walkScale;
+            GetComponent<AudioSource>().Pause();
+            walkSoundPlaying = false;
         }
 
         currentVelocity = Mathf.Lerp(currentVelocity, v, Time.deltaTime * m_interpolation);
@@ -127,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<AudioSource>().Pause();
             walkSoundPlaying = false;
         }
-        else if (walkSoundPlaying == false)
+        else if (walkSoundPlaying == false && !Input.GetKey(KeyCode.LeftShift))
         {
             GetComponent<AudioSource>().Play();
             walkSoundPlaying = true;

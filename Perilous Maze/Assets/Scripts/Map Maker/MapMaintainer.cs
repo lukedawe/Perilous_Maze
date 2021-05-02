@@ -16,6 +16,7 @@ public class MapMaintainer : MonoBehaviour
     [HideInInspector] float pointsEarned;
     [SerializeField] GameObject pointsDisplay;
     public PlayerVariables variables;
+    [SerializeField] Text pointsDisplayHUD;
 
 
     // Update is called once per frame
@@ -24,6 +25,7 @@ public class MapMaintainer : MonoBehaviour
         timeTaken += Time.deltaTime;
         PointClosestToPlayer = VectorMaths.FindPointClosestToEntity(Player.transform, PointsGrid);
         Vector3[] playerToPoint = { Player.transform.position, PointClosestToPlayer };
+        UpdateHUD();
         if (PointClosestToPlayer == GetComponent<NewMapCreator>().EndPoint && !GameWon)
         {
             GameWon = true;
@@ -51,5 +53,10 @@ public class MapMaintainer : MonoBehaviour
     {
         variables.ResetPoints();
         GameObject.Find("Menu Controller").GetComponent<GameLost>().ShowPanel();
+    }
+
+    public void UpdateHUD()
+    {
+        pointsDisplayHUD.text = "Points: " + variables.pointsAccumulated.ToString();
     }
 }

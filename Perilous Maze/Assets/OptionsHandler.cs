@@ -38,4 +38,14 @@ public class OptionsHandler : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
+
+    public void LaunchTutorial()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+    public void LeaveGame()
+    {
+        Application.Quit();
+    }
 }

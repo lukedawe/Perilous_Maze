@@ -53,6 +53,7 @@ public class PauseMenu : MonoBehaviour
     public void BackToMainMenu()
     {
         Time.timeScale = 1f;
+        GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().variables.ResetPoints();
         SceneManager.LoadScene(0);
-    }  
+    }
 }

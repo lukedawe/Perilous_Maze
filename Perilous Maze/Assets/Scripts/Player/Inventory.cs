@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        // start the player off with a full inventory of stones
+        // start the player off with an inventory of 3 stones
         this.stones = 3;
         stoneDisplay = GameObject.Find("Stone Count").GetComponent<Text>();
         UpdateStoneCount();
@@ -27,15 +27,25 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public bool PickupRock()
+    public bool PickupRock(int numberOfRocks = 1)
     {
-        if (stones < 3)
+        // we want to have a limit of 5 stones in the inventory at one time
+        if (this.stones >= 5)
         {
-            this.stones++;
-            UpdateStoneCount();
-            return true;
+            this.stones = 5;
+            return false;
         }
-        return false;
+
+        this.stones += numberOfRocks;
+        if (this.stones > 5)
+        {
+            this.stones = 5;
+        }
+        UpdateStoneCount();
+
+        return true;
+
+
     }
 
     void UpdateStoneCount()
