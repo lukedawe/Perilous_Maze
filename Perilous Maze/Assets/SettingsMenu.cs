@@ -67,7 +67,6 @@ public class SettingsMenu : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
-
     public void SetTextureQuality()
     {
         QualitySettings.masterTextureLimit = textureDropdown.value;

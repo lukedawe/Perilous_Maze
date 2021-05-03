@@ -31,6 +31,7 @@ public class PlayerWorldInteraction : MonoBehaviour
             newRock = Instantiate(RockPrefab, GameObject.Find("Rock position").transform.position, Quaternion.identity);
         }
     }
+
     void FixedUpdate()
     {
         TimeSinceLastAction += Time.deltaTime;
@@ -40,7 +41,7 @@ public class PlayerWorldInteraction : MonoBehaviour
             ThrowRock();
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && !animator.GetCurrentAnimatorStateInfo(1).IsName("Throw"))
         {
             OnPickup();
             animator.SetTrigger("Pickup");
