@@ -239,6 +239,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
@@ -311,6 +313,8 @@ ScriptsOnlyBuild:
     - Class: 48
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 89
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -386,6 +390,8 @@ ScriptsOnlyBuild:
     - Class: 81
       Script: {instanceID: 0}
     - Class: 84
+      Script: {instanceID: 0}
+    - Class: 89
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -1264,5 +1270,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/LevelOne.unity
   - Assets/Scenes/Settings.unity
   - Assets/Scenes/Tutorial.unity
-  playerPath: /home/luke/Documents/Games Programming/V0.2_Windows/Actual Windows/V0.2_Windows/Perilous
-    Maze.exe
+  playerPath: /media/luke/LRTD/Games Programming/Final Game/Perilous Maze.exe
