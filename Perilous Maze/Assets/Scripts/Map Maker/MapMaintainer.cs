@@ -18,6 +18,7 @@ public class MapMaintainer : MonoBehaviour
     [SerializeField] GameObject pointsDisplay;
     public PlayerVariables variables;
     [SerializeField] Text pointsDisplayHUD;
+    [SerializeField] AudioSource winSound;
 
 
     // Update is called once per frame
@@ -35,10 +36,9 @@ public class MapMaintainer : MonoBehaviour
 
     public void GameWin()
     {
+        winSound.Play();
         pointsEarned += (1 / timeTaken) * PointsGrid.Count * 100;
         variables.addPoints(pointsEarned);
-
-        Debug.Log(variables.pointsAccumulated);
 
         GameObject.Find("Menu Controller").GetComponent<WinMenu>().ShowPanel();
         pointsDisplay.GetComponent<Text>().text = "Points: " + variables.pointsAccumulated.ToString();

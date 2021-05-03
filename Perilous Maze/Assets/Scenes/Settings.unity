@@ -641,7 +641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &129466296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2231,7 +2231,7 @@ GameObject:
   - component: {fileID: 443952220}
   - component: {fileID: 443952219}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Back button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3534,7 +3534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1192723571
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4171,7 +4171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1332518926
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4971,8 +4971,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -24.999985}
-  m_SizeDelta: {x: -179.99997, y: -229.99997}
+  m_AnchoredPosition: {x: 0, y: -47.444977}
+  m_SizeDelta: {x: -180, y: -274.8899}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1512360827
 MonoBehaviour:
