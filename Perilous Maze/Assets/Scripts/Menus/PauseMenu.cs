@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 // from https://www.studica.com/blog/create-ui-unity-tutorial
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] Transform UIPanel; 
+    [SerializeField] Transform UIPanel;
     [SerializeField] string timeText;
-    public bool isPaused; 
+    public bool isPaused;
 
     void Start()
     {
-        UIPanel.gameObject.SetActive(false); 
-        isPaused = false; 
+        UIPanel.gameObject.SetActive(false);
+        isPaused = false;
     }
 
     void Update()
@@ -28,14 +28,14 @@ public class PauseMenu : MonoBehaviour
     public void Pause()
     {
         isPaused = true;
-        UIPanel.gameObject.SetActive(true); 
-        Time.timeScale = 0f; 
+        UIPanel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void UnPause()
     {
         isPaused = false;
-        UIPanel.gameObject.SetActive(false); 
+        UIPanel.gameObject.SetActive(false);
         Time.timeScale = 1f;
     }
 
@@ -47,6 +47,7 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
+        GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().variables.ResetPoints();
         SceneManager.LoadScene(1);
     }
 
