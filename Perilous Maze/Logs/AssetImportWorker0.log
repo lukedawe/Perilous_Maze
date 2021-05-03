@@ -676,3 +676,11 @@ System memory in use after: 167.5 MB.
 Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 1947.
 Total: 3.020636 ms (FindLiveObjects: 0.260878 ms CreateObjectMapping: 0.084005 ms MarkObjects: 2.539717 ms  DeleteObjects: 0.134445 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 367.092744 seconds.
+  path: Assets/Imported Resources/Supercyan Character Pack Free Sample/AnimatorControllers/FreeAnimations.controller
+  artifactKey: Guid(8b9a677f24793ba45bdc27a1dab7745e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Imported Resources/Supercyan Character Pack Free Sample/AnimatorControllers/FreeAnimations.controller using Guid(8b9a677f24793ba45bdc27a1dab7745e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c52380d6e12fdc78665c25ff9a90f7a9') in 0.045774 seconds
+  Import took 0.050097 seconds .
+
