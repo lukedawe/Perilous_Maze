@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: -3426969859562050884}
   - component: {fileID: 4107262652618986672}
   m_Layer: 0
-  m_Name: MaleFreeSimpleMovement1
+  m_Name: Peri
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,9 +1201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
-  turnSpeed: 200
-  m_animator: {fileID: 95665039525092722}
-  m_rigidBody: {fileID: 54084939265967506}
+  animator: {fileID: 95665039525092722}
+  rigidBody: {fileID: 54084939265967506}
+  walkSoundPlaying: 0
 --- !u!1 &1826566120413068
 GameObject:
   m_ObjectHideFlags: 0

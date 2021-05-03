@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 // from https://www.studica.com/blog/create-ui-unity-tutorial
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] Transform UIPanel; //Will assign our panel to this variable so we can enable/disable it
-    [SerializeField] string timeText; //Will assign our Time Text to this variable so we can modify the text it displays.
-    public bool isPaused; //Used to determine paused state
+    [SerializeField] Transform UIPanel; 
+    [SerializeField] string timeText;
+    public bool isPaused; 
 
     void Start()
     {
-        UIPanel.gameObject.SetActive(false); //make sure our pause menu is disabled when scene starts
-        isPaused = false; //make sure isPaused is always false when our scene opens
+        UIPanel.gameObject.SetActive(false); 
+        isPaused = false; 
     }
 
     void Update()
@@ -28,15 +28,15 @@ public class PauseMenu : MonoBehaviour
     public void Pause()
     {
         isPaused = true;
-        UIPanel.gameObject.SetActive(true); //turn on the pause menu
-        Time.timeScale = 0f; //pause the game
+        UIPanel.gameObject.SetActive(true); 
+        Time.timeScale = 0f; 
     }
 
     public void UnPause()
     {
         isPaused = false;
-        UIPanel.gameObject.SetActive(false); //turn off pause menu
-        Time.timeScale = 1f; //resume game
+        UIPanel.gameObject.SetActive(false); 
+        Time.timeScale = 1f;
     }
 
     public void QuitGame()

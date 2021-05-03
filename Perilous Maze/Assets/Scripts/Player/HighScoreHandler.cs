@@ -10,6 +10,7 @@ public class HighScoreHandler : MonoBehaviour
 
     void Start()
     {
+        // read in the high score from the playerprefs
         if (PlayerPrefs.HasKey("HighScore"))
         {
             HighScore.text = "High score: " + PlayerPrefs.GetInt("HighScore").ToString();

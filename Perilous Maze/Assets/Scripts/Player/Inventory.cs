@@ -16,6 +16,9 @@ public class Inventory : MonoBehaviour
         UpdateStoneCount();
     }
 
+    // this is called when the player is throwing a rock
+    // returns false if the player cannot throw a rock
+    // returns true if the player can throw a rock
     public bool ThrowRock()
     {
         if (stones > 0)
@@ -33,6 +36,7 @@ public class Inventory : MonoBehaviour
         if (this.stones >= 5)
         {
             this.stones = 5;
+            // returning false means that the rocks cannot be added to the player's inventory
             return false;
         }
 
@@ -44,12 +48,11 @@ public class Inventory : MonoBehaviour
         UpdateStoneCount();
 
         return true;
-
-
     }
 
+    // display the number of stones that the player currently has
     void UpdateStoneCount()
     {
-        stoneDisplay.GetComponent<Text>().text = "Stones: " + stones;
+        stoneDisplay.GetComponent<Text>().text = "Stones: " + stones + " / 5";
     }
 }

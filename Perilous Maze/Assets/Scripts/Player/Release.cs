@@ -9,6 +9,7 @@ public class Release : MonoBehaviour
 
     void Start()
     {
+        // make the rock stick to the hand and don't use gravity
         hand = GameObject.Find("Rock position");
         transform.parent = hand.transform;
         GetComponent<Rigidbody>().useGravity = false;
@@ -16,6 +17,7 @@ public class Release : MonoBehaviour
 
     public void AtRelease()
     {
+        // do not stick to the hand anymore, use gravity and add some force so the rock flies
         transform.parent = null;
         GetComponent<Rigidbody>().useGravity = true;
         GameObject player = GameObject.FindGameObjectWithTag("Player");

@@ -41,10 +41,12 @@ public class ReturnToPatrol : MonoBehaviour, IState
     {
         if (route == null || route.Length == 0) CalculateRoute();
 
+        // if we are near the end point, return false so that the state can be changed to patrol
         if (Vector3.Distance(transform.position, EndPoint) < 0.5f)
         {
             return false;
         }
+        // if we are near the current target, set the current target to the next one
         if (Vector3.Distance(transform.position, CurrentTarget) < 0.5f)
         {
             CurrentTargetIndex--;

@@ -87,6 +87,7 @@ public class StatePicker : MonoBehaviour
         }
     }
 
+    // see if the enemy can see the player
     bool CanSeePlayer()
     {
         Vector3 targetDir = Variables.Player.transform.position - transform.position;

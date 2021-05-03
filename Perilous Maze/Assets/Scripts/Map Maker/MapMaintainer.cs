@@ -12,6 +12,7 @@ public class MapMaintainer : MonoBehaviour
     [HideInInspector] public GameObject Player;
     [HideInInspector] public Vector3 PointClosestToPlayer;
     [HideInInspector] public bool GameWon = false;
+    // used for scoring the player
     [HideInInspector] float timeTaken;
     [HideInInspector] float pointsEarned;
     [SerializeField] GameObject pointsDisplay;
@@ -24,7 +25,6 @@ public class MapMaintainer : MonoBehaviour
     {
         timeTaken += Time.deltaTime;
         PointClosestToPlayer = VectorMaths.FindPointClosestToEntity(Player.transform, PointsGrid);
-        Vector3[] playerToPoint = { Player.transform.position, PointClosestToPlayer };
         UpdateHUD();
         if (PointClosestToPlayer == GetComponent<NewMapCreator>().EndPoint && !GameWon)
         {

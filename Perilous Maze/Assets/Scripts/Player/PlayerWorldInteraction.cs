@@ -29,8 +29,6 @@ public class PlayerWorldInteraction : MonoBehaviour
         {
             animator.SetTrigger("Throw");
             newRock = Instantiate(RockPrefab, GameObject.Find("Rock position").transform.position, Quaternion.identity);
-            // newRock.GetComponent<Release>().AtRelease();
-            // newRock.GetComponent<Rigidbody>().AddForce(new Vector3(transform.forward.x, 3, transform.forward.z) * ThrowForce);
         }
     }
     void FixedUpdate()

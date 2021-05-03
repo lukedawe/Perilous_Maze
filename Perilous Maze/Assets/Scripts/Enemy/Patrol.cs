@@ -28,23 +28,20 @@ public class Patrol : MonoBehaviour, IState
 
         do
         {
+            // the last point of the patrol is a random point on the map
             this.point2 = PointsGrid[Random.Range(0, PointsGrid.Count)];
             route = GetComponent<AStar>().AStarSearch(point1, point2);
         }
-        while (route == null);
-
-        // GetComponent<LineRenderer>().SetPositions(route.ToArray());
+        while (route == null || point1 == point2 || route.Length < 4);
 
         if (route.Length == 0)
         {
-            Debug.Log("Point1: " + point1.ToString());
-            Debug.Log("Point2: " + point2.ToString());
-            Debug.Log("Points grid size: " + PointsGrid.Count);
-            Debug.Log("Failed to find route");
+            Debug.Log("Point1: " + point1.ToString() + "\n" + "Point2: " + point2.ToString()
+            + "\n" + "Points grid size: " + PointsGrid.Count
+            + "\n" + "Failed to find route");
         }
         currentPoint = route.Length - 1;
         this.CurrentTarget = route[currentPoint];
-
     }
 
     // Update is called once per frame
@@ -53,12 +50,14 @@ public class Patrol : MonoBehaviour, IState
         if (route == null) return false;
         if (route.Length == 0) return false;
 
+        // if we are within 0.5 of our end-point, then set the current target to be the other point
         if (Vector3.Distance(transform.position, route[route.Length - 1]) < 0.5f || Vector3.Distance(transform.position, route[0]) < 0.5f)
         {
             if (CurrentTarget == point1) CurrentTarget = point2;
             else CurrentTarget = point1;
         }
 
+        // if the distance between our position and the current point is less than 0.5, go to the next point
         if (Vector3.Distance(transform.position, route[currentPoint]) < 0.5f)
         {
             if (CurrentTarget == point1)

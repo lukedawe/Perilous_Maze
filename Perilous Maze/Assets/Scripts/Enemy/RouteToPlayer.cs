@@ -14,7 +14,7 @@ public class RouteToPlayer : MonoBehaviour
     public AStar PathFinder;
     [SerializeField] EnemyVariables Variables;
     [SerializeField] Animator animator;
-    bool isWalking;
+    bool isWalking = false;
 
     void FixedUpdate()
     {
@@ -74,13 +74,13 @@ public class RouteToPlayer : MonoBehaviour
         }
         else if (CanSeePlayer())
         {
-
+            // if the enemy is not currently moving, then trigger the animation to walk to the player
             if (!isWalking)
             {
                 animator.SetTrigger("Walking");
                 isWalking = true;
             }
-
+            // walk towards the enemy
             float step = Variables.Speed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, Variables.Player.transform.position, step);
             transform.LookAt(Variables.Player.transform.position);
@@ -112,7 +112,6 @@ public class RouteToPlayer : MonoBehaviour
             Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
             if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
             {
-                Debug.Log("Chasing the player");
                 return true;
             }
         }

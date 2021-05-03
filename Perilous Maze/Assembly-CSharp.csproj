@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\SimpleNavigation.cs" />
      <Compile Include="Assets\Scripts\Map Maker\ITurnHedge.cs" />
      <Compile Include="Assets\Imported Resources\Shared\Scripts\SimpleCharacterMotor.cs" />
      <Compile Include="Assets\Imported Resources\Ultimate 10 Plus Shaders\Scripts\U10PS_MouseRotation.cs" />
@@ -89,7 +90,6 @@
      <Compile Include="Assets\Scripts\Map Maker\FourWayHedge.cs" />
      <Compile Include="Assets\Imported Resources\Supercyan Character Pack Free Sample\Scripts\CameraBehaviour.cs" />
      <Compile Include="Assets\Scripts\Enemy\ReturnToPatrol.cs" />
-     <Compile Include="Assets\SimpleNavigation.cs" />
      <None Include="Assets\Imported Resources\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Imported Resources\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Imported Resources\Ultimate 10 Plus Shaders\Shaders\Edge Detection.shader" />

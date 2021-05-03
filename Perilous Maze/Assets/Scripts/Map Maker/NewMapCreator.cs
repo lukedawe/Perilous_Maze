@@ -32,15 +32,17 @@ public class NewMapCreator : MonoBehaviour
     void Awake()
     {
         chooseDifficulty();
-
+        // make sure that the time is normal (the game could have been previosly paused)
         Time.timeScale = 1f;
         Maze = new GameObject[MapSize, MapSize];
+        // decide the start points of the maze
         StartPoint = new Vector3(1, 0, Random.Range(1, MapSize - 2));
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         plane.transform.localScale = new Vector3(MapSize / 2, 1, MapSize / 2);
         plane.GetComponent<Renderer>().material = PlaneMaterial;
         plane.layer = 3;
 
+        // make a map where there are plenty of routes
         do
         {
             ResetMap();
@@ -70,6 +72,7 @@ public class NewMapCreator : MonoBehaviour
     {
         string difficulty;
 
+        // read the player prefs to decide what difficulty the game should be set to
         if (PlayerPrefs.HasKey("Difficulty"))
         {
             difficulty = PlayerPrefs.GetString("Difficulty");
@@ -98,6 +101,7 @@ public class NewMapCreator : MonoBehaviour
         }
     }
 
+    // make a grid of hedges
     void BeginMap()
     {
         for (int i = 0; i < MapSize; i++)
@@ -114,6 +118,7 @@ public class NewMapCreator : MonoBehaviour
         }
     }
 
+    // remove the start points hedge and begin the recursive algorithm
     void StartRoute()
     {
         GameObject start = Maze[(int)StartPoint.x, (int)StartPoint.z];
@@ -193,7 +198,7 @@ public class NewMapCreator : MonoBehaviour
 
     void CreateMonsters()
     {
-
+        // start at the block that is furthest away from the player
         int counter = 0;
         for (int i = route.Count - 1; i >= 0; i--)
         {
@@ -226,7 +231,6 @@ public class NewMapCreator : MonoBehaviour
 
     void spawnChests()
     {
-
         int chestCounter = 0;
 
         foreach (Vector3 position in route)
@@ -246,6 +250,7 @@ public class NewMapCreator : MonoBehaviour
                 {
                     continue;
                 }
+                // if the block has a surrounding block that is not null (has a hedge in it)
                 if (Maze[(int)(newPosition.x), (int)(newPosition.z)])
                 {
                     surroundedByCounter++;

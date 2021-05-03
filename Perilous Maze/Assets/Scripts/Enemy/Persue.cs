@@ -7,6 +7,7 @@ public class Persue : MonoBehaviour, IState
 {
     public GameObject Player { get; set; }
     EnemyVariables Variables;
+    // the time since the player was last seen
     float timeSinceLastSeen;
     Vector3 positionLastSeenIn;
     float timeSinceLastRun;
@@ -34,6 +35,7 @@ public class Persue : MonoBehaviour, IState
         if (angle < Variables.ViewAngle && distance < Variables.ViewDistance)
         {
             Vector3 directionToPlayer = (Variables.Player.transform.position - transform.position).normalized;
+            // raycasting means that the enemy cannot see the player through walls
             if (!Physics.Raycast(transform.position, directionToPlayer, distance, Variables.HedgeMask))
             {
                 animator.SetTrigger("Chase");
@@ -50,13 +52,14 @@ public class Persue : MonoBehaviour, IState
             Vector3 ClosestPointToSelf = VectorMaths.FindPointClosestToEntity(transform, Variables.PointsGrid);
             Vector3 ClosestPointToPlayer = GameObject.Find("Map Modifier").GetComponent<MapMaintainer>().PointClosestToPlayer;
 
+            // make sure that the enemy is not close to the player
             if (ClosestPointToSelf != ClosestPointToPlayer)
             {
-                if (timeSinceLastRun >= 0.2)
+                if (timeSinceLastRun >= 0.4)
                 {
                     // keep track of the index of the target that the enemy needs to travel towards
                     timeSinceLastRun = 0;
-
+                    // find the fastest path to the player
                     FastestPath = PathFinder.AStarSearch(ClosestPointToSelf, ClosestPointToPlayer);
 
                     if (FastestPath != null)

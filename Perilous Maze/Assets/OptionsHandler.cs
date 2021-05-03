@@ -13,6 +13,7 @@ public class OptionsHandler : MonoBehaviour
 
     public void BeginGame()
     {
+        // set the player pref for the difficulty
         switch (options.value)
         {
             case 0:
@@ -28,8 +29,6 @@ public class OptionsHandler : MonoBehaviour
                 PlayerPrefs.SetString("Difficulty", "Medium");
                 break;
         }
-
-        Debug.Log("This is your playerpref: " + PlayerPrefs.GetString("Difficulty"));
 
         SceneManager.LoadScene(1);
     }
